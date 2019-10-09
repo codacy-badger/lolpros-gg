@@ -22,6 +22,7 @@ class Member
     use StringUuidTrait;
     const MEMBER_STAFF = 'staff';
     const MEMBER_PLAYER = 'player';
+    const MEMBER_SUB = 'sub';
 
     /**
      * @var int
@@ -204,6 +205,7 @@ class Member
         return [
             self::MEMBER_STAFF,
             self::MEMBER_PLAYER,
+            self::MEMBER_SUB,
         ];
     }
 }

@@ -21,7 +21,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string", length=75)
  * @ORM\DiscriminatorMap({
- *     "league_player" = "App\Entity\LeagueOfLegends\Player\Player"
+ *     "league_player" = "App\Entity\LeagueOfLegends\Player\Player",
+ *     "core_staff" = "App\Entity\Core\Player\Staff",
  * })
  * @ORM\Entity(repositoryClass="App\Repository\Core\PlayerRepository")
  */
