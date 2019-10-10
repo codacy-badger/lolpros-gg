@@ -28,8 +28,8 @@ class PlayerForm extends AbstractType
     {
         $builder
             ->add('name', TextType::class)
-            ->add('position', TextType::class)
             ->add('country', TextType::class)
+            ->add('position', TextType::class)
             ->add('regions', CollectionType::class, [
                 'entry_type' => TextType::class,
                 'allow_add' => true,
@@ -49,9 +49,6 @@ class PlayerForm extends AbstractType
         ]);
     }
 
-    /**
-     * @return array
-     */
     public static function buildOptions(string $method, array $data)
     {
         $validationGroups = [

@@ -19,6 +19,8 @@ final class Version20190910214729 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
+        return; //Uncomment this if you are running the project for the first time
+
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 

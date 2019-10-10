@@ -44,6 +44,8 @@ abstract class Player
      * @ORM\Column(name="uuid", type="uuid", nullable=false)
      * @Serializer\Type("string")
      * @Serializer\Groups({
+     *     "get_staff",
+     *     "get_staffs",
      *     "league.get_players",
      *     "league.get_player",
      *     "league.get_riot_account",
@@ -57,11 +59,14 @@ abstract class Player
      * @ORM\Column(type="string", nullable=false)
      * @Serializer\Type("string")
      * @Serializer\Groups({
+     *     "get_staff",
+     *     "get_staffs",
+     *     "put_staff",
      *     "league.get_players",
      *     "league.get_player",
+     *     "league.put_player",
      *     "league.get_riot_account",
      *     "get_team_members",
-     *     "league.put_player",
      * })
      * @Assert\NotNull(groups={"league.post_player"})
      */
@@ -80,10 +85,13 @@ abstract class Player
      * @ORM\Column(type="string", nullable=true)
      * @Serializer\Type("string")
      * @Serializer\Groups({
+     *     "get_staff",
+     *     "get_staffs",
+     *     "put_staff",
      *     "league.get_players",
      *     "league.get_player",
-     *     "get_team_members",
      *     "league.put_player",
+     *     "get_team_members",
      * })
      */
     protected $country;
@@ -94,6 +102,8 @@ abstract class Player
      * @ORM\OrderBy({"joinDate"="DESC"})
      * @Serializer\Type("App\Entity\Core\Team\Member")
      * @Serializer\Groups({
+     *     "get_staff",
+     *     "get_staffs",
      *     "league.get_players",
      *     "league.get_player",
      * })
@@ -112,6 +122,9 @@ abstract class Player
      * @ORM\ManyToMany(targetEntity="App\Entity\Core\Region\Region", inversedBy="players")
      * @Serializer\Type("App\Entity\Core\Region\Region")
      * @Serializer\Groups({
+     *     "get_staff",
+     *     "get_staffs",
+     *     "put_staff",
      *     "league.get_players",
      *     "league.get_player",
      *     "league.put_player",

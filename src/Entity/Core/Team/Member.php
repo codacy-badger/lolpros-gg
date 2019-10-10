@@ -38,12 +38,14 @@ class Member
      * @ORM\Column(type="uuid", nullable=false)
      * @Serializer\Type("string")
      * @Serializer\Groups({
+     *     "league.get_player",
      *     "league.get_players",
      *     "get_player_members",
      *     "get_teams",
      *     "get_team",
      *     "get_team_members",
-     *     "league.get_player",
+     *     "get_staff",
+     *     "get_staffs",
      * })
      */
     protected $uuid;
@@ -90,6 +92,7 @@ class Member
      *     "get_player_members",
      *     "get_team_members",
      *     "get_teams",
+     *     "get_staffs",
      * })
      */
     protected $leaveDate;

@@ -41,6 +41,8 @@ class Region
      *     "league.get_region",
      *     "league.get_players",
      *     "league.get_player",
+     *     "get_staff",
+     *     "get_staffs",
      *     "get_teams",
      *     "get_team",
      * })
@@ -57,6 +59,8 @@ class Region
      *     "league.get_region",
      *     "league.get_players",
      *     "league.get_player",
+     *     "get_staff",
+     *     "get_staffs",
      *     "get_teams",
      *     "get_team",
      * })
@@ -80,6 +84,8 @@ class Region
      *     "league.get_region",
      *     "league.get_players",
      *     "league.get_player",
+     *     "get_staff",
+     *     "get_staffs",
      *     "get_teams",
      *     "get_team",
      * })
@@ -122,6 +128,8 @@ class Region
      *     "league.get_player",
      *     "get_teams",
      *     "get_team",
+     *     "get_staff",
+     *     "get_staffs",
      * })
      */
     protected $logo;

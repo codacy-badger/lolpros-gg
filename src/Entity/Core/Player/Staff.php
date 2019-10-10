@@ -58,7 +58,7 @@ class Staff extends Player
         return $this->roleName;
     }
 
-    public function setRoleName(string $roleName): void
+    public function setRoleName(?string $roleName): void
     {
         $this->roleName = $roleName;
     }

@@ -7,6 +7,7 @@ use App\Entity\Core\Region\Region;
 use App\Form\EntityTransformer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -27,8 +28,14 @@ class StaffForm extends AbstractType
     {
         $builder
             ->add('name', TextType::class)
+            ->add('country', TextType::class)
             ->add('role', TextType::class)
-            ->add('roleName', TextType::class);
+            ->add('roleName', TextType::class)
+            ->add('regions', CollectionType::class, [
+                'entry_type' => TextType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+            ]);
 
         $builder->get('regions')->addModelTransformer(new EntityTransformer($this->entityManager->getRepository(Region::class)));
     }
