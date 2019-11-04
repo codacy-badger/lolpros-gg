@@ -10,6 +10,7 @@ set('git_tty', false);
 set('allow_anonymous_stats', false);
 set('default_timeout', 600);
 set('writable_dirs', ['var/cache', 'var/log', 'var/sessions']);
+set('shared_dirs', ['var/jwt']);
 
 // Hosts
 host('146.185.137.177')
