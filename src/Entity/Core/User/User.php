@@ -157,9 +157,16 @@ class User implements UserInterface
         ]);
     }
 
-    public function getUuid(): UuidInterface
+    public function getUuid(): ?UuidInterface
     {
         return $this->uuid;
+    }
+
+    public function setUuid(UuidInterface $uuid): self
+    {
+        $this->uuid = $uuid;
+
+        return $this;
     }
 
     public function setUsername(string $username): self

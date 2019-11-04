@@ -21,10 +21,12 @@ class FetchAccountsPUUID extends Command
      * @var EntityManagerInterface
      */
     private $entityManager;
+
     /**
      * @var LoggerInterface
      */
     private $logger;
+
     /**
      * @var RiotSummonerManager
      */
