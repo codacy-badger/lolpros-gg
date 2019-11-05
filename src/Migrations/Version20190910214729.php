@@ -21,7 +21,7 @@ final class Version20190910214729 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
-return;
+
         $this->addSql('CREATE TABLE player__player (id INT AUTO_INCREMENT NOT NULL, uuid CHAR(36) NOT NULL COMMENT \'(DC2Type:uuid)\', name VARCHAR(255) NOT NULL, slug VARCHAR(255) NOT NULL, country VARCHAR(255) DEFAULT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, type VARCHAR(75) NOT NULL, position VARCHAR(255) DEFAULT NULL, score INT DEFAULT 0, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE player_region (player_id INT NOT NULL, region_id INT NOT NULL, INDEX IDX_906267A899E6F5DF (player_id), INDEX IDX_906267A898260155 (region_id), PRIMARY KEY(player_id, region_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE player__league__ranking (id INT AUTO_INCREMENT NOT NULL, owner_id INT DEFAULT NULL, best TINYINT(1) NOT NULL, created_at DATETIME NOT NULL, queue_type VARCHAR(255) NOT NULL, tier VARCHAR(255) NOT NULL, rank INT DEFAULT 0 NOT NULL, league_points INT DEFAULT 0 NOT NULL, wins INT DEFAULT 0 NOT NULL, losses INT DEFAULT 0 NOT NULL, score INT DEFAULT 0 NOT NULL, season VARCHAR(255) NOT NULL, INDEX IDX_4F4755697E3C61F9 (owner_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');

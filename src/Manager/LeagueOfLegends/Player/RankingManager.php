@@ -9,6 +9,7 @@ use App\Factory\LeagueOfLegends\RankingsFactory;
 use App\Manager\DefaultManager;
 use App\Manager\LeagueOfLegends\Riot\RiotLeagueManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
@@ -77,7 +78,7 @@ final class RankingManager extends DefaultManager
             $ranking->setBest(true);
 
             return $ranking;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->logger->error('[RankingsManager] Could not get ranking for account {uuid} because of {reason}', [
                 'uuid' => $riotAccount->getUuid()->toString(),
                 'reason' => $e->getMessage(),
@@ -204,8 +205,6 @@ final class RankingManager extends DefaultManager
                 break;
             case Ranking::TIER_IRON:
             case Ranking::TIER_UNRANKED:
-                $score = 0;
-                break;
             default:
                 $score = 0;
                 break;

@@ -19,7 +19,7 @@ class RankingsFactory
             ->setLosses($league->losses)
             ->setLeaguePoints($league->leaguePoints)
             ->setScore(RankingManager::calculateScore($ranking))
-            ->setSeason(Ranking::SEASON_9_V2);
+            ->setSeason(Ranking::PRE_SEASON_10);
 
         return $ranking;
     }
@@ -34,7 +34,7 @@ class RankingsFactory
             ->setLosses(0)
             ->setLeaguePoints(0)
             ->setScore(0)
-            ->setSeason(Ranking::SEASON_9_V2);
+            ->setSeason(Ranking::PRE_SEASON_10);
 
         return $ranking;
     }
@@ -48,7 +48,7 @@ class RankingsFactory
             'wins' => $league->wins,
             'losses' => $league->losses,
             'leaguePoints' => $league->leaguePoints,
-            'season' => Ranking::SEASON_9_V2,
+            'season' => Ranking::PRE_SEASON_10,
             'miniSeries' => $league->miniSeries ? [
                 'wins' => $league->miniSeries->wins,
                 'losses' => $league->miniSeries->losses,
@@ -67,7 +67,7 @@ class RankingsFactory
             'wins' => 0,
             'losses' => 0,
             'leaguePoints' => 0,
-            'season' => Ranking::SEASON_9_V2,
+            'season' => Ranking::PRE_SEASON_10,
         ];
     }
 }

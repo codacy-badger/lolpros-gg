@@ -74,6 +74,16 @@ fos_elastica:
                     losses:
                     score:
                     created_at:
+                s9peak:
+                  type: nested
+                  properties:
+                    tier:
+                    rank:
+                    league_points:
+                    wins:
+                    losses:
+                    score:
+                    created_at:
             social_media:
               type: object
               properties:

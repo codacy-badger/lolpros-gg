@@ -66,6 +66,7 @@ class PlayerTransformer extends APlayerTransformer
                 'summoner_names' => $this->buildSummonerNames($account),
                 'rank' => $this->buildRanking($account->getCurrentRanking()),
                 'peak' => $this->buildRanking($account->getBestRanking()),
+                's9peak' => $this->buildRanking($account->getBestRanking(Ranking::PRE_SEASON_10)),
             ]);
         }
 
