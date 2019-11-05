@@ -2,7 +2,6 @@
 
 namespace App\Indexer;
 
-use App\Entity\StringUuidTrait;
 use App\Fetcher\Fetcher;
 use App\Transformer\DefaultTransformer;
 use Elastica\Document;
@@ -93,8 +92,6 @@ class Indexer implements IndexerInterface
         if ($response->isOk()) {
             $this->index->refresh();
 
-            $this->logger->debug('[Indexer] creating [document]', ['Indexer' => $this->name, 'document' => json_encode($document)]);
-
             return true;
         }
 
@@ -139,7 +136,10 @@ class Indexer implements IndexerInterface
 
     public function updateOne(string $typeName, $updatedObject): bool
     {
-        $this->logger->debug('[Indexer::updateOne] {uuid}', ['name' => $this->name, 'uuid' => $updatedObject instanceof StringUuidTrait ? $updatedObject->getUuidAsString() : get_class($updatedObject)]);
+        $this->logger->debug('[Indexer::updateOne] Document deleted', [
+            'Index' => $this->name,
+            'Type' => $typeName,
+        ]);
 
         $document = $this->transformer->transform($updatedObject, []);
 
@@ -153,7 +153,6 @@ class Indexer implements IndexerInterface
 
         if ($response->isOk()) {
             $this->index->refresh();
-            $this->logger->debug('[Indexer] updating {document}', ['Indexer' => $this->name, 'document' => json_encode($document)]);
 
             return true;
         }
@@ -177,7 +176,6 @@ class Indexer implements IndexerInterface
 
         if ($response->isOk()) {
             $this->index->refresh();
-            $this->logger->debug('[indexer] updating {document}', ['indexer' => $this->name, 'document' => json_encode($updatedDocuments)]);
 
             return true;
         }
@@ -205,8 +203,6 @@ class Indexer implements IndexerInterface
 
         if ($response->isOk()) {
             $this->index->refresh();
-
-            $this->logger->debug('[Indexer] creating Or updating [document]', ['Indexer' => $this->name, 'document' => json_encode($document)]);
 
             return true;
         }

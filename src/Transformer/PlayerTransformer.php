@@ -65,16 +65,20 @@ class PlayerTransformer extends APlayerTransformer
                 'summoner_name' => $account->getCurrentSummonerName()->getName(),
                 'summoner_names' => $this->buildSummonerNames($account),
                 'rank' => $this->buildRanking($account->getCurrentRanking()),
-                'peak' => $this->buildRanking($account->getBestRanking()),
-                's9peak' => $this->buildRanking($account->getBestRanking(Ranking::PRE_SEASON_10)),
+                'peak' => $this->buildRanking($account->getBestRanking(Ranking::PRE_SEASON_10)),
+                's9peak' => $this->buildRanking($account->getBestRanking()),
             ]);
         }
 
         return $accounts;
     }
 
-    private function buildRanking(Ranking $ranking): array
+    private function buildRanking(?Ranking $ranking): ?array
     {
+        if (!$ranking) {
+            return null;
+        }
+
         return [
             'score' => $ranking->getScore(),
             'tier' => $ranking->getTier(),
