@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Controller\Core\Player;
+namespace App\Controller\Core\Identity;
 
 use App\Controller\APIController;
-use App\Entity\Core\Player\Staff;
+use App\Entity\Core\Identity\Staff;
 use App\Entity\Core\Region\Region;
 use App\Exception\Core\EntityNotCreatedException;
 use App\Exception\Core\EntityNotDeletedException;
 use App\Exception\Core\EntityNotUpdatedException;
 use App\Form\Core\Player\StaffForm;
-use App\Manager\Core\Player\StaffManager;
+use App\Manager\Core\Identity\StaffManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use FOS\RestBundle\Controller\Annotations\Delete;
 use FOS\RestBundle\Controller\Annotations\Get;

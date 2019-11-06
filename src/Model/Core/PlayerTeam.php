@@ -12,7 +12,7 @@ class PlayerTeam
      * @var UuidInterface
      * @Serializer\Type("string")
      * @Serializer\Groups({
-     *     "get_player_memberships",
+     *     "get_identity_memberships",
      * })
      */
     public $uuid;
@@ -21,7 +21,7 @@ class PlayerTeam
      * @var string
      * @Serializer\Type("string")
      * @Serializer\Groups({
-     *     "get_player_memberships",
+     *     "get_identity_memberships",
      * })
      */
     public $name;
@@ -30,7 +30,7 @@ class PlayerTeam
      * @var string
      * @Serializer\Type("string")
      * @Serializer\Groups({
-     *     "get_player_memberships",
+     *     "get_identity_memberships",
      * })
      */
     public $displayName;
@@ -39,7 +39,7 @@ class PlayerTeam
      * @var string
      * @Serializer\Type("string")
      * @Serializer\Groups({
-     *     "get_player_memberships",
+     *     "get_identity_memberships",
      * })
      */
     public $slug;
@@ -48,7 +48,7 @@ class PlayerTeam
      * @var string
      * @Serializer\Type("string")
      * @Serializer\Groups({
-     *     "get_player_memberships",
+     *     "get_identity_memberships",
      * })
      */
     public $tag;
@@ -57,7 +57,7 @@ class PlayerTeam
      * @var array
      * @Serializer\Type("array")
      * @Serializer\Groups({
-     *     "get_player_memberships",
+     *     "get_identity_memberships",
      * })
      */
     public $logo;
@@ -66,7 +66,7 @@ class PlayerTeam
      * @var bool
      * @Serializer\Type("boolean")
      * @Serializer\Groups({
-     *     "get_player_memberships",
+     *     "get_identity_memberships",
      * })
      */
     public $active;
@@ -75,7 +75,7 @@ class PlayerTeam
      * @var DateTime
      * @Serializer\Type("DateTime<'Y-m-d'>")
      * @Serializer\Groups({
-     *     "get_player_memberships",
+     *     "get_identity_memberships",
      * })
      */
     public $joinDate;
@@ -84,7 +84,7 @@ class PlayerTeam
      * @var DateTime
      * @Serializer\Type("DateTime<'Y-m-d'>")
      * @Serializer\Groups({
-     *     "get_player_memberships",
+     *     "get_identity_memberships",
      * })
      */
     public $leaveDate;
@@ -93,7 +93,7 @@ class PlayerTeam
      * @var string
      * @Serializer\Type("string")
      * @Serializer\Groups({
-     *     "get_player_memberships",
+     *     "get_identity_memberships",
      * })
      */
     public $role;
@@ -102,7 +102,7 @@ class PlayerTeam
      * @var bool
      * @Serializer\Type("boolean")
      * @Serializer\Groups({
-     *     "get_player_memberships",
+     *     "get_identity_memberships",
      * })
      */
     public $current;
@@ -111,7 +111,7 @@ class PlayerTeam
      * @var array
      * @Serializer\Type("array")
      * @Serializer\Groups({
-     *     "get_player_memberships",
+     *     "get_identity_memberships",
      * })
      */
     public $members;
@@ -120,7 +120,7 @@ class PlayerTeam
      * @var DateTime
      * @Serializer\Type("DateTime")
      * @Serializer\Groups({
-     *     "get_player_memberships",
+     *     "get_identity_memberships",
      * })
      */
     public $creationDate;
@@ -129,7 +129,7 @@ class PlayerTeam
      * @var DateTime
      * @Serializer\Type("DateTime")
      * @Serializer\Groups({
-     *     "get_player_memberships",
+     *     "get_identity_memberships",
      * })
      */
     public $disbandDate;

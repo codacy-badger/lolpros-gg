@@ -2,7 +2,7 @@
 
 namespace App\Listener\Core;
 
-use App\Entity\Core\Player\Player;
+use App\Entity\Core\Identity\Identity;
 use App\Entity\Core\Team\Member;
 use App\Event\Core\Player\PlayerEvent;
 use App\Indexer\Indexer;
@@ -53,7 +53,7 @@ class PlayerListener implements EventSubscriberInterface
     {
         $entity = $event->getPlayer();
 
-        if (!$entity instanceof Player) {
+        if (!$entity instanceof Identity) {
             return;
         }
 
@@ -65,7 +65,7 @@ class PlayerListener implements EventSubscriberInterface
     {
         $entity = $event->getPlayer();
 
-        if (!$entity instanceof Player) {
+        if (!$entity instanceof Identity) {
             return;
         }
 
@@ -81,7 +81,7 @@ class PlayerListener implements EventSubscriberInterface
     {
         $entity = $event->getPlayer();
 
-        if (!$entity instanceof Player) {
+        if (!$entity instanceof Identity) {
             return;
         }
 

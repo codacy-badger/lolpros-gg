@@ -38,7 +38,7 @@ class Team
      * @ORM\Column(type="uuid", nullable=false)
      * @Serializer\Type("string")
      * @Serializer\Groups({
-     *     "get_player_members",
+     *     "get_identity_memberships",
      *     "get_teams",
      *     "get_team",
      *     "put_team",
@@ -52,7 +52,7 @@ class Team
      * @ORM\Column(type="string", nullable=false)
      * @Serializer\Type("string")
      * @Serializer\Groups({
-     *     "get_player_members",
+     *     "get_identity_memberships",
      *     "get_teams",
      *     "get_team",
      *     "put_team",
@@ -74,7 +74,7 @@ class Team
      * @ORM\OneToOne(targetEntity="\App\Entity\Core\Document\TeamLogo", mappedBy="team", cascade={"remove"})
      * @Serializer\Type("App\Entity\Core\Document\TeamLogo")
      * @Serializer\Groups({
-     *     "get_player_members",
+     *     "get_identity_memberships",
      *     "get_teams",
      *     "get_team",
      * })

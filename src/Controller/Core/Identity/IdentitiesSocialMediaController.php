@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Controller\Core\Player;
+namespace App\Controller\Core\Identity;
 
 use App\Controller\APIController;
-use App\Entity\Core\Player\Player;
-use App\Entity\Core\Player\SocialMedia;
+use App\Entity\Core\Identity\Identity;
+use App\Entity\Core\Identity\SocialMedia;
 use App\Exception\Core\EntityNotUpdatedException;
-use App\Manager\Core\Player\SocialMediaManager;
+use App\Manager\Core\Identity\SocialMediaManager;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Put;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -18,18 +18,18 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 /**
  * @Route("/players")
  */
-class PlayersSocialMediaController extends APIController
+class IdentitiesSocialMediaController extends APIController
 {
     /**
      * @Get(path="/{uuid}/social-medias")
      * @IsGranted("ROLE_ADMIN")
      */
-    public function getPlayerSocialMediasAction(string $uuid): Response
+    public function getIdentitySocialMediasAction(string $uuid): Response
     {
-        /** @var Player $player */
-        $player = $this->find(Player::class, $uuid);
+        /** @var Identity $identity */
+        $identity = $this->find(Identity::class, $uuid);
 
-        return $this->serialize($player->getSocialMedia(), 'get_player_social_medias');
+        return $this->serialize($identity->getSocialMedia(), 'get_identity_social_medias');
     }
 
     /**
@@ -38,10 +38,10 @@ class PlayersSocialMediaController extends APIController
      *
      * @throws EntityNotUpdatedException
      */
-    public function putPlayerSocialMediasAction(string $uuid, ValidatorInterface $validator, SocialMediaManager $socialMediaManager): Response
+    public function putIdentitySocialMediasAction(string $uuid, ValidatorInterface $validator, SocialMediaManager $socialMediaManager): Response
     {
-        /** @var Player $player */
-        $player = $this->find(Player::class, $uuid);
+        /** @var Identity $identity */
+        $identity = $this->find(Identity::class, $uuid);
         $socialMedia = $this->deserialize(SocialMedia::class, 'put_player_social_medias');
 
         $violationList = $validator->validate($socialMedia, null, ['put_player_social_medias']);
@@ -49,8 +49,8 @@ class PlayersSocialMediaController extends APIController
             return new JsonResponse($this->errorFormatter->reduce($violationList), 422);
         }
 
-        $socialMedia = $socialMediaManager->updateSocialMedia($player, $socialMedia);
+        $socialMedia = $socialMediaManager->updateSocialMedia($identity, $socialMedia);
 
-        return $this->serialize($socialMedia, 'get_player_social_medias');
+        return $this->serialize($socialMedia, 'get_identity_social_medias');
     }
 }

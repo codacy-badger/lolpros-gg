@@ -2,7 +2,7 @@
 
 namespace App\Event\Core\Player;
 
-use App\Entity\Core\Player\Player;
+use App\Entity\Core\Identity\Identity;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class PlayerEvent extends Event
@@ -12,16 +12,16 @@ class PlayerEvent extends Event
     const DELETED = 'player.deleted';
 
     /**
-     * @var Player
+     * @var Identity
      */
     private $player;
 
-    public function __construct(Player $player)
+    public function __construct(Identity $player)
     {
         $this->player = $player;
     }
 
-    public function getPlayer(): Player
+    public function getPlayer(): Identity
     {
         return $this->player;
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity\Core\Player;
+namespace App\Entity\Core\Identity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
@@ -23,9 +23,9 @@ class SocialMedia
     protected $id;
 
     /**
-     * @var Player
-     * @ORM\OneToOne(targetEntity="App\Entity\Core\Player\Player", inversedBy="socialMedia")
-     * @Serializer\Type("App\Entity\Core\Player\Player")
+     * @var Identity
+     * @ORM\OneToOne(targetEntity="Identity", inversedBy="socialMedia")
+     * @Serializer\Type("App\Entity\Core\Identity\Identity")
      */
     protected $owner;
 
@@ -49,7 +49,7 @@ class SocialMedia
      * @ORM\Column(type="string", nullable=true)
      * @Serializer\Type("string")
      * @Serializer\Groups({
-     *     "get_player_social_medias",
+     *     "get_identity_social_medias",
      *     "put_player_social_medias",
      * })
      */
@@ -60,7 +60,7 @@ class SocialMedia
      * @ORM\Column(type="string", nullable=true)
      * @Serializer\Type("string")
      * @Serializer\Groups({
-     *     "get_player_social_medias",
+     *     "get_identity_social_medias",
      *     "put_player_social_medias",
      * })
      */
@@ -71,7 +71,7 @@ class SocialMedia
      * @ORM\Column(type="string", nullable=true)
      * @Serializer\Type("string")
      * @Serializer\Groups({
-     *     "get_player_social_medias",
+     *     "get_identity_social_medias",
      *     "put_player_social_medias",
      * })
      */
@@ -82,7 +82,7 @@ class SocialMedia
      * @ORM\Column(type="string", nullable=true)
      * @Serializer\Type("string")
      * @Serializer\Groups({
-     *     "get_player_social_medias",
+     *     "get_identity_social_medias",
      *     "put_player_social_medias",
      * })
      */
@@ -93,15 +93,15 @@ class SocialMedia
      * @ORM\Column(type="string", nullable=true)
      * @Serializer\Type("string")
      * @Serializer\Groups({
-     *     "get_player_social_medias",
+     *     "get_identity_social_medias",
      *     "put_player_social_medias",
      * })
      */
     protected $leaguepedia;
 
-    public function __construct(Player $player)
+    public function __construct(Identity $identity)
     {
-        $this->owner = $player;
+        $this->owner = $identity;
     }
 
     public function getId(): int
@@ -109,12 +109,12 @@ class SocialMedia
         return $this->id;
     }
 
-    public function getOwner(): Player
+    public function getOwner(): Identity
     {
         return $this->owner;
     }
 
-    public function setOwner(Player $owner): self
+    public function setOwner(Identity $owner): self
     {
         $this->owner = $owner;
 

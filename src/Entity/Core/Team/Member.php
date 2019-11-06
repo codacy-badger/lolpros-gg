@@ -2,7 +2,7 @@
 
 namespace App\Entity\Core\Team;
 
-use App\Entity\Core\Player\Player;
+use App\Entity\Core\Identity\Identity;
 use App\Entity\SelfReferencedEntityTrait;
 use App\Entity\StringUuidTrait;
 use DateTime;
@@ -40,7 +40,7 @@ class Member
      * @Serializer\Groups({
      *     "league.get_player",
      *     "league.get_players",
-     *     "get_player_members",
+     *     "get_identity_memberships",
      *     "get_teams",
      *     "get_team",
      *     "get_team_members",
@@ -51,14 +51,14 @@ class Member
     protected $uuid;
 
     /**
-     * @var Player
-     * @ORM\ManyToOne(targetEntity="App\Entity\Core\Player\Player", inversedBy="memberships")
-     * @Serializer\Type("App\Entity\Core\Player\Player")
+     * @var Identity
+     * @ORM\ManyToOne(targetEntity="Identity", inversedBy="memberships")
+     * @Serializer\Type("App\Entity\Core\Identity\Identity")
      * @Serializer\Groups({
      *     "get_team_members",
      * })
      */
-    protected $player;
+    protected $identity;
 
     /**
      * @var Team
@@ -67,6 +67,7 @@ class Member
      * @Serializer\Groups({
      *     "get_player_members",
      *     "get_team_members",
+     *     "get_identity_memberships",
      * })
      */
     protected $team;
@@ -76,7 +77,7 @@ class Member
      * @ORM\Column(name="join_date", type="datetime", nullable=true)
      * @Serializer\Type("DateTime<'Y-m-d'>")
      * @Serializer\Groups({
-     *     "get_player_members",
+     *     "get_identity_memberships",
      *     "get_team_members",
      *     "get_teams",
      * })
@@ -89,7 +90,7 @@ class Member
      * @Serializer\Type("DateTime<'Y-m-d'>")
      * @Serializer\Groups({
      *     "league.get_players",
-     *     "get_player_members",
+     *     "get_identity_memberships",
      *     "get_team_members",
      *     "get_teams",
      *     "get_staffs",
@@ -145,14 +146,14 @@ class Member
         return $this;
     }
 
-    public function getPlayer(): ?Player
+    public function getIdentity(): ?Identity
     {
-        return $this->player;
+        return $this->identity;
     }
 
-    public function setPlayer(Player $player): self
+    public function setIdentity(Identity $identity): self
     {
-        $this->player = $player;
+        $this->identity = $identity;
 
         return $this;
     }

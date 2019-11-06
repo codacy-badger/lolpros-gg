@@ -2,7 +2,7 @@
 
 namespace App\Event\Core\Player;
 
-use App\Entity\Core\Player\Staff;
+use App\Entity\Core\Identity\Staff;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class StaffEvent extends Event

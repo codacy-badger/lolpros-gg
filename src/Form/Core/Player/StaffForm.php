@@ -2,7 +2,7 @@
 
 namespace App\Form\Core\Player;
 
-use App\Entity\Core\Player\Staff;
+use App\Entity\Core\Identity\Staff;
 use App\Entity\Core\Region\Region;
 use App\Form\EntityTransformer;
 use Doctrine\ORM\EntityManagerInterface;

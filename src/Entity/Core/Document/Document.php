@@ -66,7 +66,7 @@ abstract class Document
      *     "league.get_player",
      *     "get_staff",
      *     "get_staffs",
-     *     "get_player_members",
+     *     "get_identity_memberships",
      *     "get_teams",
      *     "get_team",
      * })

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Manager\Core\Player;
+namespace App\Manager\Core\Identity;
 
-use App\Entity\Core\Player\Player;
-use App\Entity\Core\Player\SocialMedia;
+use App\Entity\Core\Identity\Identity;
+use App\Entity\Core\Identity\SocialMedia;
 use App\Entity\LeagueOfLegends\Player\Player as LeaguePlayer;
 use App\Event\Core\Player\PlayerEvent;
 use App\Event\LeagueOfLegends\Player\PlayerEvent as LeaguePlayerEvent;
@@ -13,10 +13,10 @@ use Exception;
 
 final class SocialMediaManager extends DefaultManager
 {
-    public function updateSocialMedia(Player $player, SocialMedia $socialMedia): SocialMedia
+    public function updateSocialMedia(Identity $identity, SocialMedia $socialMedia): SocialMedia
     {
         try {
-            $media = $player->getSocialMedia();
+            $media = $identity->getSocialMedia();
 
             $media->setFacebook($socialMedia->getFacebook());
             $media->setTwitch($socialMedia->getTwitch());
@@ -25,19 +25,19 @@ final class SocialMediaManager extends DefaultManager
             $media->setLeaguepedia($socialMedia->getLeaguepedia());
 
             $this->entityManager->flush($media);
-            $this->entityManager->flush($player);
+            $this->entityManager->flush($identity);
 
             switch (true) {
-                case $player instanceof LeaguePlayer:
-                    $this->eventDispatcher->dispatch(new LeaguePlayerEvent($player), LeaguePlayerEvent::UPDATED);
+                case $identity instanceof LeaguePlayer:
+                    $this->eventDispatcher->dispatch(new LeaguePlayerEvent($identity), LeaguePlayerEvent::UPDATED);
                     break;
                 default:
-                    $this->eventDispatcher->dispatch(new PlayerEvent($player), PlayerEvent::UPDATED);
+                    $this->eventDispatcher->dispatch(new PlayerEvent($identity), PlayerEvent::UPDATED);
             }
 
             return $media;
         } catch (Exception $e) {
-            $this->logger->error('[SocialMediaManager] Could not update social medias for player {uuid} because of {reason}', ['uuid' => $player->getUuidAsString(), 'reason' => $e->getMessage()]);
+            $this->logger->error('[SocialMediaManager] Could not update social medias for identity {uuid} because of {reason}', ['uuid' => $identity->getUuidAsString(), 'reason' => $e->getMessage()]);
             throw new EntityNotUpdatedException($socialMedia->getOwner()->getUuidAsString(), $e->getMessage());
         }
     }

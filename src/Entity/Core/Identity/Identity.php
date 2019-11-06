@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity\Core\Player;
+namespace App\Entity\Core\Identity;
 
 use App\Entity\Core\Region\Region;
 use App\Entity\Core\Team\Member;
@@ -21,12 +21,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string", length=75)
  * @ORM\DiscriminatorMap({
- *     "league_player" = "App\Entity\LeagueOfLegends\Player\Player",
- *     "core_staff" = "App\Entity\Core\Player\Staff",
+ *     "league_player" = "App\Entity\LeagueOfLegends\Identity\Player",
+ *     "core_staff" = "App\Entity\Core\Identity\Staff",
  * })
- * @ORM\Entity(repositoryClass="App\Repository\Core\PlayerRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Core\IdentityRepository")
  */
-abstract class Player
+abstract class Identity
 {
     use StringUuidTrait;
 
@@ -98,7 +98,7 @@ abstract class Player
 
     /**
      * @var ArrayCollection|Member[]
-     * @ORM\OneToMany(targetEntity="App\Entity\Core\Team\Member", mappedBy="player")
+     * @ORM\OneToMany(targetEntity="App\Entity\Core\Team\Member", mappedBy="identity")
      * @ORM\OrderBy({"joinDate"="DESC"})
      * @Serializer\Type("App\Entity\Core\Team\Member")
      * @Serializer\Groups({
@@ -112,14 +112,14 @@ abstract class Player
 
     /**
      * @var SocialMedia
-     * @ORM\OneToOne(targetEntity="App\Entity\Core\Player\SocialMedia", mappedBy="owner", cascade={"persist", "remove"})
-     * @Serializer\Type("App\Entity\Core\Player\SocialMedia")
+     * @ORM\OneToOne(targetEntity="App\Entity\Core\Identity\SocialMedia", mappedBy="owner", cascade={"persist", "remove"})
+     * @Serializer\Type("App\Entity\Core\Identity\SocialMedia")
      */
     protected $socialMedia;
 
     /**
      * @var ArrayCollection|Region[]
-     * @ORM\ManyToMany(targetEntity="App\Entity\Core\Region\Region", inversedBy="players")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Core\Region\Region", inversedBy="identities")
      * @Serializer\Type("App\Entity\Core\Region\Region")
      * @Serializer\Groups({
      *     "get_staff",
@@ -232,7 +232,7 @@ abstract class Player
     public function addRegion(Region $region): self
     {
         $this->regions->add($region);
-        $region->addPlayer($this);
+        $region->addIdentity($this);
 
         return $this;
     }
@@ -240,7 +240,7 @@ abstract class Player
     public function removeRegion(Region $region): self
     {
         $this->regions->remove($region);
-        $region->removePlayer($this);
+        $region->removeIdentity($this);
 
         return $this;
     }

@@ -193,7 +193,7 @@ fos_elastica:
 
           persistence:
             driver: orm
-            model: App\Entity\Core\Player\Player
+            model: App\Entity\Core\Identity\Identity
             model_to_elastica_transformer:
               service: App\Transformer\PlayerTransformer
             listener:

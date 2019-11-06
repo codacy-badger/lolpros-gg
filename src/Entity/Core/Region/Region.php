@@ -3,7 +3,7 @@
 namespace App\Entity\Core\Region;
 
 use App\Entity\Core\Document\RegionLogo;
-use App\Entity\Core\Player\Player;
+use App\Entity\Core\Identity\Identity;
 use App\Entity\Core\Team\Team;
 use App\Entity\StringUuidTrait;
 use DateTime;
@@ -104,11 +104,11 @@ class Region
     protected $countries;
 
     /**
-     * @var ArrayCollection|Player[]
-     * @ORM\ManyToMany(targetEntity="App\Entity\Core\Player\Player", mappedBy="regions")
-     * @Serializer\Type("ArrayCollection<App\Entity\Core\Player\Player>")
+     * @var ArrayCollection|Identity[]
+     * @ORM\ManyToMany(targetEntity="Identity", mappedBy="regions")
+     * @Serializer\Type("ArrayCollection<App\Entity\Core\Identity\Identity>")
      */
-    protected $players;
+    protected $identities;
 
     /**
      * @var ArrayCollection|Team[]
@@ -209,28 +209,28 @@ class Region
         return $this;
     }
 
-    public function getPlayers(): Collection
+    public function getIdentities(): Collection
     {
-        return $this->players;
+        return $this->identities;
     }
 
-    public function setPlayers($players): self
+    public function setIdentities($identities): self
     {
-        $this->players = $players;
+        $this->identities = $identities;
 
         return $this;
     }
 
-    public function addPlayer(Player $player): self
+    public function addIdentity(Identity $player): self
     {
-        $this->players->add($player);
+        $this->identities->add($player);
 
         return $this;
     }
 
-    public function removePlayer(Player $player): self
+    public function removeIdentity(Identity $player): self
     {
-        $this->players->remove($player);
+        $this->identities->remove($player);
 
         return $this;
     }

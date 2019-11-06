@@ -2,7 +2,7 @@
 
 namespace App\Transformer;
 
-use App\Entity\Core\Player\Player;
+use App\Entity\Core\Identity\Identity;
 use App\Entity\Core\Team\Member;
 use App\Entity\Core\Team\Team;
 use App\Indexer\Indexer;
@@ -49,7 +49,7 @@ class MemberTransformer extends DefaultTransformer
         return new Document($member->getUuidAsString(), $document, Indexer::INDEX_TYPE_MEMBER, Indexer::INDEX_MEMBERS);
     }
 
-    private function buildPlayer(Player $player)
+    private function buildPlayer(Identity $player)
     {
         $player = [
             'uuid' => $player->getUuidAsString(),

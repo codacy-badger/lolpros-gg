@@ -2,7 +2,7 @@
 
 namespace App\Entity\LeagueOfLegends\Player;
 
-use App\Entity\Core\Player\Player as BasePlayer;
+use App\Entity\Core\Identity\Identity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="App\Repository\LeagueOfLegends\PlayerRepository")
  * @ORM\Table(name="player__player")
  */
-class Player extends BasePlayer
+class Player extends Identity
 {
     const POSITION_TOP = '10_top';
     const POSITION_JUNGLE = '20_jungle';

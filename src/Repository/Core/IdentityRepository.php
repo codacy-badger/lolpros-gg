@@ -4,7 +4,7 @@ namespace App\Repository\Core;
 
 use Doctrine\ORM\EntityRepository;
 
-class PlayerRepository extends EntityRepository
+class IdentityRepository extends EntityRepository
 {
     public function getCountries()
     {

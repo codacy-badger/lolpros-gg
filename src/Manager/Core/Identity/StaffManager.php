@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Manager\Core\Player;
+namespace App\Manager\Core\Identity;
 
-use App\Entity\Core\Player\Staff;
+use App\Entity\Core\Identity\Staff;
 use App\Event\Core\Player\StaffEvent;
 use App\Exception\Core\EntityNotCreatedException;
 use App\Exception\Core\EntityNotDeletedException;

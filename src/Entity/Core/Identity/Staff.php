@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity\Core\Player;
+namespace App\Entity\Core\Identity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @ORM\Table(name="player__player")
  */
-class Staff extends Player
+class Staff extends Identity
 {
     const ROLE_COACH = '10_coach';
     const ROLE_MANAGER = '20_manager';
