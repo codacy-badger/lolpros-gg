@@ -6,6 +6,7 @@ use App\Entity\LeagueOfLegends\Player\Ranking;
 use RiotAPI\LeagueAPI\Definitions\Region;
 use RiotAPI\LeagueAPI\LeagueAPI;
 use RiotAPI\LeagueAPI\Objects\LeagueEntryDto;
+use RiotAPI\LeagueAPI\Objects\LeagueListDto;
 
 class RiotLeagueManager
 {
@@ -37,5 +38,10 @@ class RiotLeagueManager
         }
 
         return array_key_exists(0, $soloQ) ? $soloQ[0] : reset($soloQ);
+    }
+
+    public function getChallengers(): LeagueListDto
+    {
+        return $this->api->getLeagueChallenger(Ranking::QUEUE_TYPE_SOLO);
     }
 }
