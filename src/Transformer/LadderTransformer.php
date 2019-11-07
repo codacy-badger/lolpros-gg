@@ -76,9 +76,12 @@ class LadderTransformer extends APlayerTransformer
 
         $peak = 0;
 
+        /** @var RiotAccount $account */
         foreach ($accounts as $account) {
-            /** @var RiotAccount $account */
-            $peak = $peak instanceof RiotAccount && $peak->getScore() >= $account->getBestRanking()->getScore() ? $peak : $account->getBestRanking();
+            if (!($best = $account->getBestRanking())) {
+                continue;
+            }
+            $peak = $peak instanceof RiotAccount && $peak->getScore() >= $best->getScore() ? $peak : $best;
         }
 
         return [

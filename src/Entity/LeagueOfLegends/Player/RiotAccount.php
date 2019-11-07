@@ -404,19 +404,13 @@ class RiotAccount
     /**
      * @Serializer\VirtualProperty
      */
-    public function getBestRanking(string $season = Ranking::SEASON_9_V2): Ranking
+    public function getBestRanking(string $season = Ranking::SEASON_9_V2): ?Ranking
     {
         $rankings = $this->rankings;
         $best = $rankings->filter(function (Ranking $ranking) use ($season) {
             return $ranking->isBest() && $season === $ranking->getSeason();
-        })->first();
+        });
 
-        if (!$best) {
-            $best = $rankings->filter(function (Ranking $ranking) {
-                return $ranking->isBest();
-            })->first();
-        }
-
-        return $best;
+        return $best->count() ? $best->first() : null;
     }
 }
