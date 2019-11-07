@@ -4,13 +4,13 @@ namespace App\Listener\Core;
 
 use App\Entity\Core\Identity\Identity;
 use App\Entity\Core\Team\Member;
-use App\Event\Core\Player\PlayerEvent;
+use App\Event\Core\Identity\IdentityEvent;
 use App\Indexer\Indexer;
 use App\Manager\Core\Report\AdminLogManager;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class PlayerListener implements EventSubscriberInterface
+class IdentityListener implements EventSubscriberInterface
 {
     /**
      * @var LoggerInterface
@@ -25,7 +25,7 @@ class PlayerListener implements EventSubscriberInterface
     /**
      * @var Indexer
      */
-    private $playerIndexer;
+    private $identityIndexer;
 
     /**
      * @var Indexer
@@ -35,61 +35,61 @@ class PlayerListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            PlayerEvent::CREATED => 'onCreate',
-            PlayerEvent::UPDATED => 'onUpdate',
-            PlayerEvent::DELETED => 'onDelete',
+            IdentityEvent::CREATED => 'onCreate',
+            IdentityEvent::UPDATED => 'onUpdate',
+            IdentityEvent::DELETED => 'onDelete',
         ];
     }
 
-    public function __construct(LoggerInterface $logger, AdminLogManager $adminLogManager, Indexer $playerIndexer, Indexer $teamIndexer)
+    public function __construct(LoggerInterface $logger, AdminLogManager $adminLogManager, Indexer $identityIndexer, Indexer $teamIndexer)
     {
         $this->logger = $logger;
         $this->adminLogManager = $adminLogManager;
-        $this->playerIndexer = $playerIndexer;
+        $this->identityIndexer = $identityIndexer;
         $this->teamIndexer = $teamIndexer;
     }
 
-    public function onCreate(PlayerEvent $event)
+    public function onCreate(IdentityEvent $event)
     {
-        $entity = $event->getPlayer();
+        $entity = $event->getIdentity();
 
         if (!$entity instanceof Identity) {
             return;
         }
 
-        $this->playerIndexer->addOne(Indexer::INDEX_TYPE_PLAYER, $entity);
-        $this->adminLogManager->createLog(PlayerEvent::CREATED, $entity->getUuidAsString(), $entity->getName());
+        $this->identityIndexer->addOne(Indexer::INDEX_TYPE_IDENTITY, $entity);
+        $this->adminLogManager->createLog(IdentityEvent::CREATED, $entity->getUuidAsString(), $entity->getName());
     }
 
-    public function onUpdate(PlayerEvent $event)
+    public function onUpdate(IdentityEvent $event)
     {
-        $entity = $event->getPlayer();
+        $entity = $event->getIdentity();
 
         if (!$entity instanceof Identity) {
             return;
         }
 
-        $this->playerIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_PLAYER, $entity);
+        $this->identityIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_IDENTITY, $entity);
         foreach ($entity->getMemberships() as $membership) {
             /* @var Member $membership */
             $this->teamIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_TEAM, $membership->getTeam());
         }
-        $this->adminLogManager->createLog(PlayerEvent::UPDATED, $entity->getUuidAsString(), $entity->getName());
+        $this->adminLogManager->createLog(IdentityEvent::UPDATED, $entity->getUuidAsString(), $entity->getName());
     }
 
-    public function onDelete(PlayerEvent $event)
+    public function onDelete(IdentityEvent $event)
     {
-        $entity = $event->getPlayer();
+        $entity = $event->getIdentity();
 
         if (!$entity instanceof Identity) {
             return;
         }
 
-        $this->playerIndexer->deleteOne(Indexer::INDEX_TYPE_PLAYER, $entity->getUuidAsString());
+        $this->identityIndexer->deleteOne(Indexer::INDEX_TYPE_IDENTITY, $entity->getUuidAsString());
         foreach ($entity->getMemberships() as $membership) {
             /* @var Member $membership */
             $this->teamIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_TEAM, $membership->getTeam());
         }
-        $this->adminLogManager->createLog(PlayerEvent::DELETED, $entity->getUuidAsString(), $entity->getName());
+        $this->adminLogManager->createLog(IdentityEvent::DELETED, $entity->getUuidAsString(), $entity->getName());
     }
 }

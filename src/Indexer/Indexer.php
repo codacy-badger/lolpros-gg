@@ -17,14 +17,14 @@ class Indexer implements IndexerInterface
 
     //indexes
     const INDEX_LADDER = 'ladder';
-    const INDEX_PLAYERS = 'players';
+    const INDEX_IDENTITIES = 'identities';
     const INDEX_SUMMONER_NAMES = 'summoner_names';
     const INDEX_TEAMS = 'teams';
     const INDEX_MEMBERS = 'members';
 
     //types
     const INDEX_TYPE_LADDER = 'ladder';
-    const INDEX_TYPE_PLAYER = 'player';
+    const INDEX_TYPE_IDENTITY = 'identity';
     const INDEX_TYPE_SUMMONER_NAME = 'summoner_name';
     const INDEX_TYPE_TEAM = 'team';
     const INDEX_TYPE_MEMBER = 'member';

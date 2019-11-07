@@ -105,7 +105,8 @@ class Region
 
     /**
      * @var ArrayCollection|Identity[]
-     * @ORM\ManyToMany(targetEntity="Identity", mappedBy="regions")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Core\Identity\Identity", mappedBy="regions")
+     * @ORM\JoinTable("player_region")
      * @Serializer\Type("ArrayCollection<App\Entity\Core\Identity\Identity>")
      */
     protected $identities;

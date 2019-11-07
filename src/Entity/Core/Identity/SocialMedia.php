@@ -50,7 +50,7 @@ class SocialMedia
      * @Serializer\Type("string")
      * @Serializer\Groups({
      *     "get_identity_social_medias",
-     *     "put_player_social_medias",
+     *     "put_identity_social_medias",
      * })
      */
     protected $twitter;
@@ -61,7 +61,7 @@ class SocialMedia
      * @Serializer\Type("string")
      * @Serializer\Groups({
      *     "get_identity_social_medias",
-     *     "put_player_social_medias",
+     *     "put_identity_social_medias",
      * })
      */
     protected $facebook;
@@ -72,7 +72,7 @@ class SocialMedia
      * @Serializer\Type("string")
      * @Serializer\Groups({
      *     "get_identity_social_medias",
-     *     "put_player_social_medias",
+     *     "put_identity_social_medias",
      * })
      */
     protected $twitch;
@@ -83,7 +83,7 @@ class SocialMedia
      * @Serializer\Type("string")
      * @Serializer\Groups({
      *     "get_identity_social_medias",
-     *     "put_player_social_medias",
+     *     "put_identity_social_medias",
      * })
      */
     protected $discord;
@@ -94,7 +94,7 @@ class SocialMedia
      * @Serializer\Type("string")
      * @Serializer\Groups({
      *     "get_identity_social_medias",
-     *     "put_player_social_medias",
+     *     "put_identity_social_medias",
      * })
      */
     protected $leaguepedia;

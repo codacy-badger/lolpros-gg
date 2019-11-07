@@ -4,7 +4,6 @@ namespace App\Entity\Core\Team;
 
 use App\Entity\Core\Document\TeamLogo;
 use App\Entity\Core\Region\Region;
-use App\Entity\LeagueOfLegends\Player\Player;
 use App\Entity\StringUuidTrait;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;

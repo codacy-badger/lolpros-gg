@@ -2,14 +2,14 @@
 
 namespace App\Transformer;
 
+use App\Entity\Core\Identity\Identity;
 use App\Entity\Core\Region\Region;
-use App\Entity\LeagueOfLegends\Player\Player;
 
-abstract class APlayerTransformer extends DefaultTransformer
+abstract class AIdentityTransformer extends DefaultTransformer
 {
-    protected function buildTeam(Player $player): ?array
+    protected function buildTeam(Identity $identity): ?array
     {
-        if (!($team = $player->getCurrentTeam())) {
+        if (!($team = $identity->getCurrentTeam())) {
             return null;
         }
 
@@ -22,11 +22,11 @@ abstract class APlayerTransformer extends DefaultTransformer
         ];
     }
 
-    protected function buildRegions(Player $player): array
+    protected function buildRegions(Identity $identity): array
     {
         $regions = [];
 
-        foreach ($player->getRegions() as $region) {
+        foreach ($identity->getRegions() as $region) {
             /* @var Region $region */
             array_push($regions, [
                 'uuid' => $region->getUuidAsString(),
@@ -40,9 +40,9 @@ abstract class APlayerTransformer extends DefaultTransformer
         return $regions;
     }
 
-    protected function buildSocialMedia(Player $player): array
+    protected function buildSocialMedia(Identity $identity): array
     {
-        $socialMedia = $player->getSocialMedia();
+        $socialMedia = $identity->getSocialMedia();
 
         return [
             'twitter' => $socialMedia->getTwitter(),

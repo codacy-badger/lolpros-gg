@@ -25,7 +25,7 @@ class PlayerListener implements EventSubscriberInterface
     /**
      * @var Indexer
      */
-    private $playerIndexer;
+    private $identityIndexer;
 
     /**
      * @var Indexer
@@ -46,11 +46,11 @@ class PlayerListener implements EventSubscriberInterface
         ];
     }
 
-    public function __construct(LoggerInterface $logger, AdminLogManager $adminLogManager, Indexer $playerIndexer, Indexer $ladderIndexer, Indexer $teamIndexer)
+    public function __construct(LoggerInterface $logger, AdminLogManager $adminLogManager, Indexer $identityIndexer, Indexer $ladderIndexer, Indexer $teamIndexer)
     {
         $this->logger = $logger;
         $this->adminLogManager = $adminLogManager;
-        $this->playerIndexer = $playerIndexer;
+        $this->identityIndexer = $identityIndexer;
         $this->ladderIndexer = $ladderIndexer;
         $this->teamIndexer = $teamIndexer;
     }
@@ -63,7 +63,7 @@ class PlayerListener implements EventSubscriberInterface
             return;
         }
 
-        $this->playerIndexer->addOne(Indexer::INDEX_TYPE_PLAYER, $entity);
+        $this->identityIndexer->addOne(Indexer::INDEX_TYPE_IDENTITY, $entity);
         $this->ladderIndexer->addOne(Indexer::INDEX_TYPE_LADDER, $entity);
         $this->adminLogManager->createLog(PlayerEvent::CREATED, $entity->getUuidAsString(), $entity->getName());
     }
@@ -76,7 +76,7 @@ class PlayerListener implements EventSubscriberInterface
             return;
         }
 
-        $this->playerIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_PLAYER, $entity);
+        $this->identityIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_IDENTITY, $entity);
         $this->ladderIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_LADDER, $entity);
         foreach ($entity->getMemberships() as $membership) {
             /* @var Member $membership */
@@ -93,8 +93,9 @@ class PlayerListener implements EventSubscriberInterface
             return;
         }
 
-        $this->playerIndexer->deleteOne(Indexer::INDEX_TYPE_PLAYER, $entity->getUuidAsString());
+        $this->identityIndexer->deleteOne(Indexer::INDEX_TYPE_IDENTITY, $entity->getUuidAsString());
         $this->ladderIndexer->deleteOne(Indexer::INDEX_TYPE_LADDER, $entity->getUuidAsString());
+        /* @var Member $membership */
         foreach ($entity->getMemberships() as $membership) {
             /* @var Member $membership */
             $this->teamIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_TEAM, $membership->getTeam());

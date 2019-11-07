@@ -47,7 +47,7 @@ services:
     # Consumers
     App\Consumer\PlayersConsumer:
         arguments:
-            $playerIndexer: '@api.indexer.players'
+            $identityIndexer: '@api.indexer.identities'
             $ladderIndexer: '@api.indexer.ladder'
             $teamIndexer: '@api.indexer.teams'
     App\Consumer\SummonerNamesConsumer: ~

@@ -22,7 +22,6 @@ final class Version20191104110820 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE team__social_media DROP twitter_id');
         $this->addSql('ALTER TABLE team__team DROP FOREIGN KEY FK_C4E0A61F98260155');
         $this->addSql('DROP INDEX idx_c4e0a61f98260155 ON team__team');
         $this->addSql('CREATE INDEX IDX_5EC39F4498260155 ON team__team (region_id)');
@@ -39,7 +38,6 @@ final class Version20191104110820 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE team__social_media ADD twitter_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE team__team DROP FOREIGN KEY FK_5EC39F4498260155');
         $this->addSql('DROP INDEX idx_5ec39f4498260155 ON team__team');
         $this->addSql('CREATE INDEX IDX_C4E0A61F98260155 ON team__team (region_id)');

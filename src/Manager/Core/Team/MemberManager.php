@@ -44,7 +44,7 @@ class MemberManager extends DefaultManager
     public function delete(Member $member)
     {
         try {
-            $member->getPlayer()->removeMemberships($member);
+            $member->getIdentity()->removeMemberships($member);
             $member->getTeam()->removeMember($member);
 
             $this->eventDispatcher->dispatch(new MemberEvent($member), MemberEvent::DELETED);

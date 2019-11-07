@@ -3,7 +3,7 @@
 namespace App\Manager\Core\Identity;
 
 use App\Entity\Core\Identity\Staff;
-use App\Event\Core\Player\StaffEvent;
+use App\Event\Core\Identity\StaffEvent;
 use App\Exception\Core\EntityNotCreatedException;
 use App\Exception\Core\EntityNotDeletedException;
 use App\Exception\Core\EntityNotUpdatedException;

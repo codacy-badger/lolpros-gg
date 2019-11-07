@@ -1,7 +1,7 @@
 fos_elastica:
   indexes:
-    lp_players:
-      index_name: "lp_players"
+    lp_identities:
+      index_name: "lp_identities"
       settings:
         number_of_replicas: 0
         number_of_shards: 1
@@ -11,7 +11,7 @@ fos_elastica:
               type: custom
               filter: [ "lowercase" ]
       types:
-        player:
+        identity:
           dynamic: strict
           properties:
             uuid:
@@ -195,7 +195,7 @@ fos_elastica:
             driver: orm
             model: App\Entity\Core\Identity\Identity
             model_to_elastica_transformer:
-              service: App\Transformer\PlayerTransformer
+              service: App\Transformer\IdentityTransformer
             listener:
               defer: true
               logger: true

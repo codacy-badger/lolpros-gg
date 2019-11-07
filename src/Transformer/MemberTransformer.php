@@ -5,6 +5,7 @@ namespace App\Transformer;
 use App\Entity\Core\Identity\Identity;
 use App\Entity\Core\Team\Member;
 use App\Entity\Core\Team\Team;
+use App\Entity\LeagueOfLegends\Player\Player;
 use App\Indexer\Indexer;
 use DateTime;
 use Elastica\Document;
@@ -33,7 +34,7 @@ class MemberTransformer extends DefaultTransformer
 
         $document = [
             'uuid' => $member->getUuidAsString(),
-            'player' => $this->buildPlayer($member->getPlayer()),
+            'player' => $this->buildIdentity($member->getIdentity()),
             'team' => $this->buildTeam($member->getTeam()),
             'type' => $member->getRole(),
             'join_date' => $member->getJoinDate()->format(DateTime::ISO8601),
@@ -49,7 +50,7 @@ class MemberTransformer extends DefaultTransformer
         return new Document($member->getUuidAsString(), $document, Indexer::INDEX_TYPE_MEMBER, Indexer::INDEX_MEMBERS);
     }
 
-    private function buildPlayer(Identity $player)
+    private function buildIdentity(Identity $player)
     {
         $player = [
             'uuid' => $player->getUuidAsString(),
@@ -58,7 +59,7 @@ class MemberTransformer extends DefaultTransformer
             'country' => $player->getCountry(),
         ];
 
-        if ($player instanceof \App\Entity\LeagueOfLegends\Player\Player) {
+        if ($player instanceof Player) {
             $player['position'] = $player->getPosition();
         }
 

@@ -18,7 +18,7 @@ class SummonerNameListener implements EventSubscriberInterface
     /**
      * @var Indexer
      */
-    private $playerIndexer;
+    private $identityIndexer;
 
     /**
      * @var Indexer
@@ -32,10 +32,10 @@ class SummonerNameListener implements EventSubscriberInterface
         ];
     }
 
-    public function __construct(LoggerInterface $logger, Indexer $playerIndexer, Indexer $summonerNameIndexer)
+    public function __construct(LoggerInterface $logger, Indexer $identityIndexer, Indexer $summonerNameIndexer)
     {
         $this->logger = $logger;
-        $this->playerIndexer = $playerIndexer;
+        $this->identityIndexer = $identityIndexer;
         $this->summonerNameIndexer = $summonerNameIndexer;
     }
 
@@ -48,7 +48,7 @@ class SummonerNameListener implements EventSubscriberInterface
         }
 
         $this->summonerNameIndexer->addOne(Indexer::INDEX_TYPE_SUMMONER_NAME, $entity);
-        $this->playerIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_PLAYER, $entity->getOwner()->getPlayer());
+        $this->identityIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_IDENTITY, $entity->getOwner()->getPlayer());
         if ($previous = $entity->getPrevious()) {
             $this->summonerNameIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_SUMMONER_NAME, $previous);
         }

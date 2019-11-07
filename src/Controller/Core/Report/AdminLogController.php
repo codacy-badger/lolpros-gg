@@ -15,7 +15,7 @@ class AdminLogController extends APIController
 {
     /**
      * @Get(path="")
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("IS_AUTHENTICATED_ANONYMOUSLY")
      */
     public function getAdminLogsAction()
     {

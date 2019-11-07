@@ -21,7 +21,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string", length=75)
  * @ORM\DiscriminatorMap({
- *     "league_player" = "App\Entity\LeagueOfLegends\Identity\Player",
+ *     "league_player" = "App\Entity\LeagueOfLegends\Player\Player",
  *     "core_staff" = "App\Entity\Core\Identity\Staff",
  * })
  * @ORM\Entity(repositoryClass="App\Repository\Core\IdentityRepository")
@@ -120,6 +120,7 @@ abstract class Identity
     /**
      * @var ArrayCollection|Region[]
      * @ORM\ManyToMany(targetEntity="App\Entity\Core\Region\Region", inversedBy="identities")
+     * @ORM\JoinTable("player_region")
      * @Serializer\Type("App\Entity\Core\Region\Region")
      * @Serializer\Groups({
      *     "get_staff",

@@ -4,8 +4,6 @@ namespace App\Controller\Core\Identity;
 
 use App\Controller\APIController;
 use App\Entity\Core\Identity\Identity;
-use App\Entity\Core\Team\Member;
-use App\Factory\Core\TeamFactory;
 use FOS\RestBundle\Controller\Annotations\Get;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;

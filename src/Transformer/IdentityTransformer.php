@@ -2,6 +2,7 @@
 
 namespace App\Transformer;
 
+use App\Entity\Core\Identity\Identity;
 use App\Entity\Core\Team\Member;
 use App\Entity\LeagueOfLegends\Player\Player;
 use App\Entity\LeagueOfLegends\Player\Ranking;
@@ -11,51 +12,56 @@ use App\Indexer\Indexer;
 use DateTime;
 use Elastica\Document;
 
-class PlayerTransformer extends APlayerTransformer
+class IdentityTransformer extends AIdentityTransformer
 {
     public function fetchAndTransform($document, array $fields): ?Document
     {
-        $player = $this->entityManager->getRepository(Player::class)->findOneBy(['uuid' => $document['uuid']]);
+        $identity = $this->entityManager->getRepository(Identity::class)->findOneBy(['uuid' => $document['uuid']]);
 
-        if (!$player instanceof Player) {
+        if (!$identity instanceof Identity) {
             return null;
         }
 
-        $document = $this->transform($player, $fields);
+        $document = $this->transform($identity, $fields);
         $this->entityManager->clear();
 
         return $document;
     }
 
-    public function transform($player, array $fields): ?Document
+    public function transform($identity, array $fields): ?Document
     {
-        if (!$player instanceof Player) {
+        if (!$identity instanceof Identity) {
             return null;
         }
 
         $document = [
-            'uuid' => $player->getUuidAsString(),
-            'name' => $player->getName(),
-            'slug' => $player->getSlug(),
-            'country' => $player->getCountry(),
-            'regions' => $this->buildRegions($player),
-            'position' => $player->getPosition(),
-            'score' => $player->getScore(),
-            'accounts' => $this->buildAccounts($player),
-            'social_media' => $this->buildSocialMedia($player),
-            'teams' => $this->buildTeams($player),
-            'previous_teams' => $this->buildPreviousTeams($player),
-            'rankings' => $this->buildPlayerRankings($player),
+            'uuid' => $identity->getUuidAsString(),
+            'name' => $identity->getName(),
+            'slug' => $identity->getSlug(),
+            'country' => $identity->getCountry(),
+            'regions' => $this->buildRegions($identity),
+            'social_media' => $this->buildSocialMedia($identity),
+            'teams' => $this->buildTeams($identity),
+            'previous_teams' => $this->buildPreviousTeams($identity),
         ];
 
-        return new Document($player->getUuidAsString(), $document, Indexer::INDEX_TYPE_PLAYER, Indexer::INDEX_PLAYERS);
+        if ($identity instanceof Player) {
+            $document = array_merge($document, [
+                'position' => $identity->getPosition(),
+                'score' => $identity->getScore(),
+                'accounts' => $this->buildAccounts($identity),
+                'rankings' => $this->buildPlayerRankings($identity),
+            ]);
+        }
+
+        return new Document($identity->getUuidAsString(), $document, Indexer::INDEX_TYPE_IDENTITY, Indexer::INDEX_IDENTITIES);
     }
 
-    private function buildAccounts(Player $player): array
+    private function buildAccounts(Player $identity): array
     {
         $accounts = [];
 
-        foreach ($player->getAccounts() as $account) {
+        foreach ($identity->getAccounts() as $account) {
             /* @var RiotAccount $account */
             array_push($accounts, [
                 'uuid' => $account->getUuidAsString(),
@@ -121,11 +127,11 @@ class PlayerTransformer extends APlayerTransformer
         return $rankings;
     }
 
-    private function buildTeams(Player $player): array
+    private function buildTeams(Identity $identity): array
     {
         $teams = [];
 
-        foreach ($player->getCurrentMemberships() as $member) {
+        foreach ($identity->getCurrentMemberships() as $member) {
             /** @var Member $member */
             $team = $member->getTeam();
             array_push($teams, [
@@ -144,11 +150,11 @@ class PlayerTransformer extends APlayerTransformer
         return $teams;
     }
 
-    private function buildPreviousTeams(Player $player): array
+    private function buildPreviousTeams(Identity $identity): array
     {
         $teams = [];
 
-        foreach ($player->getPreviousMemberships() as $member) {
+        foreach ($identity->getPreviousMemberships() as $member) {
             /** @var Member $member */
             $team = $member->getTeam();
             array_push($teams, [

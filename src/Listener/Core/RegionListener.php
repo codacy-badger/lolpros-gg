@@ -3,6 +3,7 @@
 namespace App\Listener\Core;
 
 use App\Entity\Core\Region\Region;
+use App\Entity\LeagueOfLegends\Player\Player;
 use App\Event\Core\Region\RegionEvent;
 use App\Indexer\Indexer;
 use App\Manager\Core\Report\AdminLogManager;
@@ -24,7 +25,7 @@ class RegionListener implements EventSubscriberInterface
     /**
      * @var Indexer
      */
-    private $playerIndexer;
+    private $identityIndexer;
 
     /**
      * @var Indexer
@@ -45,20 +46,22 @@ class RegionListener implements EventSubscriberInterface
         ];
     }
 
-    public function __construct(LoggerInterface $logger, AdminLogManager $adminLogManager, Indexer $playerIndexer, Indexer $ladderIndexer, Indexer $teamIndexer)
+    public function __construct(LoggerInterface $logger, AdminLogManager $adminLogManager, Indexer $identityIndexer, Indexer $ladderIndexer, Indexer $teamIndexer)
     {
         $this->logger = $logger;
         $this->adminLogManager = $adminLogManager;
-        $this->playerIndexer = $playerIndexer;
+        $this->identityIndexer = $identityIndexer;
         $this->ladderIndexer = $ladderIndexer;
         $this->teamIndexer = $teamIndexer;
     }
 
     private function updateLinkedEntities(Region $region)
     {
-        foreach ($region->getPlayers() as $player) {
-            $this->playerIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_PLAYER, $player);
-            $this->ladderIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_LADDER, $player);
+        foreach ($region->getIdentities() as $identity) {
+            $this->identityIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_IDENTITY, $identity);
+            if ($identity instanceof Player) {
+                $this->ladderIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_LADDER, $identity);
+            }
         }
         foreach ($region->getTeams() as $team) {
             $this->teamIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_TEAM, $team);

@@ -25,7 +25,7 @@ class PlayersConsumer implements ConsumerInterface
     /**
      * @var Indexer
      */
-    private $playerIndexer;
+    private $identityIndexer;
 
     /**
      * @var Indexer
@@ -37,11 +37,11 @@ class PlayersConsumer implements ConsumerInterface
      */
     private $teamIndexer;
 
-    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger, Indexer $playerIndexer, Indexer $ladderIndexer, Indexer $teamIndexer)
+    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger, Indexer $identityIndexer, Indexer $ladderIndexer, Indexer $teamIndexer)
     {
         $this->entityManager = $entityManager;
         $this->logger = $logger;
-        $this->playerIndexer = $playerIndexer;
+        $this->identityIndexer = $identityIndexer;
         $this->ladderIndexer = $ladderIndexer;
         $this->teamIndexer = $teamIndexer;
     }
@@ -51,7 +51,7 @@ class PlayersConsumer implements ConsumerInterface
         $this->logger->notice('[PlayersConsumer] Starting update');
         try {
             $ids = json_decode($msg->body);
-            $this->playerIndexer->updateMultiple(Indexer::INDEX_TYPE_PLAYER, $ids);
+            $this->identityIndexer->updateMultiple(Indexer::INDEX_TYPE_IDENTITY, $ids);
             $this->ladderIndexer->updateMultiple(Indexer::INDEX_TYPE_LADDER, $ids);
 
             $teams = $this->entityManager->getRepository(Team::class)->getTeamsUuids();

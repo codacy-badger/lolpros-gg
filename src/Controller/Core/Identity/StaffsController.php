@@ -8,7 +8,7 @@ use App\Entity\Core\Region\Region;
 use App\Exception\Core\EntityNotCreatedException;
 use App\Exception\Core\EntityNotDeletedException;
 use App\Exception\Core\EntityNotUpdatedException;
-use App\Form\Core\Player\StaffForm;
+use App\Form\Core\Identity\StaffForm;
 use App\Manager\Core\Identity\StaffManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use FOS\RestBundle\Controller\Annotations\Delete;

@@ -29,18 +29,16 @@ abstract class DefaultTransformer implements DefaultTransformerInterface
 
         $members = [];
 
+        /** @var Member $membership */
         foreach ($memberships as $membership) {
-            /** @var Member $membership */
-            /** @var Player $player */
-            $player = $membership->getPlayer();
-            $ranking = $player->getBestAccount() ? $player->getBestAccount()->getCurrentRanking() : null;
+            $identity = $membership->getIdentity();
 
             $member = [
-                'uuid' => $player->getUuidAsString(),
-                'name' => $player->getName(),
-                'slug' => $player->getSlug(),
+                'uuid' => $identity->getUuidAsString(),
+                'name' => $identity->getName(),
+                'slug' => $identity->getSlug(),
                 'current' => $membership->isCurrent(),
-                'country' => $player->getCountry(),
+                'country' => $identity->getCountry(),
                 'join_date' => $membership->getJoinDate()->format(DateTime::ISO8601),
                 'join_timestamp' => $membership->getJoinDate()->getTimestamp(),
                 'leave_date' => $membership->getLeaveDate() ? $membership->getLeaveDate()->format(DateTime::ISO8601) : null,
@@ -48,11 +46,12 @@ abstract class DefaultTransformer implements DefaultTransformerInterface
             ];
 
             //League player specifics
-            if ($player instanceof Player) {
+            if ($identity instanceof Player) {
+                $ranking = $identity->getBestAccount() ? $identity->getBestAccount()->getCurrentRanking() : null;
                 $member = array_merge($member, [
-                    'position' => $player->getPosition(),
-                    'summoner_name' => $player->getMainAccount() ? $player->getMainAccount()->getCurrentSummonerName()->getName() : null,
-                    'profile_icon_id' => $player->getMainAccount() ? $player->getMainAccount()->getProfileIconId() : null,
+                    'position' => $identity->getPosition(),
+                    'summoner_name' => $identity->getMainAccount() ? $identity->getMainAccount()->getCurrentSummonerName()->getName() : null,
+                    'profile_icon_id' => $identity->getMainAccount() ? $identity->getMainAccount()->getProfileIconId() : null,
                     'tier' => $ranking ? $ranking->getTier() : null,
                     'rank' => $ranking ? $ranking->getRank() : null,
                     'league_points' => $ranking ? $ranking->getLeaguePoints() : null,

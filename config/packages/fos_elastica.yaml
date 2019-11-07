@@ -2,7 +2,7 @@
 
 imports:
     - { resource: indexes/ladder.yml }
-    - { resource: indexes/players.yml }
+    - { resource: indexes/identities.yml }
     - { resource: indexes/teams.yml }
     - { resource: indexes/summoner_names.yml }
     - { resource: indexes/members.yml }

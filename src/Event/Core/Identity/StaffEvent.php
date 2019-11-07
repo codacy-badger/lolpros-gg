@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Event\Core\Player;
+namespace App\Event\Core\Identity;
 
 use App\Entity\Core\Identity\Staff;
 use Symfony\Contracts\EventDispatcher\Event;

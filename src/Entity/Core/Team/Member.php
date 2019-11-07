@@ -52,7 +52,7 @@ class Member
 
     /**
      * @var Identity
-     * @ORM\ManyToOne(targetEntity="Identity", inversedBy="memberships")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Core\Identity\Identity", inversedBy="memberships")
      * @Serializer\Type("App\Entity\Core\Identity\Identity")
      * @Serializer\Groups({
      *     "get_team_members",

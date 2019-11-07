@@ -9,7 +9,7 @@ use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Elastica\Document;
 
-class LadderTransformer extends APlayerTransformer
+class LadderTransformer extends AIdentityTransformer
 {
     public function fetchAndTransform($document, array $fields): ?Document
     {

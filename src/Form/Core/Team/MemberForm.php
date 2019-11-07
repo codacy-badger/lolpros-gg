@@ -2,9 +2,9 @@
 
 namespace App\Form\Core\Team;
 
+use App\Entity\Core\Identity\Identity;
 use App\Entity\Core\Team\Member;
 use App\Entity\Core\Team\Team;
-use App\Entity\LeagueOfLegends\Player\Player;
 use App\Form\EntityTransformer;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -35,7 +35,7 @@ class MemberForm extends AbstractType
             ->add('joinDate', TextType::class)
             ->add('leaveDate', TextType::class);
 
-        $builder->get('player')->addModelTransformer(new EntityTransformer($this->entityManager->getRepository(Player::class)));
+        $builder->get('player')->addModelTransformer(new EntityTransformer($this->entityManager->getRepository(Identity::class)));
         $builder->get('team')->addModelTransformer(new EntityTransformer($this->entityManager->getRepository(Team::class)));
         $builder->get('joinDate')->addModelTransformer(new CallbackTransformer(function ($string) { return $string; }, function ($datetime) { return new DateTime($datetime); }));
         $builder->get('leaveDate')->addModelTransformer(new CallbackTransformer(function ($string) { return $string; }, function ($datetime) { return $datetime ? new DateTime($datetime) : null; }));

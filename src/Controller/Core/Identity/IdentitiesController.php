@@ -22,7 +22,7 @@ class IdentitiesController extends APIController
      */
     public function getIdentitiesCountriesAction(): Response
     {
-        /** @var IdentityRepository $playerRepository */
+        /** @var IdentityRepository $identityRepository */
         $identityRepository = $this->getDoctrine()->getRepository(Identity::class);
 
         return new JsonResponse($identityRepository->getCountries(), 200);

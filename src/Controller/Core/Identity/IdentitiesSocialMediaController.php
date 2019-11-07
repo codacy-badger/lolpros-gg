@@ -42,9 +42,9 @@ class IdentitiesSocialMediaController extends APIController
     {
         /** @var Identity $identity */
         $identity = $this->find(Identity::class, $uuid);
-        $socialMedia = $this->deserialize(SocialMedia::class, 'put_player_social_medias');
+        $socialMedia = $this->deserialize(SocialMedia::class, 'put_identity_social_medias');
 
-        $violationList = $validator->validate($socialMedia, null, ['put_player_social_medias']);
+        $violationList = $validator->validate($socialMedia, null, ['put_identity_social_medias']);
         if ($violationList->count() > 0) {
             return new JsonResponse($this->errorFormatter->reduce($violationList), 422);
         }

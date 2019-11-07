@@ -31,7 +31,7 @@ class RiotAccountListener implements EventSubscriberInterface
     /**
      * @var Indexer
      */
-    private $playerIndexer;
+    private $identityIndexer;
 
     /**
      * @var Indexer
@@ -57,12 +57,12 @@ class RiotAccountListener implements EventSubscriberInterface
         ];
     }
 
-    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger, AdminLogManager $adminLogManager, Indexer $playerIndexer, Indexer $ladderIndexer, Indexer $summonerNameIndexer, Indexer $teamIndexer)
+    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger, AdminLogManager $adminLogManager, Indexer $identityIndexer, Indexer $ladderIndexer, Indexer $summonerNameIndexer, Indexer $teamIndexer)
     {
         $this->entityManager = $entityManager;
         $this->logger = $logger;
         $this->adminLogManager = $adminLogManager;
-        $this->playerIndexer = $playerIndexer;
+        $this->identityIndexer = $identityIndexer;
         $this->ladderIndexer = $ladderIndexer;
         $this->summonerNameIndexer = $summonerNameIndexer;
         $this->teamIndexer = $teamIndexer;
@@ -70,7 +70,7 @@ class RiotAccountListener implements EventSubscriberInterface
 
     private function updateLinkedPlayer(Player $player)
     {
-        $this->playerIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_PLAYER, $player);
+        $this->identityIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_IDENTITY, $player);
         $this->ladderIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_LADDER, $player);
         if ($player->getCurrentTeam()) {
             $this->teamIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_TEAM, $player->getCurrentTeam());

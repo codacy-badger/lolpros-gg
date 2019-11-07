@@ -18,7 +18,7 @@ class RankingListener implements EventSubscriberInterface
     /**
      * @var Indexer
      */
-    private $playerIndexer;
+    private $identityIndexer;
 
     /**
      * @var Indexer
@@ -32,10 +32,10 @@ class RankingListener implements EventSubscriberInterface
         ];
     }
 
-    public function __construct(LoggerInterface $logger, Indexer $playerIndexer, Indexer $ladderIndexer)
+    public function __construct(LoggerInterface $logger, Indexer $identityIndexer, Indexer $ladderIndexer)
     {
         $this->logger = $logger;
-        $this->playerIndexer = $playerIndexer;
+        $this->identityIndexer = $identityIndexer;
         $this->ladderIndexer = $ladderIndexer;
     }
 
@@ -48,7 +48,7 @@ class RankingListener implements EventSubscriberInterface
             return;
         }
 
-        $this->playerIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_PLAYER, $entity->getOwner()->getPlayer());
+        $this->identityIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_IDENTITY, $entity->getOwner()->getPlayer());
         $this->ladderIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_LADDER, $entity->getOwner()->getPlayer());
     }
 }

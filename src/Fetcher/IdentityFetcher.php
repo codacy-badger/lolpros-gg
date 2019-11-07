@@ -5,7 +5,7 @@ namespace App\Fetcher;
 use Elastica\Query;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PlayerFetcher extends Fetcher
+class IdentityFetcher extends Fetcher
 {
     protected function createQuery(array $options): Query
     {

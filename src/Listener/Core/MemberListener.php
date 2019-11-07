@@ -3,6 +3,7 @@
 namespace App\Listener\Core;
 
 use App\Entity\Core\Team\Member;
+use App\Entity\LeagueOfLegends\Player\Player;
 use App\Event\Core\Team\MemberEvent;
 use App\Indexer\Indexer;
 use App\Manager\Core\Report\AdminLogManager;
@@ -29,7 +30,7 @@ class MemberListener implements EventSubscriberInterface
     /**
      * @var Indexer
      */
-    private $playerIndexer;
+    private $identityIndexer;
 
     /**
      * @var Indexer
@@ -50,12 +51,12 @@ class MemberListener implements EventSubscriberInterface
         ];
     }
 
-    public function __construct(LoggerInterface $logger, AdminLogManager $adminLogManager, Indexer $teamIndexer, Indexer $playerIndexer, Indexer $ladderIndexer, Indexer $membersIndexer)
+    public function __construct(LoggerInterface $logger, AdminLogManager $adminLogManager, Indexer $teamIndexer, Indexer $identityIndexer, Indexer $ladderIndexer, Indexer $membersIndexer)
     {
         $this->logger = $logger;
         $this->adminLogManager = $adminLogManager;
         $this->teamIndexer = $teamIndexer;
-        $this->playerIndexer = $playerIndexer;
+        $this->identityIndexer = $identityIndexer;
         $this->ladderIndexer = $ladderIndexer;
         $this->membersIndexer = $membersIndexer;
     }
@@ -69,10 +70,8 @@ class MemberListener implements EventSubscriberInterface
         }
 
         $this->membersIndexer->addOne(Indexer::INDEX_TYPE_MEMBER, $entity);
-        $this->teamIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_TEAM, $entity->getTeam());
-        $this->playerIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_PLAYER, $entity->getPlayer());
-        $this->ladderIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_LADDER, $entity->getPlayer());
-        $this->adminLogManager->createLog(MemberEvent::CREATED, $entity->getTeam()->getUuidAsString(), $entity->getTeam()->getName(), $entity->getPlayer()->getUuidAsString(), $entity->getPlayer()->getName());
+        $this->updateRelations($entity);
+        $this->adminLogManager->createLog(MemberEvent::CREATED, $entity->getTeam()->getUuidAsString(), $entity->getTeam()->getName(), $entity->getIdentity()->getUuidAsString(), $entity->getIdentity()->getName());
     }
 
     public function onUpdate(MemberEvent $event)
@@ -82,12 +81,9 @@ class MemberListener implements EventSubscriberInterface
         if (!$entity instanceof Member) {
             return;
         }
-
         $this->membersIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_MEMBER, $entity);
-        $this->teamIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_TEAM, $entity->getTeam());
-        $this->playerIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_PLAYER, $entity->getPlayer());
-        $this->ladderIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_LADDER, $entity->getPlayer());
-        $this->adminLogManager->createLog(MemberEvent::UPDATED, $entity->getTeam()->getUuidAsString(), $entity->getTeam()->getName(), $entity->getPlayer()->getUuidAsString(), $entity->getPlayer()->getName());
+        $this->updateRelations($entity);
+        $this->adminLogManager->createLog(MemberEvent::UPDATED, $entity->getTeam()->getUuidAsString(), $entity->getTeam()->getName(), $entity->getIdentity()->getUuidAsString(), $entity->getIdentity()->getName());
     }
 
     public function onDelete(MemberEvent $event)
@@ -99,9 +95,16 @@ class MemberListener implements EventSubscriberInterface
         }
 
         $this->membersIndexer->deleteOne(Indexer::INDEX_TYPE_MEMBER, $entity->getUuidAsString());
+        $this->updateRelations($entity);
+        $this->adminLogManager->createLog(MemberEvent::DELETED, $entity->getTeam()->getUuidAsString(), $entity->getTeam()->getName(), $entity->getIdentity()->getUuidAsString(), $entity->getIdentity()->getName());
+    }
+
+    private function updateRelations(Member $entity)
+    {
         $this->teamIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_TEAM, $entity->getTeam());
-        $this->playerIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_PLAYER, $entity->getPlayer());
-        $this->ladderIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_LADDER, $entity->getPlayer());
-        $this->adminLogManager->createLog(MemberEvent::DELETED, $entity->getTeam()->getUuidAsString(), $entity->getTeam()->getName(), $entity->getPlayer()->getUuidAsString(), $entity->getPlayer()->getName());
+        $this->identityIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_IDENTITY, $entity->getIdentity());
+        if ($entity->getIdentity() instanceof Player) {
+            $this->ladderIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_LADDER, $entity->getIdentity());
+        }
     }
 }

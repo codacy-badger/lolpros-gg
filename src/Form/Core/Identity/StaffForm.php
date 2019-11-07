@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\Core\Player;
+namespace App\Form\Core\Identity;
 
 use App\Entity\Core\Identity\Staff;
 use App\Entity\Core\Region\Region;
