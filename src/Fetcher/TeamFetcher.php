@@ -22,11 +22,12 @@ class TeamFetcher extends Fetcher
         }
         if (null !== $options['query']) {
             $searchQuery = new Query\BoolQuery();
-            $nameQuery = new Query\Wildcard('name', '*'.$options['query'].'*');
+            $fullNameQuery = new Query\Wildcard('name', '*'.$options['query'].'*');
+            $nameQuery = new Query\Wildcard('name', $options['query'].'*', 2);
             $tagQuery = new Query\Wildcard('tag', '*'.$options['query'].'*');
             $slugQuery = new Query\Wildcard('slug', '*'.$options['query'].'*');
 
-            $searchQuery->addShould([$nameQuery, $tagQuery, $slugQuery]);
+            $searchQuery->addShould([$fullNameQuery, $nameQuery, $tagQuery, $slugQuery]);
             $query->addMust($searchQuery);
         }
 
@@ -34,7 +35,6 @@ class TeamFetcher extends Fetcher
 
         $query->setSize($options['per_page']);
         $query->setFrom(($options['page'] - 1) * $options['per_page']);
-        $query->setSort(['name' => 'asc']);
 
         return $query;
     }

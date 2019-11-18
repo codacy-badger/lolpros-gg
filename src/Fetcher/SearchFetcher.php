@@ -15,6 +15,7 @@ class SearchFetcher extends Fetcher
         $nested->setPath('accounts');
         $nested->setQuery(new Query\Wildcard('accounts.summoner_name', '*'.$options['query'].'*'));
         $query->addShould($nested);
+        $query->addShould(new Query\Wildcard('name', $options['query'].'*', 2));
         $query->addShould(new Query\Wildcard('name', '*'.$options['query'].'*'));
 
         $query = new Query($query);
