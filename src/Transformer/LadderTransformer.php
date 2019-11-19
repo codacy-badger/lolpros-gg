@@ -46,7 +46,7 @@ class LadderTransformer extends APlayerTransformer
             'team' => $this->buildTeam($player),
         ];
 
-        return new Document($player->getUuidAsString(), $document, Indexer::INDEX_TYPE_PLAYER, Indexer::INDEX_LADDER);
+        return new Document($player->getUuidAsString(), $document, Indexer::INDEX_TYPE_LADDER, Indexer::INDEX_LADDER);
     }
 
     private function buildAccount(RiotAccount $account): array

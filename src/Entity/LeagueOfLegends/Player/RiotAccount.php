@@ -350,7 +350,7 @@ class RiotAccount
 
     public function getScore(): int
     {
-        return $this->score;
+        return $this->getCurrentRanking() ? $this->getCurrentRanking()->getScore() : 0;
     }
 
     public function setScore(int $score): self
