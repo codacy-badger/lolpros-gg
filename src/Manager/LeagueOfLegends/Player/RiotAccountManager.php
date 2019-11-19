@@ -38,13 +38,6 @@ final class RiotAccountManager extends DefaultManager
 
     /**
      * RiotAccountsManager constructor.
-     *
-     * @param EntityManagerInterface   $entityManager
-     * @param LoggerInterface          $logger
-     * @param EventDispatcherInterface $eventDispatcher
-     * @param RankingManager           $rankingsManager
-     * @param RiotSummonerManager      $riotSummonerManager
-     * @param SummonerNameManager      $summonerNamesManager
      */
     public function __construct(
         EntityManagerInterface $entityManager,

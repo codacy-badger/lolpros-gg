@@ -21,11 +21,6 @@ final class SummonerNameManager extends DefaultManager
 
     /**
      * SummonerNamesManager constructor.
-     *
-     * @param EntityManagerInterface   $entityManager
-     * @param LoggerInterface          $logger
-     * @param EventDispatcherInterface $eventDispatcher
-     * @param RiotSummonerManager      $riotSummonerManager
      */
     public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger, EventDispatcherInterface $eventDispatcher, RiotSummonerManager $riotSummonerManager)
     {

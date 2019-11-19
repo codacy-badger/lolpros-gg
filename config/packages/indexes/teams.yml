@@ -1,6 +1,6 @@
 fos_elastica:
   indexes:
-    fol_teams:
+    lp_teams:
       index_name: "lp_teams"
       settings:
         number_of_replicas: 0

@@ -1,6 +1,6 @@
 fos_elastica:
   indexes:
-    fol_ladder:
+    lp_ladder:
       index_name: "lp_ladder"
       settings:
         number_of_replicas: 0

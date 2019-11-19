@@ -19,18 +19,11 @@ class PlayerForm extends AbstractType
      */
     private $entityManager;
 
-    /**
-     * @param EntityManagerInterface $entityManager
-     */
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }
 
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array                $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -46,9 +39,6 @@ class PlayerForm extends AbstractType
         $builder->get('regions')->addModelTransformer(new EntityTransformer($this->entityManager->getRepository(Region::class)));
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         parent::configureOptions($resolver);
@@ -60,9 +50,6 @@ class PlayerForm extends AbstractType
     }
 
     /**
-     * @param string $method
-     * @param array  $data
-     *
      * @return array
      */
     public static function buildOptions(string $method, array $data)

@@ -373,7 +373,6 @@ class RiotAccount
     }
 
     /**
-     * @return string
      * @Serializer\VirtualProperty()
      * @Serializer\Groups({
      *     "league.get_player_riot_accounts",

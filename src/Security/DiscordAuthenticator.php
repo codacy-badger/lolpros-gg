@@ -68,8 +68,6 @@ class DiscordAuthenticator extends SocialAuthenticator
      * Does the authenticator support the given Request?
      * If this returns false, the authenticator will be skipped.
      *
-     * @param Request $request
-     *
      * @return bool
      */
     public function supports(Request $request)
@@ -89,8 +87,6 @@ class DiscordAuthenticator extends SocialAuthenticator
      * Or for an API token that's on a header, you might use:
      *      return array('api_key' => $request->headers->get('X-API-TOKEN'));.
      *
-     * @param Request $request
-     *
      * @return mixed Any non-null value
      *
      * @throws UnexpectedValueException If null is returned
@@ -106,8 +102,7 @@ class DiscordAuthenticator extends SocialAuthenticator
      * You may throw an AuthenticationException if you wish. If you return
      * null, then a UsernameNotFoundException is thrown for you.
      *
-     * @param mixed                 $credentials
-     * @param UserProviderInterface $userProvider
+     * @param mixed $credentials
      *
      * @return UserInterface|null
      *
@@ -151,9 +146,6 @@ class DiscordAuthenticator extends SocialAuthenticator
      * If you return null, the request will continue, but the user will
      * not be authenticated. This is probably not what you want to do.
      *
-     * @param Request                 $request
-     * @param AuthenticationException $exception
-     *
      * @return Response|null
      */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
@@ -168,9 +160,7 @@ class DiscordAuthenticator extends SocialAuthenticator
      * If you return null, the current request will continue, and the user
      * will be authenticated. This makes sense, for example, with an API.
      *
-     * @param Request        $request
-     * @param TokenInterface $token
-     * @param string         $providerKey The provider (i.e. firewall) key
+     * @param string $providerKey The provider (i.e. firewall) key
      *
      * @return Response|null
      */

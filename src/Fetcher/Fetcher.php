@@ -29,9 +29,6 @@ abstract class Fetcher
 
     /**
      * Fetcher constructor.
-     *
-     * @param Index           $type
-     * @param LoggerInterface $logger
      */
     public function __construct(Index $type, LoggerInterface $logger)
     {

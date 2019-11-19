@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class GenerateUsersUuid extends Command
 {
-    protected static $defaultName = 'fol:user:uuid';
+    protected static $defaultName = 'lp:user:uuid';
 
     /**
      * @var EntityManagerInterface

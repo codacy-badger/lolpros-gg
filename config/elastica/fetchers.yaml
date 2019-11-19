@@ -5,24 +5,24 @@ services:
 
     App\Fetcher\PlayerFetcher:
         arguments:
-            $type: '@fos_elastica.index.fol_players'
+            $type: '@fos_elastica.index.lp_players'
 
     App\Fetcher\LadderFetcher:
         arguments:
-            $type: '@fos_elastica.index.fol_ladder'
+            $type: '@fos_elastica.index.lp_ladder'
 
     App\Fetcher\SummonerNameFetcher:
         arguments:
-            $type: '@fos_elastica.index.fol_summoner_names'
+            $type: '@fos_elastica.index.lp_summoner_names'
 
     App\Fetcher\TeamFetcher:
         arguments:
-            $type: '@fos_elastica.index.fol_teams'
+            $type: '@fos_elastica.index.lp_teams'
 
     App\Fetcher\MemberFetcher:
         arguments:
-            $type: '@fos_elastica.index.fol_members'
+            $type: '@fos_elastica.index.lp_members'
 
     App\Fetcher\SearchFetcher:
         arguments:
-            $type: '@fos_elastica.index.fol_players'
+            $type: '@fos_elastica.index.lp_players'

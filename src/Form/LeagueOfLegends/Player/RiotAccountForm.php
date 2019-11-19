@@ -10,18 +10,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RiotAccountForm extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array                $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('smurf', CheckboxType::class);
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         parent::configureOptions($resolver);
@@ -33,9 +26,6 @@ class RiotAccountForm extends AbstractType
     }
 
     /**
-     * @param string $method
-     * @param array  $data
-     *
      * @return array
      */
     public static function buildOptions(string $method, array $data)

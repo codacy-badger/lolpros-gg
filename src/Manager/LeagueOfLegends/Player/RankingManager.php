@@ -22,11 +22,6 @@ final class RankingManager extends DefaultManager
 
     /**
      * RankingsManager constructor.
-     *
-     * @param EntityManagerInterface   $entityManager
-     * @param LoggerInterface          $logger
-     * @param EventDispatcherInterface $eventDispatcher
-     * @param RiotLeagueManager        $riotLeagueManager
      */
     public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger, EventDispatcherInterface $eventDispatcher, RiotLeagueManager $riotLeagueManager)
     {

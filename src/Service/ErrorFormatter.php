@@ -15,8 +15,6 @@ class ErrorFormatter
     const SUB_ERROR_FIELD = '/^([a-z_]+)\[([0-9]+)\]$/';
 
     /**
-     * @param ConstraintViolationListInterface $violationList
-     *
      * @return Error
      */
     public function reduce(ConstraintViolationListInterface $violationList)
@@ -92,8 +90,6 @@ class ErrorFormatter
     }
 
     /**
-     * @param ConstraintViolation $violation
-     *
      * @return string
      */
     private function getErrorName(ConstraintViolation $violation)

@@ -57,10 +57,6 @@ class Indexer implements IndexerInterface
      * Indexer constructor.
      *
      * @param $name
-     * @param Index              $index
-     * @param Fetcher            $fetcher
-     * @param DefaultTransformer $transformer
-     * @param LoggerInterface    $logger
      */
     public function __construct($name, Index $index, Fetcher $fetcher, DefaultTransformer $transformer, LoggerInterface $logger)
     {

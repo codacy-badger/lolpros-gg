@@ -6,39 +6,39 @@ services:
     api.indexer.ladder:
         class: App\Indexer\Indexer
         arguments:
-            - 'fol_ladder'
-            - '@fos_elastica.index.fol_ladder'
+            - 'lp_ladder'
+            - '@fos_elastica.index.lp_ladder'
             - '@App\Fetcher\LadderFetcher'
             - '@App\Transformer\LadderTransformer'
 
     api.indexer.players:
         class: App\Indexer\Indexer
         arguments:
-            - 'fol_players'
-            - '@fos_elastica.index.fol_players'
+            - 'lp_players'
+            - '@fos_elastica.index.lp_players'
             - '@App\Fetcher\PlayerFetcher'
             - '@App\Transformer\PlayerTransformer'
 
     api.indexer.summoner_names:
         class: App\Indexer\Indexer
         arguments:
-            - 'fol_summoner_names'
-            - '@fos_elastica.index.fol_summoner_names'
+            - 'lp_summoner_names'
+            - '@fos_elastica.index.lp_summoner_names'
             - '@App\Fetcher\SummonerNameFetcher'
             - '@App\Transformer\SummonerNameTransformer'
 
     api.indexer.teams:
         class: App\Indexer\Indexer
         arguments:
-            - 'fol_teams'
-            - '@fos_elastica.index.fol_teams'
+            - 'lp_teams'
+            - '@fos_elastica.index.lp_teams'
             - '@App\Fetcher\TeamFetcher'
             - '@App\Transformer\TeamTransformer'
 
     api.indexer.members:
         class: App\Indexer\Indexer
         arguments:
-            - 'fol_members'
-            - '@fos_elastica.index.fol_members'
+            - 'lp_members'
+            - '@fos_elastica.index.lp_members'
             - '@App\Fetcher\MemberFetcher'
             - '@App\Transformer\MemberTransformer'

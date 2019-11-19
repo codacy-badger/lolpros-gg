@@ -15,7 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class FetchAccountsPUUID extends Command
 {
-    protected static $defaultName = 'fol:fetch:puuid';
+    protected static $defaultName = 'lp:fetch:puuid';
 
     /**
      * @var EntityManagerInterface
