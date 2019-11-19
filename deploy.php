@@ -11,9 +11,19 @@ set('allow_anonymous_stats', false);
 set('default_timeout', 600);
 set('writable_dirs', ['var/cache', 'var/log', 'var/sessions']);
 set('shared_dirs', ['var/jwt']);
+set('default_stage', 'staging');
 
 // Hosts
-host('146.185.137.177')
+host('api.lolpros.xyz')
+    ->stage('staging')
+    ->user('chypriote')
+    ->multiplexing(false)
+    ->forwardAgent(true)
+    ->set('deploy_path', '~/{{application}}');
+
+// Hosts
+host('api.lolpros.gg')
+    ->stage('prod')
     ->user('chypriote')
     ->multiplexing(false)
     ->forwardAgent(true)
