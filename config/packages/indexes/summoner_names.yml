@@ -1,7 +1,7 @@
 fos_elastica:
   indexes:
     fol_summoner_names:
-      index_name: "%env(ELASTICA_PREFIX)%_summoner_names"
+      index_name: "lp_summoner_names"
       settings:
         number_of_replicas: 0
         number_of_shards: 1

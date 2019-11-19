@@ -29,7 +29,6 @@ Here is a short explanation of each variable that you may need to configure:
 **MAILER_URL**: connection to your mailer (unused atm)   
 **ELASTICA_HOST**: host of your elasticsearch installation  
 **ELASTICA_PORT**: port of your elasticsearch installation  
-**ELASTICA_PREFIX**: prefix that will be used for ES indexes
 **CORS_ALLOW_ORIGIN**: origins allowed for CORS requests  
 **JWT_SECRET_KEY**: location of your public jwt encode key  
 **JWT_PUBLIC_KEY**: location of your private jwt encode key  

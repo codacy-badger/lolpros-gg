@@ -1,7 +1,7 @@
 fos_elastica:
   indexes:
     fol_ladder:
-      index_name: "%env(ELASTICA_PREFIX)%_ladder"
+      index_name: "lp_ladder"
       settings:
         number_of_replicas: 0
         number_of_shards: 1
