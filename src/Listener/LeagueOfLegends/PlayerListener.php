@@ -76,11 +76,11 @@ class PlayerListener implements EventSubscriberInterface
             return;
         }
 
-        $this->playerIndexer->updateOne(Indexer::INDEX_TYPE_PLAYER, $entity);
-        $this->ladderIndexer->updateOne(Indexer::INDEX_TYPE_LADDER, $entity);
+        $this->playerIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_PLAYER, $entity);
+        $this->ladderIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_LADDER, $entity);
         foreach ($entity->getMemberships() as $membership) {
             /* @var Member $membership */
-            $this->teamIndexer->updateOne(Indexer::INDEX_TYPE_TEAM, $membership->getTeam());
+            $this->teamIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_TEAM, $membership->getTeam());
         }
         $this->adminLogManager->createLog(PlayerEvent::UPDATED, $entity->getUuidAsString(), $entity->getName());
     }
@@ -97,7 +97,7 @@ class PlayerListener implements EventSubscriberInterface
         $this->ladderIndexer->deleteOne(Indexer::INDEX_TYPE_LADDER, $entity->getUuidAsString());
         foreach ($entity->getMemberships() as $membership) {
             /* @var Member $membership */
-            $this->teamIndexer->updateOne(Indexer::INDEX_TYPE_TEAM, $membership->getTeam());
+            $this->teamIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_TEAM, $membership->getTeam());
         }
         $this->adminLogManager->createLog(PlayerEvent::DELETED, $entity->getUuidAsString(), $entity->getName());
     }

@@ -69,9 +69,9 @@ class MemberListener implements EventSubscriberInterface
         }
 
         $this->membersIndexer->addOne(Indexer::INDEX_TYPE_MEMBER, $entity);
-        $this->teamIndexer->updateOne(Indexer::INDEX_TYPE_TEAM, $entity->getTeam());
-        $this->playerIndexer->updateOne(Indexer::INDEX_TYPE_PLAYER, $entity->getPlayer());
-        $this->ladderIndexer->updateOne(Indexer::INDEX_TYPE_LADDER, $entity->getPlayer());
+        $this->teamIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_TEAM, $entity->getTeam());
+        $this->playerIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_PLAYER, $entity->getPlayer());
+        $this->ladderIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_LADDER, $entity->getPlayer());
         $this->adminLogManager->createLog(MemberEvent::CREATED, $entity->getTeam()->getUuidAsString(), $entity->getTeam()->getName(), $entity->getPlayer()->getUuidAsString(), $entity->getPlayer()->getName());
     }
 
@@ -83,10 +83,10 @@ class MemberListener implements EventSubscriberInterface
             return;
         }
 
-        $this->membersIndexer->updateOne(Indexer::INDEX_TYPE_MEMBER, $entity);
-        $this->teamIndexer->updateOne(Indexer::INDEX_TYPE_TEAM, $entity->getTeam());
-        $this->playerIndexer->updateOne(Indexer::INDEX_TYPE_PLAYER, $entity->getPlayer());
-        $this->ladderIndexer->updateOne(Indexer::INDEX_TYPE_LADDER, $entity->getPlayer());
+        $this->membersIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_MEMBER, $entity);
+        $this->teamIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_TEAM, $entity->getTeam());
+        $this->playerIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_PLAYER, $entity->getPlayer());
+        $this->ladderIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_LADDER, $entity->getPlayer());
         $this->adminLogManager->createLog(MemberEvent::UPDATED, $entity->getTeam()->getUuidAsString(), $entity->getTeam()->getName(), $entity->getPlayer()->getUuidAsString(), $entity->getPlayer()->getName());
     }
 
@@ -99,9 +99,9 @@ class MemberListener implements EventSubscriberInterface
         }
 
         $this->membersIndexer->deleteOne(Indexer::INDEX_TYPE_MEMBER, $entity->getUuidAsString());
-        $this->teamIndexer->updateOne(Indexer::INDEX_TYPE_TEAM, $entity->getTeam());
-        $this->playerIndexer->updateOne(Indexer::INDEX_TYPE_PLAYER, $entity->getPlayer());
-        $this->ladderIndexer->updateOne(Indexer::INDEX_TYPE_LADDER, $entity->getPlayer());
+        $this->teamIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_TEAM, $entity->getTeam());
+        $this->playerIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_PLAYER, $entity->getPlayer());
+        $this->ladderIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_LADDER, $entity->getPlayer());
         $this->adminLogManager->createLog(MemberEvent::DELETED, $entity->getTeam()->getUuidAsString(), $entity->getTeam()->getName(), $entity->getPlayer()->getUuidAsString(), $entity->getPlayer()->getName());
     }
 }

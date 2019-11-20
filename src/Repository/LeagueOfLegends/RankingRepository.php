@@ -4,6 +4,7 @@ namespace App\Repository\LeagueOfLegends;
 
 use App\Entity\LeagueOfLegends\Player\Ranking;
 use App\Entity\LeagueOfLegends\Player\RiotAccount;
+use DateTime;
 use Doctrine\ORM\EntityRepository;
 
 class RankingRepository extends EntityRepository
@@ -32,8 +33,8 @@ class RankingRepository extends EntityRepository
 
     public function getXForAccount(RiotAccount $account, $months)
     {
-        $today = new \DateTime('+1 day');
-        $previous = new \DateTime('-'.$months.' month');
+        $today = new DateTime('+1 day');
+        $previous = new DateTime('-'.$months.' month');
 
         return $this->createQueryBuilder('ranking')
             ->where('ranking.owner = :account')

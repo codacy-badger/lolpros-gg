@@ -48,9 +48,9 @@ class SummonerNameListener implements EventSubscriberInterface
         }
 
         $this->summonerNameIndexer->addOne(Indexer::INDEX_TYPE_SUMMONER_NAME, $entity);
-        $this->playerIndexer->updateOne(Indexer::INDEX_TYPE_PLAYER, $entity->getOwner()->getPlayer());
+        $this->playerIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_PLAYER, $entity->getOwner()->getPlayer());
         if ($previous = $entity->getPrevious()) {
-            $this->summonerNameIndexer->updateOne(Indexer::INDEX_TYPE_SUMMONER_NAME, $previous);
+            $this->summonerNameIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_SUMMONER_NAME, $previous);
         }
     }
 }

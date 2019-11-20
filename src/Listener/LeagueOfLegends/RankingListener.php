@@ -48,7 +48,7 @@ class RankingListener implements EventSubscriberInterface
             return;
         }
 
-        $this->playerIndexer->updateOne(Indexer::INDEX_TYPE_PLAYER, $entity->getOwner()->getPlayer());
-        $this->ladderIndexer->updateOne(Indexer::INDEX_TYPE_LADDER, $entity->getOwner()->getPlayer());
+        $this->playerIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_PLAYER, $entity->getOwner()->getPlayer());
+        $this->ladderIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_LADDER, $entity->getOwner()->getPlayer());
     }
 }

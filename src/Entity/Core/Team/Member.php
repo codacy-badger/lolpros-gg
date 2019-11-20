@@ -63,6 +63,7 @@ class Member
      * @Serializer\Type("App\Entity\Core\Team\Team")
      * @Serializer\Groups({
      *     "get_player_members",
+     *     "get_team_members",
      * })
      */
     protected $team;
@@ -74,6 +75,7 @@ class Member
      * @Serializer\Groups({
      *     "get_player_members",
      *     "get_team_members",
+     *     "get_teams",
      * })
      */
     protected $joinDate;
@@ -86,6 +88,7 @@ class Member
      *     "league.get_players",
      *     "get_player_members",
      *     "get_team_members",
+     *     "get_teams",
      * })
      */
     protected $leaveDate;

@@ -7,6 +7,7 @@ use App\Transformer\DefaultTransformer;
 use Elastica\Document;
 use Elastica\Exception\NotFoundException;
 use Elastica\Index;
+use Elastica\Response;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
@@ -85,19 +86,13 @@ class Indexer implements IndexerInterface
 
         $response = $this->index->getType($typeName)->addDocument($document);
 
-        if ($response->isOk()) {
-            $this->index->refresh();
-
-            return true;
-        }
-
-        return false;
+        return $this->handleResponse($response);
     }
 
     public function deleteOne(string $typeName, string $uuid): bool
     {
-        $this->logger->debug('[Indexer::deleteOne]', ['name' => $this->name, 'uuid' => $uuid]);
         try {
+            $this->logger->debug('[Indexer::deleteOne]', ['name' => $this->name, 'uuid' => $uuid]);
             $document = $this->fetcher->fetchDocument($uuid);
 
             if (!$document instanceof Document) {
@@ -112,19 +107,9 @@ class Indexer implements IndexerInterface
 
             $response = $this->index->getType($typeName)->deleteDocument($document);
 
-            if ($response->isOk()) {
-                $this->index->refresh();
-
-                $this->logger->debug('[Indexer::deleteOne] Document deleted', [
-                    'Index' => $this->name,
-                    'Type' => $typeName,
-                    'Document' => $uuid,
-                ]);
-
-                return true;
-            }
+            return $this->handleResponse($response);
         } catch (NotFoundException $e) {
-            $this->logger->error($e->getMessage());
+            $this->logger->critical($e->getMessage());
         }
 
         return false;
@@ -132,25 +117,21 @@ class Indexer implements IndexerInterface
 
     public function updateOne(string $typeName, $updatedObject): bool
     {
-        $this->logger->debug('[Indexer::updateOne] Document deleted', [
-            'Index' => $this->name,
-            'Type' => $typeName,
-        ]);
+        try {
+            $this->logger->debug('[Indexer::updateOne]', ['name' => $this->name, 'uuid' => $updatedObject]);
+            $document = $this->transformer->transform($updatedObject, []);
 
-        $document = $this->transformer->transform($updatedObject, []);
+            if (!$document instanceof Document) {
+                $this->logger->debug('[Indexer] Could not transform {data}', ['Indexer' => $this->name, 'data' => json_encode($updatedObject)]);
 
-        if (!$document instanceof Document) {
-            $this->logger->debug('[Indexer] Could not transform {data}', ['Indexer' => $this->name, 'data' => json_encode($updatedObject)]);
+                return false;
+            }
 
-            return false;
-        }
+            $response = $this->index->getType($typeName)->updateDocument($document);
 
-        $response = $this->index->getType($typeName)->updateDocument($document);
-
-        if ($response->isOk()) {
-            $this->index->refresh();
-
-            return true;
+            return $this->handleResponse($response);
+        } catch (NotFoundException $e) {
+            $this->logger->critical($e->getMessage());
         }
 
         return false;
@@ -158,51 +139,60 @@ class Indexer implements IndexerInterface
 
     public function updateMultiple(string $typeName, array $ids): bool
     {
-        if (false === $documents = $this->fetcher->fetchByIds($ids)) {
-            return false;
-        }
+        try {
+            $this->logger->debug('[Indexer::updateMultiple]', ['name' => $this->name, 'objects' => $ids]);
 
-        $updatedDocuments = [];
+            if (false === $documents = $this->fetcher->fetchByIds($ids)) {
+                return false;
+            }
 
-        foreach ($documents as $document) {
-            $updatedDocuments[] = $this->transformer->fetchAndTransform($document, []);
-        }
+            $updatedDocuments = [];
 
-        $response = $this->index->getType($typeName)->updateDocuments($updatedDocuments);
+            foreach ($documents as $document) {
+                $updatedDocuments[] = $this->transformer->fetchAndTransform($document, []);
+            }
 
-        if ($response->isOk()) {
-            $this->index->refresh();
+            $response = $this->index->getType($typeName)->updateDocuments($updatedDocuments);
 
-            return true;
+            return $this->handleResponse($response);
+        } catch (NotFoundException $e) {
+            $this->logger->critical($e->getMessage());
         }
 
         return false;
-    }
-
-    public function refresh()
-    {
-        $this->index->refresh();
     }
 
     public function addOrUpdateOne(string $typeName, $object): bool
     {
-        $this->logger->debug('[Indexer::addOrUpdateOne]', ['name' => $this->name, 'object' => $object]);
-        $document = $this->transformer->transform($object, []);
+        try {
+            $this->logger->debug('[Indexer::addOrUpdateOne]', ['name' => $this->name, 'object' => $object]);
+            $document = $this->transformer->transform($object, []);
 
-        if (!$document instanceof Document) {
-            $this->logger->debug('[Indexer] Could not transform [data]', ['Indexer' => $this->name, 'data' => json_encode($object)]);
+            if (!$document instanceof Document) {
+                $this->logger->debug('[Indexer] Could not transform [data]', ['Indexer' => $this->name, 'data' => json_encode($object)]);
 
-            return false;
-        }
+                return false;
+            }
 
-        $response = (0 === $this->fetcher->fetchByIds($document->getId())) ? $this->index->getType($typeName)->addDocument($document) : $this->index->getType($typeName)->updateDocument($document);
+            $documents = $this->fetcher->fetchByIds($document->getId());
+            $response = !count($documents) ? $this->index->getType($typeName)->addDocument($document) : $this->index->getType($typeName)->updateDocument($document);
 
-        if ($response->isOk()) {
-            $this->index->refresh();
-
-            return true;
+            return $this->handleResponse($response);
+        } catch (NotFoundException $e) {
+            $this->logger->critical($e->getMessage());
         }
 
         return false;
+    }
+
+    private function handleResponse(Response $response): bool
+    {
+        if (!$response->isOk()) {
+            return false;
+        }
+
+        $this->index->refresh();
+
+        return true;
     }
 }
