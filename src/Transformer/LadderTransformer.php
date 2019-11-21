@@ -5,6 +5,7 @@ namespace App\Transformer;
 use App\Entity\LeagueOfLegends\Player\Player;
 use App\Entity\LeagueOfLegends\Player\RiotAccount;
 use App\Indexer\Indexer;
+use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Elastica\Document;
 
@@ -93,7 +94,7 @@ class LadderTransformer extends APlayerTransformer
             'tier' => $peak->getTier(),
             'league_points' => $peak->getLeaguePoints(),
             'score' => $peak->getScore(),
-            'date' => $peak->getCreatedAt()->format(\DateTime::ISO8601),
+            'date' => $peak->getCreatedAt()->format(DateTime::ISO8601),
         ];
     }
 

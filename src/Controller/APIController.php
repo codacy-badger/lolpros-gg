@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Service\ErrorFormatter;
 use Doctrine\Common\Inflector\Inflector;
+use Exception;
 use FOS\RestBundle\Context\Context;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use JMS\Serializer\DeserializationContext;
@@ -54,7 +55,7 @@ class APIController extends AbstractFOSRestController
             $context->setGroups([$group]);
 
             return $this->serializer->deserialize($content, $class, 'json', $context);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new BadRequestHttpException($e->getMessage());
         }
     }

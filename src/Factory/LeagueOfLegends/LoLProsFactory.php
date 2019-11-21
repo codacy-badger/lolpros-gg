@@ -3,6 +3,7 @@
 namespace App\Factory\LeagueOfLegends;
 
 use App\Entity\LeagueOfLegends\Player\RiotAccount;
+use DateTime;
 
 class LoLProsFactory
 {
@@ -25,7 +26,7 @@ class LoLProsFactory
                 'league_points' => $peak->getLeaguePoints(),
                 'wins' => $peak->getWins(),
                 'losses' => $peak->getLosses(),
-                'created_at' => $peak->getCreatedAt()->format(\DateTime::ISO8601),
+                'created_at' => $peak->getCreatedAt()->format(DateTime::ISO8601),
             ],
             'team' => $team ? [
                 'team' => $team->getUuidAsString(),

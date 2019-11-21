@@ -65,8 +65,8 @@ class PlayerTransformer extends APlayerTransformer
                 'summoner_name' => $account->getCurrentSummonerName()->getName(),
                 'summoner_names' => $this->buildSummonerNames($account),
                 'rank' => $this->buildRanking($account->getCurrentRanking()),
-                'peak' => $this->buildRanking($account->getBestRanking(Ranking::PRE_SEASON_10)),
-                's9peak' => $this->buildRanking($account->getBestRanking()),
+                'peak' => $this->buildRanking($account->getBestRanking()),
+                's9peak' => $this->buildRanking($account->getBestRanking(Ranking::SEASON_9_V2)),
             ]);
         }
 
@@ -86,7 +86,7 @@ class PlayerTransformer extends APlayerTransformer
             'league_points' => $ranking->getLeaguePoints(),
             'wins' => $ranking->getWins(),
             'losses' => $ranking->getLosses(),
-            'created_at' => $ranking->getCreatedAt()->format(\DateTime::ISO8601),
+            'created_at' => $ranking->getCreatedAt()->format(DateTime::ISO8601),
         ];
     }
 
@@ -98,7 +98,7 @@ class PlayerTransformer extends APlayerTransformer
             /* @var SummonerName $name */
             array_push($names, [
                 'name' => $name->getName(),
-                'created_at' => $name->getCreatedAt()->format(\DateTime::ISO8601),
+                'created_at' => $name->getCreatedAt()->format(DateTime::ISO8601),
             ]);
         }
 

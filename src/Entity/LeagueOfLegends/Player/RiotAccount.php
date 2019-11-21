@@ -403,7 +403,7 @@ class RiotAccount
     /**
      * @Serializer\VirtualProperty
      */
-    public function getBestRanking(string $season = Ranking::SEASON_9_V2): ?Ranking
+    public function getBestRanking(string $season = Ranking::PRE_SEASON_10): ?Ranking
     {
         $rankings = $this->rankings;
         $best = $rankings->filter(function (Ranking $ranking) use ($season) {

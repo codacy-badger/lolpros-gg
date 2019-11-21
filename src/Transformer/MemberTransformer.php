@@ -6,6 +6,7 @@ use App\Entity\Core\Player\Player;
 use App\Entity\Core\Team\Member;
 use App\Entity\Core\Team\Team;
 use App\Indexer\Indexer;
+use DateTime;
 use Elastica\Document;
 
 class MemberTransformer extends DefaultTransformer
@@ -35,14 +36,14 @@ class MemberTransformer extends DefaultTransformer
             'player' => $this->buildPlayer($member->getPlayer()),
             'team' => $this->buildTeam($member->getTeam()),
             'type' => $member->getRole(),
-            'join_date' => $member->getJoinDate()->format(\DateTime::ISO8601),
+            'join_date' => $member->getJoinDate()->format(DateTime::ISO8601),
             'join_timestamp' => $member->getJoinDate()->getTimestamp(),
-            'leave_date' => $member->getLeaveDate() ? $member->getLeaveDate()->format(\DateTime::ISO8601) : null,
+            'leave_date' => $member->getLeaveDate() ? $member->getLeaveDate()->format(DateTime::ISO8601) : null,
             'leave_timestamp' => $member->getLeaveDate() ? $member->getLeaveDate()->getTimestamp() : null,
             'current' => $member->isCurrent(),
             'event_type' => $member->getLeaveDate() ? self::TYPE_LEAVE : self::TYPE_JOIN,
-            'event_date' => $member->getLeaveDate() ? $member->getLeaveDate()->format(\DateTime::ISO8601) : $member->getJoinDate()->format(\DateTime::ISO8601),
-            'timestamp' => $member->getCreatedAt()->format(\DateTime::ISO8601),
+            'event_date' => $member->getLeaveDate() ? $member->getLeaveDate()->format(DateTime::ISO8601) : $member->getJoinDate()->format(DateTime::ISO8601),
+            'timestamp' => $member->getCreatedAt()->format(DateTime::ISO8601),
         ];
 
         return new Document($member->getUuidAsString(), $document, Indexer::INDEX_TYPE_MEMBER, Indexer::INDEX_MEMBERS);

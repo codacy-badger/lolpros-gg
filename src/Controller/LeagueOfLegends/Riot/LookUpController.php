@@ -9,6 +9,7 @@ use App\Manager\LeagueOfLegends\Player\PlayerManager;
 use App\Manager\LeagueOfLegends\Riot\RiotLeagueManager;
 use App\Manager\LeagueOfLegends\Riot\RiotSpectatorManager;
 use App\Manager\LeagueOfLegends\Riot\RiotSummonerManager;
+use Exception;
 use FOS\RestBundle\Controller\Annotations\Get;
 use RiotAPI\LeagueAPI\Exceptions\RequestException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -28,7 +29,7 @@ class LookUpController extends APIController
     {
         try {
             $summoner = $riotSummonerManager->findPlayer($name);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return new JsonResponse($e->getMessage(), $e->getCode());
         }
 
@@ -42,7 +43,7 @@ class LookUpController extends APIController
     {
         try {
             $summoner = $riotSummonerManager->getForId($id);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return new JsonResponse($e->getMessage(), $e->getCode());
         }
 

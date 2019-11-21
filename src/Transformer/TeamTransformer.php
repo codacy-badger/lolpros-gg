@@ -4,6 +4,7 @@ namespace App\Transformer;
 
 use App\Entity\Core\Team\Team;
 use App\Indexer\Indexer;
+use DateTime;
 use Elastica\Document;
 
 class TeamTransformer extends DefaultTransformer
@@ -45,8 +46,8 @@ class TeamTransformer extends DefaultTransformer
             ],
             'logo' => $this->buildLogo($team->getLogo()),
             'active' => (bool) $team->getCurrentMemberships()->count(),
-            'creation_date' => $team->getCreationDate()->format(\DateTime::ISO8601),
-            'disband_date' => $team->getDisbandDate() ? $team->getDisbandDate()->format(\DateTime::ISO8601) : null,
+            'creation_date' => $team->getCreationDate()->format(DateTime::ISO8601),
+            'disband_date' => $team->getDisbandDate() ? $team->getDisbandDate()->format(DateTime::ISO8601) : null,
             'social_media' => [
                 'twitter' => $socialMedia->getTwitter(),
                 'website' => $socialMedia->getWebsite(),

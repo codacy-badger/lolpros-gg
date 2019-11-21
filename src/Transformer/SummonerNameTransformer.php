@@ -4,6 +4,7 @@ namespace App\Transformer;
 
 use App\Entity\LeagueOfLegends\Player\SummonerName;
 use App\Indexer\Indexer;
+use DateTime;
 use Elastica\Document;
 
 class SummonerNameTransformer extends DefaultTransformer
@@ -28,7 +29,7 @@ class SummonerNameTransformer extends DefaultTransformer
         $document = [
             'name' => $summonerName->getName(),
             'current' => $summonerName->isCurrent(),
-            'created_at' => $summonerName->getCreatedAt()->format(\DateTime::ISO8601),
+            'created_at' => $summonerName->getCreatedAt()->format(DateTime::ISO8601),
             'previous' => $summonerName->getPrevious() ? $summonerName->getPrevious()->getName() : null,
             'player' => [
                 'uuid' => $summonerName->getPlayer()->getUuidAsString(),
@@ -38,6 +39,6 @@ class SummonerNameTransformer extends DefaultTransformer
             ],
         ];
 
-        return new Document($summonerName->getName().'-'.$summonerName->getCreatedAt()->format(\DateTime::ISO8601), $document, Indexer::INDEX_TYPE_SUMMONER_NAME, Indexer::INDEX_SUMMONER_NAMES);
+        return new Document($summonerName->getName().'-'.$summonerName->getCreatedAt()->format(DateTime::ISO8601), $document, Indexer::INDEX_TYPE_SUMMONER_NAME, Indexer::INDEX_SUMMONER_NAMES);
     }
 }
