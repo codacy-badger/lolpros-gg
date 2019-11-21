@@ -385,8 +385,12 @@ class RiotAccount
         return $this->getCurrentSummonerName()->getName();
     }
 
-    public function getCurrentSummonerName(): SummonerName
+    public function getCurrentSummonerName(): ?SummonerName
     {
+        if (!$this->summonerNames->count()) {
+            return null;
+        }
+
         return $this->summonerNames->filter(function (SummonerName $summonerName) {
             return $summonerName->isCurrent();
         })->first();
@@ -395,8 +399,12 @@ class RiotAccount
     /**
      * @Serializer\VirtualProperty
      */
-    public function getCurrentRanking(): Ranking
+    public function getCurrentRanking(): ?Ranking
     {
+        if (!$this->rankings->count()) {
+            return null;
+        }
+
         return $this->rankings->first();
     }
 

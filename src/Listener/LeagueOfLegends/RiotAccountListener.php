@@ -109,6 +109,6 @@ class RiotAccountListener implements EventSubscriberInterface
         }
 
         $this->updateLinkedPlayer($entity->getPlayer());
-        $this->adminLogManager->createLog(RiotAccountEvent::DELETED, $entity->getUuidAsString(), $entity->getCurrentSummonerName()->getName());
+        $this->adminLogManager->createLog(RiotAccountEvent::DELETED, $entity->getUuidAsString());
     }
 }

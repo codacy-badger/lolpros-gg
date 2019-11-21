@@ -146,7 +146,6 @@ final class RiotAccountManager extends DefaultManager
             $this->entityManager->persist($ranking);
 
             $player->addAccount($riotAccount);
-            $this->updateBestAccountForPlayer($player);
             $this->entityManager->flush();
 
             $this->eventDispatcher->dispatch(new RiotAccountEvent($riotAccount), RiotAccountEvent::CREATED);
@@ -162,12 +161,6 @@ final class RiotAccountManager extends DefaultManager
         }
     }
 
-    private function updateBestAccountForPlayer(Player $player)
-    {
-        $best = $this->entityManager->getRepository(RiotAccount::class)->getCurrentBestForPlayer($player);
-        $player->setScore($best ? $best->getScore() : 0);
-    }
-
     public function delete(RiotAccount $riotAccount)
     {
         $this->logger->debug('[RiotAccountsManager::delete] Deleting RiotAccount {uuid}', ['uuid' => $riotAccount->getUuidAsString()]);
@@ -178,14 +171,11 @@ final class RiotAccountManager extends DefaultManager
             foreach ($riotAccount->getSummonerNames() as $summonerName) {
                 $this->entityManager->remove($summonerName);
             }
-            $this->eventDispatcher->dispatch(new RiotAccountEvent($riotAccount), RiotAccountEvent::DELETED);
-
-            $player = $riotAccount->getPlayer();
-            $player->removeAccount($riotAccount);
-            $this->updateBestAccountForPlayer($player);
 
             $this->entityManager->remove($riotAccount);
             $this->entityManager->flush();
+
+            $this->eventDispatcher->dispatch(new RiotAccountEvent($riotAccount), RiotAccountEvent::DELETED);
         } catch (Exception $e) {
             $this->logger->error('[RiotAccountsManager::delete] Could not delete RiotAccount {uuid} because of {reason}', [
                 'uuid' => $riotAccount->getUuidAsString(),

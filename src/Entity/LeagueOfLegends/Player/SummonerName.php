@@ -90,6 +90,11 @@ class SummonerName
      */
     protected $next;
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
     public function getCreatedAt(): DateTime
     {
         return $this->createdAt;

@@ -29,6 +29,6 @@ class DiscordController extends APIController
      */
     public function connectDiscordCheckAction(Request $request)
     {
-        die(dump($request));
+        return null;
     }
 }
