@@ -55,12 +55,11 @@ class TeamsController extends APIController
         $team = new Team();
         $postedData = $this->getPostedData();
 
+        $team->setRegion($this->find(Region::class, $postedData['region']['uuid']));
+        unset($postedData['region']);
+
         $form = $this
-            ->createForm(
-                TeamForm::class,
-                $team,
-                TeamForm::buildOptions(Request::METHOD_POST, $postedData)
-            )
+            ->createForm(TeamForm::class, $team, TeamForm::buildOptions(Request::METHOD_POST, $postedData))
             ->submit($postedData, false);
 
         if (!$form->isValid()) {

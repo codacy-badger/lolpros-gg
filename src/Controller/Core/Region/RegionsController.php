@@ -54,11 +54,7 @@ class RegionsController extends APIController
         $postedData = $this->getPostedData();
 
         $form = $this
-            ->createForm(
-                RegionForm::class,
-                $region,
-                RegionForm::buildOptions(Request::METHOD_POST)
-            )
+            ->createForm(RegionForm::class, $region, RegionForm::buildOptions(Request::METHOD_POST))
             ->submit($postedData, false);
 
         if (!$form->isValid()) {
@@ -83,11 +79,7 @@ class RegionsController extends APIController
         $postedData = $this->getPostedData();
 
         $form = $this
-            ->createForm(
-                RegionForm::class,
-                $region,
-                RegionForm::buildOptions(Request::METHOD_PUT)
-            )
+            ->createForm(RegionForm::class, $region, RegionForm::buildOptions(Request::METHOD_PUT))
             ->submit($postedData, false);
 
         if (!$form->isValid()) {

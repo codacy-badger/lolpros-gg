@@ -58,11 +58,7 @@ class AddRequestController extends APIController
         $postedData = $this->getPostedData();
 
         $form = $this
-            ->createForm(
-                AddRequestForm::class,
-                $request,
-                AddRequestForm::buildOptions(Request::METHOD_POST)
-            )
+            ->createForm(AddRequestForm::class, $request, AddRequestForm::buildOptions(Request::METHOD_POST))
             ->submit($postedData, false);
 
         if (!$form->isValid()) {
@@ -87,11 +83,7 @@ class AddRequestController extends APIController
         $postedData = $this->getPostedData();
 
         $form = $this
-            ->createForm(
-                AddRequestForm::class,
-                $request,
-                AddRequestForm::buildOptions(Request::METHOD_PUT)
-            )
+            ->createForm(AddRequestForm::class, $request, AddRequestForm::buildOptions(Request::METHOD_PUT))
             ->submit($postedData, false);
 
         if (!$form->isValid()) {
