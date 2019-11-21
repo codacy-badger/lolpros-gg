@@ -51,3 +51,9 @@ services:
             $ladderIndexer: '@api.indexer.ladder'
             $teamIndexer: '@api.indexer.teams'
     App\Consumer\SummonerNamesConsumer: ~
+
+    App\Service\FileUploader:
+        arguments:
+            $cloudinaryName: '%env(CLOUDINARY_NAME)%'
+            $cloudinaryApiKey: '%env(CLOUDINARY_API_KEY)%'
+            $cloudinaryApiSecret: '%env(CLOUDINARY_API_SECRET)%'
