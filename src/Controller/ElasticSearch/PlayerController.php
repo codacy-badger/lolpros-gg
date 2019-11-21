@@ -2,8 +2,8 @@
 
 namespace App\Controller\ElasticSearch;
 
+use App\Builder\PlayersBuilder;
 use App\Controller\APIController;
-use App\Fetcher\PlayerFetcher;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\NamePrefix;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -19,9 +19,9 @@ class PlayerController extends APIController
      * @Get(path="/players/{uuid}", requirements={"uuid"="[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"})
      * @IsGranted("IS_AUTHENTICATED_ANONYMOUSLY")
      */
-    public function getPlayerUuidAction(string $uuid, PlayerFetcher $playersFetcher): JsonResponse
+    public function getPlayerUuidAction(string $uuid, PlayersBuilder $playersBuilder): JsonResponse
     {
-        $player = $playersFetcher->fetchOne(['uuid' => $uuid]);
+        $player = $playersBuilder->build(['uuid' => $uuid]);
 
         if (!$player) {
             throw new NotFoundHttpException();
@@ -34,9 +34,9 @@ class PlayerController extends APIController
      * @Get(path="/players/{slug}")
      * @IsGranted("IS_AUTHENTICATED_ANONYMOUSLY")
      */
-    public function getPlayerSlugAction(string $slug, PlayerFetcher $playersFetcher): JsonResponse
+    public function getPlayerSlugAction(string $slug, PlayersBuilder $playersBuilder): JsonResponse
     {
-        $player = $playersFetcher->fetchOne(['slug' => $slug]);
+        $player = $playersBuilder->build(['slug' => $slug]);
 
         if (!$player) {
             throw new NotFoundHttpException();

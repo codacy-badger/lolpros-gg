@@ -2,7 +2,6 @@
 
 namespace App\Transformer;
 
-use App\Entity\Core\Team\Member;
 use App\Entity\LeagueOfLegends\Player\Player;
 use App\Entity\LeagueOfLegends\Player\Ranking;
 use App\Entity\LeagueOfLegends\Player\RiotAccount;
@@ -43,9 +42,6 @@ class PlayerTransformer extends APlayerTransformer
             'score' => $player->getScore(),
             'accounts' => $this->buildAccounts($player),
             'social_media' => $this->buildSocialMedia($player),
-            'teams' => $this->buildTeams($player),
-            'previous_teams' => $this->buildPreviousTeams($player),
-            'rankings' => $this->buildPlayerRankings($player),
         ];
 
         return new Document($player->getUuidAsString(), $document, Indexer::INDEX_TYPE_PLAYER, Indexer::INDEX_PLAYERS);
@@ -102,66 +98,5 @@ class PlayerTransformer extends APlayerTransformer
         }
 
         return $names;
-    }
-
-    private function buildPlayerRankings(Player $player): array
-    {
-        $account = $player->getBestAccount();
-        $playerRepository = $this->entityManager->getRepository(Player::class);
-        $rankings = [];
-
-        if ($account && $account->getCurrentRanking()->getScore()) {
-            $rankings['global'] = $playerRepository->getPlayersRankings($player->getUuidAsString());
-            $rankings['country'] = $playerRepository->getPlayersRankings($player->getUuidAsString(), null, $player->getCountry());
-            $rankings['position'] = $playerRepository->getPlayersRankings($player->getUuidAsString(), $player->getPosition());
-            $rankings['country_position'] = $playerRepository->getPlayersRankings($player->getUuidAsString(), $player->getPosition(), $player->getCountry());
-        }
-
-        return $rankings;
-    }
-
-    private function buildTeams(Player $player): array
-    {
-        $teams = [];
-
-        foreach ($player->getCurrentMemberships() as $member) {
-            /** @var Member $member */
-            $team = $member->getTeam();
-            array_push($teams, [
-                'uuid' => $team->getUuidAsString(),
-                'tag' => $team->getTag(),
-                'name' => $team->getName(),
-                'slug' => $team->getSlug(),
-                'logo' => $this->buildLogo($team->getLogo()),
-                'join_date' => $member->getJoinDate()->format(DateTime::ISO8601),
-                'leave_date' => $member->getLeaveDate() ? $member->getLeaveDate()->format(DateTime::ISO8601) : null,
-                'current_members' => $this->buildMembers($team->getCurrentMemberships()),
-                'previous_members' => $this->buildMembers($team->getSharedMemberships($member)),
-            ]);
-        }
-
-        return $teams;
-    }
-
-    private function buildPreviousTeams(Player $player): array
-    {
-        $teams = [];
-
-        foreach ($player->getPreviousMemberships() as $member) {
-            /** @var Member $member */
-            $team = $member->getTeam();
-            array_push($teams, [
-                'uuid' => $team->getUuidAsString(),
-                'tag' => $team->getTag(),
-                'name' => $team->getName(),
-                'slug' => $team->getSlug(),
-                'logo' => $this->buildLogo($team->getLogo()),
-                'join_date' => $member->getJoinDate()->format(DateTime::ISO8601),
-                'leave_date' => $member->getLeaveDate() ? $member->getLeaveDate()->format(DateTime::ISO8601) : null,
-                'members' => $this->buildMembers($team->getMembersBetweenDates($member->getJoinDate(), $member->getLeaveDate())),
-            ]);
-        }
-
-        return $teams;
     }
 }
