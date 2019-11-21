@@ -7,9 +7,9 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class PlayerEvent extends Event
 {
-    const CREATED = 'player.created';
-    const UPDATED = 'player.updated';
-    const DELETED = 'player.deleted';
+    const CREATED = 'league.player.created';
+    const UPDATED = 'league.player.updated';
+    const DELETED = 'league.player.deleted';
 
     /**
      * @var Player
