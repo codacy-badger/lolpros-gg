@@ -8,6 +8,7 @@ use Elastica\Document;
 use Elastica\Exception\NotFoundException;
 use Elastica\Index;
 use Elastica\Response;
+use Exception;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
@@ -140,9 +141,13 @@ class Indexer implements IndexerInterface
     public function updateMultiple(string $typeName, array $ids): bool
     {
         try {
-            $this->logger->debug('[Indexer::updateMultiple]', ['name' => $this->name, 'objects' => $ids]);
+            $this->logger->debug('[Indexer::updateMultiple]', ['name' => $this->name, 'total' => count($ids)]);
 
-            if (false === $documents = $this->fetcher->fetchByIds($ids)) {
+            $documents = $this->fetcher->fetchByIds($ids);
+
+            if (!count($documents)) {
+                $this->logger->error(sprintf('[Indexer::updateMultiple] Couldnt find documents in index %s', $typeName), $ids);
+
                 return false;
             }
 
@@ -156,7 +161,9 @@ class Indexer implements IndexerInterface
 
             return $this->handleResponse($response);
         } catch (NotFoundException $e) {
-            $this->logger->critical($e->getMessage());
+            $this->logger->error($e->getMessage());
+        } catch (Exception $e) {
+            $this->logger->critical(sprintf('[Indexer::updateMultiple] %s', $e->getMessage()));
         }
 
         return false;

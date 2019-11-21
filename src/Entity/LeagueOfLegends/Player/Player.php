@@ -24,7 +24,7 @@ class Player extends BasePlayer
     /**
      * @var Collection|RiotAccount[]
      * @ORM\OneToMany(targetEntity="App\Entity\LeagueOfLegends\Player\RiotAccount", mappedBy="player")
-     * @ORM\OrderBy({"smurf" = "ASC", "score" = "DESC"})
+     * @ORM\OrderBy({"score" = "DESC"})
      * @Serializer\Type("App\Entity\LeagueOfLegends\Player\RiotAccount")
      * @Serializer\Groups({
      *     "league.get_players",
@@ -64,13 +64,6 @@ class Player extends BasePlayer
         return $this->accounts;
     }
 
-    public function setAccounts($accounts): self
-    {
-        $this->accounts = $accounts;
-
-        return $this;
-    }
-
     public function addAccount(RiotAccount $account): self
     {
         $this->accounts->add($account);
@@ -97,6 +90,13 @@ class Player extends BasePlayer
         return $this;
     }
 
+    public function setScore(int $score): self
+    {
+        $this->score = $score;
+
+        return $this;
+    }
+
     public function getScore(): ?int
     {
         if (!$this->getAccounts()->count()) {
@@ -104,13 +104,6 @@ class Player extends BasePlayer
         }
 
         return $this->getBestAccount()->getScore();
-    }
-
-    public function setScore(int $score): self
-    {
-        $this->score = $score;
-
-        return $this;
     }
 
     /**
@@ -129,15 +122,6 @@ class Player extends BasePlayer
         $accounts = new ArrayCollection(iterator_to_array($iterator));
 
         return $accounts->first();
-    }
-
-    public function getMainAccount(): ?RiotAccount
-    {
-        $account = $this->getAccounts()->filter(function (RiotAccount $account) {
-            return !$account->isSmurf();
-        })->first();
-
-        return $account ? $account : null;
     }
 
     public static function getAvailablePositions(): array

@@ -35,11 +35,6 @@ class SummonerNamesConsumer implements ConsumerInterface
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    /**
-     * @param AMQPMessage $msg The message
-     *
-     * @return mixed false to reject and requeue, any other value to acknowledge
-     */
     public function execute(AMQPMessage $msg)
     {
         $summoner = $this->entityManager->getRepository(SummonerName::class)->findOneBy(['id' => $msg->body]);

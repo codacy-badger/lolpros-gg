@@ -61,7 +61,7 @@ class FetchAccountsPUUID extends Command
             }
             try {
                 /* @var RiotAccount $account */
-                $summoner = $this->riotSummonerManager->getPuuidForName($account->getCurrentSummonerName()->getName());
+                $summoner = $this->riotSummonerManager->getPuuidForName($account->getSummonerName());
                 $account->setEncryptedPUUID($summoner->puuid);
                 $account->setEncryptedAccountId($summoner->accountId);
                 $account->setEncryptedRiotId($summoner->id);

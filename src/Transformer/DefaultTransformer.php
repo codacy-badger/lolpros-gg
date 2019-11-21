@@ -58,8 +58,7 @@ abstract class DefaultTransformer implements DefaultTransformerInterface
             if ($player instanceof Player) {
                 $member = array_merge($member, [
                     'position' => $player->getPosition(),
-                    'summoner_name' => $player->getMainAccount() ? $player->getMainAccount()->getCurrentSummonerName()->getName() : null,
-                    'profile_icon_id' => $player->getMainAccount() ? $player->getMainAccount()->getProfileIconId() : null,
+                    'profile_icon_id' => $player->getBestAccount() ? $player->getBestAccount()->getProfileIconId() : null,
                     'tier' => $ranking ? $ranking->getTier() : null,
                     'rank' => $ranking ? $ranking->getRank() : null,
                     'league_points' => $ranking ? $ranking->getLeaguePoints() : null,

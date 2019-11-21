@@ -72,6 +72,9 @@ class RiotAccountListener implements EventSubscriberInterface
     {
         $this->playerIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_PLAYER, $player);
         $this->ladderIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_LADDER, $player);
+        $player->setScore($player->getScore());
+        $this->entityManager->flush($player);
+
         if ($player->getCurrentTeam()) {
             $this->teamIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_TEAM, $player->getCurrentTeam());
         }
@@ -86,7 +89,7 @@ class RiotAccountListener implements EventSubscriberInterface
         }
 
         $this->updateLinkedPlayer($entity->getPlayer());
-        $this->adminLogManager->createLog(RiotAccountEvent::CREATED, $entity->getUuidAsString(), $entity->getCurrentSummonerName()->getName());
+        $this->adminLogManager->createLog(RiotAccountEvent::CREATED, $entity->getUuidAsString(), $entity->getSummonerName());
     }
 
     public function onUpdate(RiotAccountEvent $event)

@@ -31,6 +31,7 @@ final class RankingManager extends DefaultManager
 
     private function updateBestWithNewRanking(Ranking $ranking)
     {
+        /** @var Ranking $best */
         $best = $this->entityManager->getRepository(Ranking::class)->getBestForAccount($ranking->getOwner(), $ranking->getSeason());
 
         if (!$best) {

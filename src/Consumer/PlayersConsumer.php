@@ -2,7 +2,6 @@
 
 namespace App\Consumer;
 
-use App\Entity\Core\Team\Team;
 use App\Indexer\Indexer;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -32,30 +31,23 @@ class PlayersConsumer implements ConsumerInterface
      */
     private $ladderIndexer;
 
-    /**
-     * @var Indexer
-     */
-    private $teamIndexer;
-
-    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger, Indexer $playerIndexer, Indexer $ladderIndexer, Indexer $teamIndexer)
+    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger, Indexer $playerIndexer, Indexer $ladderIndexer)
     {
         $this->entityManager = $entityManager;
         $this->logger = $logger;
         $this->playerIndexer = $playerIndexer;
         $this->ladderIndexer = $ladderIndexer;
-        $this->teamIndexer = $teamIndexer;
     }
 
     public function execute(AMQPMessage $msg): bool
     {
-        $this->logger->notice('[PlayersConsumer] Starting update');
+        $this->logger->notice('[PlayersConsumer] message received');
         try {
             $ids = json_decode($msg->body);
+            $this->logger->notice(sprintf('[PlayersConsumer] Starting update %s players', count($ids)));
+
             $this->playerIndexer->updateMultiple(Indexer::INDEX_TYPE_PLAYER, $ids);
             $this->ladderIndexer->updateMultiple(Indexer::INDEX_TYPE_LADDER, $ids);
-
-            $teams = $this->entityManager->getRepository(Team::class)->getTeamsUuids();
-            $this->teamIndexer->updateMultiple(Indexer::INDEX_TYPE_TEAM, $teams);
         } catch (Exception $e) {
             $this->logger->critical(sprintf('[PlayersConsumer] An error occured %s', $e->getMessage()));
 

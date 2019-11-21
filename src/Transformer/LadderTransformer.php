@@ -60,7 +60,7 @@ class LadderTransformer extends APlayerTransformer
             'riot_id' => $account->getRiotId(),
             'account_id' => $account->getAccountId(),
             'profile_icon_id' => $account->getProfileIconId(),
-            'summoner_name' => $account->getCurrentSummonerName()->getName(),
+            'summoner_name' => $account->getSummonerName(),
             'rank' => $rank->getRank(),
             'tier' => $rank->getTier(),
             'league_points' => $rank->getLeaguePoints(),
@@ -72,7 +72,7 @@ class LadderTransformer extends APlayerTransformer
     private function buildPeak(Player $player): ?array
     {
         if (!count($accounts = $player->getAccounts())) {
-            $this->logger->critical(sprintf('[LadderTransformer] No accounts found for %s (%s)', $player->getName(), $player->getUuidAsString()));
+            $this->logger->notice(sprintf('[LadderTransformer] No accounts found for %s (%s)', $player->getName(), $player->getUuidAsString()));
 
             return null;
         }

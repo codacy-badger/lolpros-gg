@@ -60,9 +60,8 @@ class PlayerTransformer extends APlayerTransformer
             array_push($accounts, [
                 'uuid' => $account->getUuidAsString(),
                 'profile_icon_id' => $account->getProfileIconId(),
-                'smurf' => $account->isSmurf(),
                 'riot_id' => $account->getRiotId(),
-                'summoner_name' => $account->getCurrentSummonerName()->getName(),
+                'summoner_name' => $account->getSummonerName(),
                 'summoner_names' => $this->buildSummonerNames($account),
                 'rank' => $this->buildRanking($account->getCurrentRanking()),
                 'peak' => $this->buildRanking($account->getBestRanking()),

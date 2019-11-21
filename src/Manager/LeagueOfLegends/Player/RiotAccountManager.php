@@ -128,7 +128,6 @@ final class RiotAccountManager extends DefaultManager
             $riotAccount->setEncryptedRiotId($summoner->id);
             $riotAccount->setProfileIconId($summoner->profileIconId);
             $riotAccount->setSummonerLevel($summoner->summonerLevel);
-            $riotAccount->setSmurf($riotAccountData->isSmurf());
             $riotAccount->setPlayer($player);
             $this->entityManager->persist($riotAccount);
 

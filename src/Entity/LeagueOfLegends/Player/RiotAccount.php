@@ -124,19 +124,6 @@ class RiotAccount
     protected $player;
 
     /**
-     * @var bool
-     * @ORM\Column(type="boolean", nullable=false)
-     * @Serializer\Type("boolean")
-     * @Serializer\Groups({
-     *     "league.get_player_riot_accounts",
-     *     "league.get_riot_account",
-     *     "league.get_riot_accounts",
-     *     "league.post_riot_account",
-     * })
-     */
-    protected $smurf;
-
-    /**
      * @var Collection|SummonerName[]
      * @ORM\OneToMany(targetEntity="App\Entity\LeagueOfLegends\Player\SummonerName", mappedBy="owner")
      * @ORM\OrderBy({"createdAt"="DESC"})
@@ -202,11 +189,6 @@ class RiotAccount
     public function getRiotId(): ?string
     {
         return $this->riotId;
-    }
-
-    public function isSmurf(): ?bool
-    {
-        return $this->smurf;
     }
 
     public function setRiotId(string $riotId): self
@@ -288,13 +270,6 @@ class RiotAccount
         return $this;
     }
 
-    public function setSmurf(bool $smurf): self
-    {
-        $this->smurf = $smurf;
-
-        return $this;
-    }
-
     public function addSummonerName(SummonerName $summonerName): self
     {
         $this->summonerNames->add($summonerName);
@@ -353,16 +328,16 @@ class RiotAccount
         return $this->updatedAt;
     }
 
-    public function getScore(): int
-    {
-        return $this->getCurrentRanking() ? $this->getCurrentRanking()->getScore() : 0;
-    }
-
     public function setScore(int $score): self
     {
         $this->score = $score;
 
         return $this;
+    }
+
+    public function getScore(): int
+    {
+        return $this->getCurrentRanking() ? $this->getCurrentRanking()->getScore() : 0;
     }
 
     public function getSummonerLevel(): int
@@ -409,11 +384,7 @@ class RiotAccount
      */
     public function getCurrentRanking(): ?Ranking
     {
-        if (!$this->rankings->count()) {
-            return null;
-        }
-
-        return $this->rankings->first();
+        return $this->rankings->count() ? $this->rankings->first() : null;
     }
 
     /**
