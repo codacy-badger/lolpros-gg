@@ -3,7 +3,9 @@
 namespace App\Controller\Core\Team;
 
 use App\Controller\APIController;
+use App\Entity\Core\Player\Player;
 use App\Entity\Core\Team\Member;
+use App\Entity\Core\Team\Team;
 use App\Exception\Core\EntityNotCreatedException;
 use App\Exception\Core\EntityNotDeletedException;
 use App\Exception\Core\EntityNotUpdatedException;
@@ -43,6 +45,11 @@ class MembersController extends APIController
     {
         $member = new Member();
         $postedData = $this->getPostedData();
+
+        $member->setTeam($this->find(Team::class, $postedData['team']['uuid']));
+        unset($postedData['team']);
+        $member->setPlayer($this->find(Player::class, $postedData['player']['uuid']));
+        unset($postedData['player']);
 
         $form = $this
             ->createForm(MemberForm::class, $member, MemberForm::buildOptions(Request::METHOD_POST, $postedData))

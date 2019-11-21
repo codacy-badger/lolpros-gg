@@ -4,6 +4,7 @@ namespace App\Form;
 
 use Doctrine\Common\Persistence\ObjectRepository;
 use Symfony\Component\Form\DataTransformerInterface;
+use Symfony\Component\Form\Exception\TransformationFailedException;
 
 class EntityTransformer implements DataTransformerInterface
 {
@@ -35,32 +36,14 @@ class EntityTransformer implements DataTransformerInterface
      */
     public function reverseTransform($value)
     {
-        if (!is_array($value)) {
+        if (!is_array($value) || !isset($value['uuid'])) {
             return null;
         }
 
-        if (isset($value['uuid'])) {
-            return $this->fetchOne($value);
-        }
+        $entity = $this->repository->findOneBy(['uuid' => $value['uuid']]);
 
-        return null;
-    }
-
-    private function fetchOne($rawData): ?object
-    {
-        return $this->createIfDoesntExist($this->repository->findOneBy(['uuid' => $rawData['uuid']]));
-    }
-
-    private function createIfDoesntExist($entity)
-    {
-        if (!$entity instanceof $this->className) {
-            $class = new \ReflectionClass($this->className);
-
-            if ($class->isAbstract()) {
-                return null;
-            }
-
-            return $class->newInstance();
+        if (!$entity) {
+            throw new TransformationFailedException(sprintf('Impossible to find issue %s', $uuid));
         }
 
         return $entity;
