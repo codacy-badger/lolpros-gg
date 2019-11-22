@@ -119,6 +119,11 @@ class Member
         $this->uuid = Uuid::uuid4();
     }
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
     public function getUuid()
     {
         return $this->uuid;

@@ -58,15 +58,14 @@ final class PlayerManager extends DefaultManager
     {
         $this->logger->debug('[PlayersManager::delete] Deleting player {uuid}', ['uuid' => $player->getUuidAsString()]);
         try {
-            $this->eventDispatcher->dispatch(new PlayerEvent($player), PlayerEvent::DELETED);
-
             foreach ($player->getMemberships() as $membership) {
-                $this->logger->debug('[PlayersManager::deleteMembership] Deleting membership {uuid}', ['uuid' => $membership->getUuidAsString()]);
                 $this->entityManager->remove($membership);
             }
 
             $this->entityManager->remove($player);
             $this->entityManager->flush();
+
+            $this->eventDispatcher->dispatch(new PlayerEvent($player), PlayerEvent::DELETED);
         } catch (Exception $e) {
             $this->logger->error('[PlayersManager::delete] Could not delete player {uuid} because of {reason}', [
                 'uuid' => $player->getUuidAsString(),

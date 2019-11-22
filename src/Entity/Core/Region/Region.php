@@ -150,6 +150,11 @@ class Region
         $this->countries = [];
     }
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
     public function getUuid(): UuidInterface
     {
         return $this->uuid;

@@ -104,6 +104,11 @@ class SocialMedia
         $this->owner = $player;
     }
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
     public function getOwner(): Player
     {
         return $this->owner;

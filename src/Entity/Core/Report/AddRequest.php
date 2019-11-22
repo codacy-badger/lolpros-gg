@@ -137,6 +137,11 @@ class AddRequest
         $this->uuid = Uuid::uuid4();
     }
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
     public function getUuid(): UuidInterface
     {
         return $this->uuid;

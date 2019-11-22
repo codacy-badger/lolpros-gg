@@ -148,6 +148,11 @@ class Ranking
      */
     private $season;
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
     public function isBest(): bool
     {
         return $this->best;

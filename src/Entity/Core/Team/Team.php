@@ -167,6 +167,11 @@ class Team
         $this->members = new ArrayCollection();
     }
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
     public function getUuid()
     {
         return $this->uuid;

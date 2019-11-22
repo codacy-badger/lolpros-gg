@@ -142,6 +142,11 @@ abstract class Player
         $this->memberships = new ArrayCollection();
     }
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
     public function getUuid(): ?UuidInterface
     {
         return $this->uuid;
@@ -174,11 +179,6 @@ abstract class Player
         $this->country = $country;
 
         return $this;
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getCreatedAt(): ?DateTime

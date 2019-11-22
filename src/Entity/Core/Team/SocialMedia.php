@@ -93,6 +93,11 @@ class SocialMedia
         $this->owner = $team;
     }
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
     public function getOwner(): Team
     {
         return $this->owner;

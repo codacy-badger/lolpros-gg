@@ -189,6 +189,11 @@ class RiotAccount
         $this->rankings = new ArrayCollection();
     }
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
     public function getUuid(): ?UuidInterface
     {
         return $this->uuid;
