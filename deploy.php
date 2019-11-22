@@ -21,6 +21,13 @@ host('api.lolpros.xyz')
     ->forwardAgent(true)
     ->set('deploy_path', '~/{{application}}');
 
+host('3.121.206.39')
+    ->stage('amazon')
+    ->user('ubuntu')
+    ->multiplexing(false)
+    ->forwardAgent(true)
+    ->set('deploy_path', '~/{{application}}');
+
 // Hosts
 host('api.lolpros.gg')
     ->stage('prod')
