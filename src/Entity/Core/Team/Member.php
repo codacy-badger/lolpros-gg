@@ -37,6 +37,7 @@ class Member
      * @ORM\Column(type="uuid", nullable=false)
      * @Serializer\Type("string")
      * @Serializer\Groups({
+     *     "get_member",
      *     "league.get_players",
      *     "get_player_members",
      *     "get_teams",
@@ -52,6 +53,7 @@ class Member
      * @ORM\ManyToOne(targetEntity="App\Entity\Core\Player\Player", inversedBy="memberships")
      * @Serializer\Type("App\Entity\Core\Player\Player")
      * @Serializer\Groups({
+     *     "get_member",
      *     "get_team_members",
      * })
      */
@@ -62,6 +64,7 @@ class Member
      * @ORM\ManyToOne(targetEntity="App\Entity\Core\Team\Team", inversedBy="members")
      * @Serializer\Type("App\Entity\Core\Team\Team")
      * @Serializer\Groups({
+     *     "get_member",
      *     "get_player_members",
      *     "get_team_members",
      * })
@@ -73,6 +76,7 @@ class Member
      * @ORM\Column(name="join_date", type="datetime", nullable=true)
      * @Serializer\Type("DateTime<'Y-m-d'>")
      * @Serializer\Groups({
+     *     "get_member",
      *     "get_player_members",
      *     "get_team_members",
      *     "get_teams",
@@ -85,6 +89,7 @@ class Member
      * @ORM\Column(name="leave_date", type="datetime", nullable=true)
      * @Serializer\Type("DateTime<'Y-m-d'>")
      * @Serializer\Groups({
+     *     "get_member",
      *     "league.get_players",
      *     "get_player_members",
      *     "get_team_members",

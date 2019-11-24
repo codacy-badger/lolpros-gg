@@ -38,11 +38,12 @@ class Team
      * @ORM\Column(type="uuid", nullable=false)
      * @Serializer\Type("string")
      * @Serializer\Groups({
-     *     "get_player_members",
      *     "get_teams",
      *     "get_team",
      *     "put_team",
+     *     "get_player_members",
      *     "get_team_members",
+     *     "get_member",
      * })
      */
     protected $uuid;
@@ -52,11 +53,12 @@ class Team
      * @ORM\Column(type="string", nullable=false)
      * @Serializer\Type("string")
      * @Serializer\Groups({
-     *     "get_player_members",
      *     "get_teams",
      *     "get_team",
      *     "put_team",
+     *     "get_player_members",
      *     "get_team_members",
+     *     "get_member",
      * })
      */
     protected $name;

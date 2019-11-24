@@ -47,6 +47,7 @@ abstract class Player
      *     "league.get_player",
      *     "league.get_riot_account",
      *     "get_team_members",
+     *     "get_member",
      * })
      */
     protected $uuid;
@@ -58,9 +59,10 @@ abstract class Player
      * @Serializer\Groups({
      *     "league.get_players",
      *     "league.get_player",
+     *     "league.put_player",
      *     "league.get_riot_account",
      *     "get_team_members",
-     *     "league.put_player",
+     *     "get_member",
      * })
      * @Assert\NotNull(groups={"league.post_player"})
      */
@@ -81,8 +83,9 @@ abstract class Player
      * @Serializer\Groups({
      *     "league.get_players",
      *     "league.get_player",
-     *     "get_team_members",
      *     "league.put_player",
+     *     "get_team_members",
+     *     "get_member",
      * })
      */
     protected $country;
