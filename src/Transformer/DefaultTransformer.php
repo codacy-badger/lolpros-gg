@@ -8,6 +8,7 @@ use App\Entity\LeagueOfLegends\Player\Player;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 
 abstract class DefaultTransformer implements DefaultTransformerInterface
 {
@@ -16,9 +17,15 @@ abstract class DefaultTransformer implements DefaultTransformerInterface
      */
     protected $entityManager;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
+    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger)
     {
         $this->entityManager = $entityManager;
+        $this->logger = $logger;
     }
 
     protected function buildMembers(ArrayCollection $memberships): ?array
