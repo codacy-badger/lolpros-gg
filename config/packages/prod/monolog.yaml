@@ -14,7 +14,8 @@ monolog:
             process_psr_3_messages: false
             channels: ["!event", "!doctrine"]
         deprecation:
-            type: stream
+            type: rotating_file
+            max_files: 7
             path: "%kernel.logs_dir%/%kernel.environment%.deprecations.log"
         deprecation_filter:
             type: filter

@@ -73,6 +73,7 @@ class LadderTransformer extends APlayerTransformer
     {
         if (!count($accounts = $player->getAccounts())) {
             $this->logger->critical(sprintf('[LadderTransformer] No accounts found for %s (%s)', $player->getName(), $player->getUuidAsString()));
+
             return null;
         }
 
@@ -88,6 +89,7 @@ class LadderTransformer extends APlayerTransformer
 
         if (!$peak) {
             $this->logger->critical(sprintf('[LadderTransformer] No best account found for %s (%s)', $player->getName(), $player->getUuidAsString()));
+
             return null;
         }
 

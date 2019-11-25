@@ -112,10 +112,10 @@ class PlayerTransformer extends APlayerTransformer
         $rankings = [];
 
         if ($account && $account->getCurrentRanking()->getScore()) {
-            $rankings['global'] = $playerRepository->getPlayersRanked($player->getUuidAsString());
-            $rankings['country'] = $playerRepository->getPlayersRanked($player->getUuidAsString(), null, $player->getCountry());
-            $rankings['position'] = $playerRepository->getPlayersRanked($player->getUuidAsString(), $player->getPosition());
-            $rankings['country_position'] = $playerRepository->getPlayersRanked($player->getUuidAsString(), $player->getPosition(), $player->getCountry());
+            $rankings['global'] = $playerRepository->getPlayersRankings($player->getUuidAsString());
+            $rankings['country'] = $playerRepository->getPlayersRankings($player->getUuidAsString(), null, $player->getCountry());
+            $rankings['position'] = $playerRepository->getPlayersRankings($player->getUuidAsString(), $player->getPosition());
+            $rankings['country_position'] = $playerRepository->getPlayersRankings($player->getUuidAsString(), $player->getPosition(), $player->getCountry());
         }
 
         return $rankings;

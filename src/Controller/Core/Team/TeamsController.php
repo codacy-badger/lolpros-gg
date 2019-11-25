@@ -14,6 +14,8 @@ use FOS\RestBundle\Controller\Annotations\Delete;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
 use FOS\RestBundle\Controller\Annotations\Put;
+use FOS\RestBundle\Controller\Annotations\QueryParam;
+use FOS\RestBundle\Request\ParamFetcher;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,11 +30,24 @@ class TeamsController extends APIController
 {
     /**
      * @Get(path="")
-     * @IsGranted("IS_AUTHENTICATED_ANONYMOUSLY")
+     * @QueryParam(name="page", default=1, nullable=true)
+     * @QueryParam(name="per_page", default=20, nullable=true)
+     * @IsGranted("ROLE_ADMIN")
      */
-    public function getTeamsAction(): Response
+    public function getTeamsAction(ParamFetcher $paramFetcher): Response
     {
-        return $this->serialize($this->getDoctrine()->getRepository(Team::class)->findBy([], ['name' => 'asc']), 'get_teams');
+        $page = (int) $paramFetcher->get('page');
+        $pageSize = (int) $paramFetcher->get('per_page');
+        $teams = $this->getDoctrine()->getRepository(Team::class)->getPaginated($page, $pageSize);
+        $total = $teams->count();
+
+        return $this->serialize([
+            'total' => $total,
+            'pages' => ceil($total / $pageSize),
+            'current' => $page,
+            'per_page' => $pageSize,
+            'results' => $teams->getIterator()->getArrayCopy(),
+        ], 'get_teams');
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Repository\LeagueOfLegends;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * PlayerRepository.
@@ -12,16 +13,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class PlayerRepository extends EntityRepository
 {
-    public function search(string $name): array
-    {
-        return $this->createQueryBuilder('player')
-            ->andWhere('player.name LIKE :name')
-            ->setParameter('name', '%'.$name.'%')
-            ->getQuery()
-            ->getResult();
-    }
-
-    public function getPlayersRanked($playerUuid, $position = null, $country = null): int
+    public function getPlayersRankings($playerUuid, $position = null, $country = null): int
     {
         $sql = <<<SQL
 SELECT player.name, player.uuid, RANK() OVER (ORDER BY player.score DESC) AS rank FROM player__player player
@@ -40,5 +32,31 @@ SQL;
         $results = $query->fetchAll();
 
         return $results[array_search($playerUuid, array_column($results, 'uuid'))]['rank'];
+    }
+
+    public function getPaginated(int $page = 1, int $pageSize = 20): Paginator
+    {
+        return new Paginator(
+            $this->createQueryBuilder('players')
+                ->addSelect('memberships')
+                ->leftJoin('players.memberships', 'memberships')
+                ->orderBy('players.name', 'ASC')
+                ->setFirstResult($pageSize * ($page - 1))
+                ->setMaxResults($pageSize)
+                ->getQuery()
+        );
+    }
+
+    public function searchPaginated(string $query, int $page = 1, int $pageSize = 20): Paginator
+    {
+        return new Paginator(
+            $this->createQueryBuilder('players')
+                ->leftJoin('players.memberships', 'memberships')
+                ->andWhere('players.name LIKE :name')
+                ->setParameter('name', '%'.$query.'%')
+                ->setFirstResult($pageSize * ($page - 1))
+                ->setMaxResults($pageSize)
+                ->getQuery()
+        );
     }
 }

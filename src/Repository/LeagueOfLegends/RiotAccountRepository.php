@@ -2,34 +2,34 @@
 
 namespace App\Repository\LeagueOfLegends;
 
-use App\Entity\LeagueOfLegends\Player\Player;
-use App\Entity\LeagueOfLegends\Player\RiotAccount;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class RiotAccountRepository extends EntityRepository
 {
-    public function search(string $name): array
+    public function getPaginated(int $page = 1, int $pageSize = 20): Paginator
     {
-        return $this->createQueryBuilder('riotAccount')
-            ->join('riotAccount.summonerNames', 'summonerName')
-            ->andWhere('summonerName.name LIKE :name')
-            ->andWhere('summonerName.current = 1')
-            ->setParameter('name', '%'.$name.'%')
-            ->getQuery()
-            ->getResult();
+        return new Paginator(
+            $this->createQueryBuilder('riotAccount')
+                ->leftJoin('riotAccount.summonerNames', 'summonerNames')
+                ->orderBy('summonerNames.name', 'ASC')
+                ->setFirstResult($pageSize * ($page - 1))
+                ->setMaxResults($pageSize)
+                ->getQuery()
+        );
     }
 
-    public function getCurrentBestForPlayer(Player $player): ?RiotAccount
+    public function searchPaginated(string $query, int $page = 1, int $pageSize = 20): Paginator
     {
-        $result = $this->createQueryBuilder('riotAccount')
-            ->join('riotAccount.summonerNames', 'summonerNames')
-            ->orderBy('riotAccount.score', 'desc')
-            ->where('riotAccount.player = :player')
-            ->setParameter('player', $player)
-            ->setMaxResults(1)
-            ->getQuery()
-            ->getResult();
-
-        return $result[0];
+        return new Paginator(
+            $this->createQueryBuilder('riotAccount')
+                ->leftJoin('riotAccount.summonerNames', 'summonerNames')
+                ->andWhere('summonerNames.name LIKE :name')
+                ->andWhere('summonerNames.current = 1')
+                ->setParameter('name', '%'.$query.'%')
+                ->setFirstResult($pageSize * ($page - 1))
+                ->setMaxResults($pageSize)
+                ->getQuery())
+            ;
     }
 }

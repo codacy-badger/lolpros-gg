@@ -17,6 +17,8 @@ use FOS\RestBundle\Controller\Annotations\Delete;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
 use FOS\RestBundle\Controller\Annotations\Put;
+use FOS\RestBundle\Controller\Annotations\QueryParam;
+use FOS\RestBundle\Request\ParamFetcher;
 use RiotAPI\LeagueAPI\Exceptions\ServerLimitException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -32,16 +34,29 @@ class PlayersController extends APIController
 {
     /**
      * @Get(path="")
-     * @IsGranted("IS_AUTHENTICATED_ANONYMOUSLY")
+     * @QueryParam(name="page", default=1, nullable=true)
+     * @QueryParam(name="per_page", default=20, nullable=true)
+     * @IsGranted("ROLE_ADMIN")
      */
-    public function getPlayersAction(): Response
+    public function getPlayersAction(ParamFetcher $paramFetcher): Response
     {
-        return $this->serialize($this->getDoctrine()->getRepository(Player::class)->findBy([], ['name' => 'asc']), 'league.get_players');
+        $page = (int) $paramFetcher->get('page');
+        $pageSize = (int) $paramFetcher->get('per_page');
+        $players = $this->getDoctrine()->getRepository(Player::class)->getPaginated($page, $pageSize);
+        $total = $players->count();
+
+        return $this->serialize([
+            'total' => $total,
+            'pages' => ceil($total / $pageSize),
+            'current' => $page,
+            'per_page' => $pageSize,
+            'results' => $players->getIterator()->getArrayCopy(),
+        ], 'league.get_players');
     }
 
     /**
      * @Get(path="/{uuid}")
-     * @IsGranted("IS_AUTHENTICATED_ANONYMOUSLY")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function getPlayerAction(string $uuid): Response
     {
