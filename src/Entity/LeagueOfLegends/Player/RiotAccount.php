@@ -2,6 +2,7 @@
 
 namespace App\Entity\LeagueOfLegends\Player;
 
+use App\Entity\LeagueOfLegends\Medal\RiotAccountMedal;
 use App\Entity\StringUuidTrait;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -182,11 +183,21 @@ class RiotAccount
      */
     protected $summonerLevel;
 
+    /**
+     * @var ArrayCollection|RiotAccountMedal[]
+     * @ORM\ManyToMany(targetEntity="App\Entity\LeagueOfLegends\Medal\RiotAccountMedal", inversedBy="accounts")
+     * @Serializer\Type("App\Entity\LeagueOfLegends\Medal\RiotAccountMedal")
+     * @Serializer\Groups({
+     * })
+     */
+    protected $medals;
+
     public function __construct()
     {
         $this->uuid = Uuid::uuid4();
         $this->summonerNames = new ArrayCollection();
         $this->rankings = new ArrayCollection();
+        $this->medals = new ArrayCollection();
     }
 
     public function getId(): int

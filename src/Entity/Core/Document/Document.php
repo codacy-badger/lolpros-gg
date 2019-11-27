@@ -16,7 +16,8 @@ use Ramsey\Uuid\UuidInterface;
  * @ORM\DiscriminatorColumn(name="type", type="string", length=75)
  * @ORM\DiscriminatorMap({
  *     "document__team_logo" = "App\Entity\Core\Document\TeamLogo",
- *     "document__region_logo" = "App\Entity\Core\Document\RegionLogo"
+ *     "document__region_logo" = "App\Entity\Core\Document\RegionLogo",
+ *     "document__medal_logo" = "App\Entity\Core\Document\MedalLogo",
  * })
  */
 abstract class Document

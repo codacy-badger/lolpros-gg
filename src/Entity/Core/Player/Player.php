@@ -2,6 +2,7 @@
 
 namespace App\Entity\Core\Player;
 
+use App\Entity\Core\Medal\PlayerMedal;
 use App\Entity\Core\Region\Region;
 use App\Entity\Core\Team\Member;
 use App\Entity\Core\Team\Team;
@@ -119,7 +120,16 @@ abstract class Player
      *     "league.put_player",
      * })
      */
-    private $regions;
+    protected $regions;
+
+    /**
+     * @var ArrayCollection|PlayerMedal[]
+     * @ORM\ManyToMany(targetEntity="App\Entity\Core\Medal\PlayerMedal", inversedBy="players")
+     * @Serializer\Type("App\Entity\Core\Medal\PlayerMedal")
+     * @Serializer\Groups({
+     * })
+     */
+    protected $medals;
 
     /**
      * @var DateTime
@@ -143,6 +153,7 @@ abstract class Player
         $this->socialMedia = new SocialMedia($this);
         $this->regions = new ArrayCollection();
         $this->memberships = new ArrayCollection();
+        $this->medals = new ArrayCollection();
     }
 
     public function getId(): ?int
