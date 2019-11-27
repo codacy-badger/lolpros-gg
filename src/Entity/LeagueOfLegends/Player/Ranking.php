@@ -84,6 +84,7 @@ class Ranking
      * @Serializer\Type("string")
      * @Serializer\Groups({
      *     "league.get_riot_account_rankings",
+     *     "league.get_player_riot_accounts",
      * })
      */
     protected $tier;
@@ -94,6 +95,7 @@ class Ranking
      * @Serializer\Type("string")
      * @Serializer\Groups({
      *     "league.get_riot_account_rankings",
+     *     "league.get_player_riot_accounts",
      * })
      */
     protected $rank = 0;
@@ -104,6 +106,7 @@ class Ranking
      * @Serializer\Type("integer")
      * @Serializer\Groups({
      *     "league.get_riot_account_rankings",
+     *     "league.get_player_riot_accounts",
      * })
      */
     protected $leaguePoints = 0;

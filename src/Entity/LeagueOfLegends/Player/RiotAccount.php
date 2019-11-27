@@ -403,6 +403,9 @@ class RiotAccount
 
     /**
      * @Serializer\VirtualProperty
+     * @Serializer\Groups({
+     *     "league.get_player_riot_accounts",
+     * })
      */
     public function getCurrentRanking(): ?Ranking
     {
