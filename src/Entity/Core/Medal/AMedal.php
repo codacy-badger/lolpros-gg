@@ -40,6 +40,8 @@ abstract class AMedal
      * @ORM\Column(name="uuid", type="uuid", nullable=false)
      * @Serializer\Type("string")
      * @Serializer\Groups({
+     *     "get_medals",
+     *     "get_medal",
      * })
      */
     protected $uuid;
@@ -49,6 +51,9 @@ abstract class AMedal
      * @ORM\Column(type="string", nullable=false)
      * @Serializer\Type("string")
      * @Serializer\Groups({
+     *     "get_medals",
+     *     "get_medal",
+     *     "post_medal",
      * })
      */
     protected $name;
@@ -58,6 +63,10 @@ abstract class AMedal
      * @Gedmo\Slug(fields={"name"})
      * @ORM\Column(type="string", nullable=false)
      * @Serializer\Type("string")
+     * @Serializer\Groups({
+     *     "get_medals",
+     *     "get_medal",
+     * })
      */
     protected $slug;
 
@@ -66,6 +75,8 @@ abstract class AMedal
      * @ORM\OneToOne(targetEntity="App\Entity\Core\Document\MedalLogo", mappedBy="medal", cascade={"remove"})
      * @Serializer\Type("App\Entity\Core\Document\MedalLogo")
      * @Serializer\Groups({
+     *     "get_medals",
+     *     "get_medal",
      * })
      */
     protected $logo;
@@ -114,11 +125,6 @@ abstract class AMedal
     public function getSlug(): string
     {
         return $this->slug;
-    }
-
-    public function setSlug(string $slug): void
-    {
-        $this->slug = $slug;
     }
 
     public function getLogo(): MedalLogo

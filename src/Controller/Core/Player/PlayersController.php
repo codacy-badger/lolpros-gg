@@ -20,11 +20,8 @@ class PlayersController extends APIController
      * @Get(path="/countries")
      * @IsGranted("IS_AUTHENTICATED_ANONYMOUSLY")
      */
-    public function getPlayersCountriesAction(): Response
+    public function getPlayersCountriesAction(PlayerRepository $playerRepository): Response
     {
-        /** @var PlayerRepository $playerRepository */
-        $playerRepository = $this->getDoctrine()->getRepository(Player::class);
-
         return new JsonResponse($playerRepository->getCountries(), 200);
     }
 }
