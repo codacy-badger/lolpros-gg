@@ -54,7 +54,7 @@ final class PlayerManager extends DefaultManager
         }
     }
 
-    public function delete(Player $player)
+    public function delete(Player $player): void
     {
         $this->logger->debug('[PlayersManager::delete] Deleting player {uuid}', ['uuid' => $player->getUuidAsString()]);
         try {

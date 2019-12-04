@@ -75,7 +75,7 @@ final class RankingManager extends DefaultManager
             return $ranking;
         } catch (Exception $e) {
             $this->logger->error('[RankingsManager] Could not get ranking for account {uuid} because of {reason}', [
-                'uuid' => $riotAccount->getUuid()->toString(),
+                'uuid' => $riotAccount->getUuidAsString(),
                 'reason' => $e->getMessage(),
             ]);
         }

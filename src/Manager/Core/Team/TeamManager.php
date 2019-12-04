@@ -47,7 +47,7 @@ final class TeamManager extends DefaultManager
         }
     }
 
-    public function delete(Team $team)
+    public function delete(Team $team): void
     {
         try {
             $this->eventDispatcher->dispatch(new TeamEvent($team), TeamEvent::DELETED);

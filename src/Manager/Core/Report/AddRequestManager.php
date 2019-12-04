@@ -35,26 +35,26 @@ class AddRequestManager extends DefaultManager
             return $addRequest;
         } catch (Exception $e) {
             $this->logger->error('[AddRequestsManager] Could not update addRequest {uuid} because of {reason}', [
-                'uuid' => $addRequest->getUuid()->toString(),
+                'uuid' => $addRequest->getUuidAsString(),
                 'reason' => $e->getMessage(),
             ]);
 
-            throw new EntityNotUpdatedException(AddRequest::class, $addRequest->getUuid()->toString(), $e->getMessage());
+            throw new EntityNotUpdatedException(AddRequest::class, $addRequest->getUuidAsString(), $e->getMessage());
         }
     }
 
-    public function delete(AddRequest $addRequest)
+    public function delete(AddRequest $addRequest): void
     {
         try {
             $this->entityManager->remove($addRequest);
             $this->entityManager->flush();
         } catch (Exception $e) {
             $this->logger->error('[AddRequestsManager] Could not delete addRequest {uuid} because of {reason}', [
-                'uuid' => $addRequest->getUuid()->toString(),
+                'uuid' => $addRequest->getUuidAsString(),
                 'reason' => $e->getMessage(),
             ]);
 
-            throw new EntityNotDeletedException(AddRequest::class, $addRequest->getUuid()->toString(), $e->getMessage());
+            throw new EntityNotDeletedException(AddRequest::class, $addRequest->getUuidAsString(), $e->getMessage());
         }
     }
 }

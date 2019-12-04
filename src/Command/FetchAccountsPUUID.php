@@ -66,9 +66,9 @@ class FetchAccountsPUUID extends Command
                 $account->setEncryptedAccountId($summoner->accountId);
                 $account->setEncryptedRiotId($summoner->id);
                 $this->entityManager->flush($account);
-                $this->logger->info(sprintf('[FetchAccountsPUUID] Fetched PUUID for accout %s (%s)', $account->getUuid()->toString(), $account->getSummonerName()));
+                $this->logger->info(sprintf('[FetchAccountsPUUID] Fetched PUUID for accout %s (%s)', $account->getUuidAsString(), $account->getSummonerName()));
             } catch (RequestException $e) {
-                $this->logger->critical(sprintf('[FetchAccountsPUUID] Did not update account %s (%s) because: %s', $account->getUuid()->toString(), $account->getSummonerName(), $e->getMessage()));
+                $this->logger->critical(sprintf('[FetchAccountsPUUID] Did not update account %s (%s) because: %s', $account->getUuidAsString(), $account->getSummonerName(), $e->getMessage()));
             } catch (ServerException $e) {
                 $this->logger->critical(sprintf('Server exception %s', $e->getMessage()));
             }

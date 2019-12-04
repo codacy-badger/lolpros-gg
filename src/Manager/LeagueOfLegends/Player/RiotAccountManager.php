@@ -161,7 +161,7 @@ final class RiotAccountManager extends DefaultManager
         }
     }
 
-    public function delete(RiotAccount $riotAccount)
+    public function delete(RiotAccount $riotAccount): void
     {
         $this->logger->debug('[RiotAccountsManager::delete] Deleting RiotAccount {uuid}', ['uuid' => $riotAccount->getUuidAsString()]);
         try {

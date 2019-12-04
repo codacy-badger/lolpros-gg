@@ -39,7 +39,7 @@ class TeamFactory
             if ($teamMember->getUuid() !== $member->getUuid()) {
                 array_push($team->members, [
                     'name' => $player->getName(),
-                    'uuid' => $player->getUuid()->toString(),
+                    'uuid' => $player->getUuidAsString(),
                     'slug' => $player->getSlug(),
                     'country' => $player->getCountry(),
                     'join_date' => $teamMember->getJoinDate(),

@@ -40,15 +40,15 @@ class RegionManager extends DefaultManager
             return $region;
         } catch (Exception $e) {
             $this->logger->error('[RegionsManager] Could not update region {uuid} because of {reason}', [
-                'uuid' => $region->getUuid()->toString(),
+                'uuid' => $region->getUuidAsString(),
                 'reason' => $e->getMessage(),
             ]);
 
-            throw new EntityNotUpdatedException(Region::class, $region->getUuid()->toString(), $e->getMessage());
+            throw new EntityNotUpdatedException(Region::class, $region->getUuidAsString(), $e->getMessage());
         }
     }
 
-    public function delete(Region $region)
+    public function delete(Region $region): void
     {
         try {
             $this->entityManager->remove($region);
@@ -57,11 +57,11 @@ class RegionManager extends DefaultManager
             $this->eventDispatcher->dispatch(new RegionEvent($region), RegionEvent::DELETED);
         } catch (Exception $e) {
             $this->logger->error('[RegionsManager] Could not delete region {uuid} because of {reason}', [
-                'uuid' => $region->getUuid()->toString(),
+                'uuid' => $region->getUuidAsString(),
                 'reason' => $e->getMessage(),
             ]);
 
-            throw new EntityNotDeletedException(Region::class, $region->getUuid()->toString(), $e->getMessage());
+            throw new EntityNotDeletedException(Region::class, $region->getUuidAsString(), $e->getMessage());
         }
     }
 }

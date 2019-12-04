@@ -41,7 +41,7 @@ class MemberManager extends DefaultManager
         }
     }
 
-    public function delete(Member $member)
+    public function delete(Member $member): void
     {
         try {
             $member->getPlayer()->removeMemberships($member);

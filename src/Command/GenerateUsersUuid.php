@@ -52,7 +52,7 @@ class GenerateUsersUuid extends Command
             try {
                 $user->setUuid(Uuid::uuid4());
                 $this->entityManager->flush($user);
-                $this->logger->info(sprintf('[GenerateUsersUuid] Generated UUID for user %s (%s)', $user->getUuid()->toString(), $user->getUsername()));
+                $this->logger->info(sprintf('[GenerateUsersUuid] Generated UUID for user %s (%s)', $user->getUuidAsString(), $user->getUsername()));
             } catch (RequestException $e) {
                 $this->logger->critical(sprintf('[GenerateUsersUuid] Did not generate uuid %s because: %s', $user->getUsername(), $e->getMessage()));
             } catch (ServerException $e) {

@@ -5,11 +5,16 @@ namespace App\Controller\Core\Medal;
 use App\Controller\APIController;
 use App\Entity\Core\Medal\AMedal;
 use App\Exception\Core\EntityNotCreatedException;
+use App\Exception\Core\EntityNotUpdatedException;
+use App\Form\Core\Medal\MedalForm;
 use App\Manager\Core\Medal\MedalManager;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
+use FOS\RestBundle\Controller\Annotations\Put;
 use FOS\RestBundle\Controller\Annotations\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -36,6 +41,31 @@ class MedalsController extends APIController
     {
         $medal = $this->deserialize(AMedal::class, 'post_medal');
         $medal = $medalsManager->create($medal);
+
+        return $this->serialize($medal, 'get_medal');
+    }
+
+    /**
+     * @Put(path="/{uuid}")
+     * @IsGranted("ROLE_ADMIN")
+     *
+     * @throws EntityNotUpdatedException
+     */
+    public function putMedalAction(string $uuid, MedalManager $medalManager): Response
+    {
+        /** @var AMedal $medal */
+        $medal = $this->find(AMedal::class, $uuid);
+        $postedData = $this->getPostedData();
+
+        $form = $this
+            ->createForm(MedalForm::class, $medal, MedalForm::buildOptions(Request::METHOD_PUT))
+            ->submit($postedData, false);
+
+        if (!$form->isValid()) {
+            return new JsonResponse($this->errorFormatter->reduceForm($form), 422);
+        }
+
+        $medal = $medalManager->update($medal);
 
         return $this->serialize($medal, 'get_medal');
     }

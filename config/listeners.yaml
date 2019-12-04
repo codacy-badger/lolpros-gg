@@ -35,6 +35,13 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
+    App\Listener\Core\MedalListener:
+        arguments:
+            $playerIndexer: '@api.indexer.players'
+            $ladderIndexer: '@api.indexer.ladder'
+        tags:
+            - { name: kernel.event_subscriber }
+
     #League listeners
     App\Listener\LeagueOfLegends\PlayerListener:
         arguments:
