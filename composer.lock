@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8dfa9cdf558c03df66d3eba8643fa9c3",
+    "content-hash": "2c37ba7925dcd87265136be639b6dc0b",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -499,16 +499,16 @@
         },
         {
             "name": "doctrine/doctrine-bundle",
-            "version": "2.0.4",
+            "version": "2.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineBundle.git",
-                "reference": "fd15f1854e477fd4628bfe9c034130513d23f1f5"
+                "reference": "522c166a464750d087f905af3e63dbc40a980fee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/fd15f1854e477fd4628bfe9c034130513d23f1f5",
-                "reference": "fd15f1854e477fd4628bfe9c034130513d23f1f5",
+                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/522c166a464750d087f905af3e63dbc40a980fee",
+                "reference": "522c166a464750d087f905af3e63dbc40a980fee",
                 "shasum": ""
             },
             "require": {
@@ -531,6 +531,7 @@
             "require-dev": {
                 "doctrine/coding-standard": "^6.0",
                 "doctrine/orm": "^2.6",
+                "ocramius/proxy-manager": "^2.1",
                 "phpunit/phpunit": "^7.5",
                 "symfony/phpunit-bridge": "^4.2",
                 "symfony/property-info": "^4.3.3|^5.0",
@@ -585,7 +586,7 @@
                 "orm",
                 "persistence"
             ],
-            "time": "2019-12-18T16:07:48+00:00"
+            "time": "2019-12-18T18:20:58+00:00"
         },
         {
             "name": "doctrine/doctrine-migrations-bundle",
