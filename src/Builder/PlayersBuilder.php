@@ -43,7 +43,6 @@ class PlayersBuilder implements BuilderInterface
         $playerArray = $this->fetcher->fetchOne($options);
         /** @var Player $player */
         $player = $this->entityManager->getRepository(BasePlayer::class)->findOneBy(['uuid' => $playerArray['uuid']]);
-        $playerArray['rankings'] = $this->buildPlayerRankings($player);
         $playerArray['teams'] = $this->buildTeams($player);
         $playerArray['previous_teams'] = $this->buildPreviousTeams($player);
 
@@ -66,23 +65,6 @@ class PlayersBuilder implements BuilderInterface
         $resolver->setAllowedTypes('uuid', ['string', 'null']);
 
         return $resolver;
-    }
-
-
-    private function buildPlayerRankings(Player $player): array
-    {
-        $account = $player->getBestAccount();
-        $playerRepository = $this->entityManager->getRepository(Player::class);
-        $rankings = [];
-
-        if ($account && $account->getCurrentRanking()->getScore()) {
-            $rankings['global'] = $playerRepository->getPlayersRankings($player->getUuidAsString());
-            $rankings['country'] = $playerRepository->getPlayersRankings($player->getUuidAsString(), null, $player->getCountry());
-            $rankings['position'] = $playerRepository->getPlayersRankings($player->getUuidAsString(), $player->getPosition());
-            $rankings['country_position'] = $playerRepository->getPlayersRankings($player->getUuidAsString(), $player->getPosition(), $player->getCountry());
-        }
-
-        return $rankings;
     }
 
     private function buildTeams(Player $player): array

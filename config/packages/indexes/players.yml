@@ -92,6 +92,17 @@ fos_elastica:
                 discord:
                 twitch:
                 leaguepedia:
+            rankings:
+              type: object
+              properties:
+                global:
+                  type: integer
+                country:
+                  type: integer
+                position:
+                  type: integer
+                country_position:
+                  type: integer
 
           persistence:
             driver: orm

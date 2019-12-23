@@ -42,6 +42,7 @@ class PlayerTransformer extends APlayerTransformer
             'score' => $player->getScore(),
             'accounts' => $this->buildAccounts($player),
             'social_media' => $this->buildSocialMedia($player),
+            'rankings' => $this->buildPlayerRankings($player),
         ];
 
         return new Document($player->getUuidAsString(), $document, Indexer::INDEX_TYPE_PLAYER, Indexer::INDEX_PLAYERS);
@@ -98,5 +99,21 @@ class PlayerTransformer extends APlayerTransformer
         }
 
         return $names;
+    }
+
+    private function buildPlayerRankings(Player $player): array
+    {
+        $account = $player->getBestAccount();
+        $playerRepository = $this->entityManager->getRepository(Player::class);
+        $rankings = [];
+
+        if ($account && $account->getCurrentRanking()->getScore()) {
+            $rankings['global'] = $playerRepository->getPlayersRankings($player->getUuidAsString());
+            $rankings['country'] = $playerRepository->getPlayersRankings($player->getUuidAsString(), null, $player->getCountry());
+            $rankings['position'] = $playerRepository->getPlayersRankings($player->getUuidAsString(), $player->getPosition());
+            $rankings['country_position'] = $playerRepository->getPlayersRankings($player->getUuidAsString(), $player->getPosition(), $player->getCountry());
+        }
+
+        return $rankings;
     }
 }
