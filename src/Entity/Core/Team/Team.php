@@ -4,7 +4,6 @@ namespace App\Entity\Core\Team;
 
 use App\Entity\Core\Document\TeamLogo;
 use App\Entity\Core\Region\Region;
-use App\Entity\LeagueOfLegends\Player\Player;
 use App\Entity\StringUuidTrait;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -295,20 +294,6 @@ class Team
         $this->region = $region;
 
         return $this;
-    }
-
-    public function getCurrentMemberships(): ArrayCollection
-    {
-        return $this->members->filter(function (Member $membership) {
-            return $membership->isCurrent();
-        });
-    }
-
-    public function getPreviousMemberships(): ArrayCollection
-    {
-        return $this->members->filter(function (Member $membership) {
-            return !$membership->isCurrent();
-        });
     }
 
     /**

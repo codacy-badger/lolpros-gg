@@ -3,13 +3,13 @@
 namespace App\Builder;
 
 use App\Entity\Core\Document\Document as Logo;
-use App\Entity\Core\Player\Player as BasePlayer;
 use App\Entity\Core\Team\Member;
 use App\Entity\LeagueOfLegends\Player\Player;
 use App\Fetcher\PlayerFetcher;
+use App\Repository\Core\MemberRepository;
+use App\Repository\Core\PlayerRepository;
 use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PlayersBuilder implements BuilderInterface
@@ -20,19 +20,25 @@ class PlayersBuilder implements BuilderInterface
     private $fetcher;
 
     /**
-     * @var EntityManagerInterface
+     * @var PlayerRepository
      */
-    private $entityManager;
+    private $playerRepository;
+
+    /**
+     * @var MemberRepository
+     */
+    private $memberRepository;
 
     /**
      * @var OptionsResolver
      */
     private $optionResolver;
 
-    public function __construct(PlayerFetcher $fetcher, EntityManagerInterface $entityManager)
+    public function __construct(PlayerFetcher $fetcher, PlayerRepository $playerRepository, MemberRepository $memberRepository)
     {
         $this->fetcher = $fetcher;
-        $this->entityManager = $entityManager;
+        $this->playerRepository = $playerRepository;
+        $this->memberRepository = $memberRepository;
         $this->optionResolver = new OptionsResolver();
         $this->configureOptions($this->optionResolver);
     }
@@ -42,7 +48,7 @@ class PlayersBuilder implements BuilderInterface
         $options = $this->optionResolver->resolve($options);
         $playerArray = $this->fetcher->fetchOne($options);
         /** @var Player $player */
-        $player = $this->entityManager->getRepository(BasePlayer::class)->findOneBy(['uuid' => $playerArray['uuid']]);
+        $player = $this->playerRepository->findOneBy(['uuid' => $playerArray['uuid']]);
         $playerArray['teams'] = $this->buildTeams($player);
         $playerArray['previous_teams'] = $this->buildPreviousTeams($player);
 
@@ -71,7 +77,7 @@ class PlayersBuilder implements BuilderInterface
     {
         $teams = [];
 
-        foreach ($player->getCurrentMemberships() as $member) {
+        foreach ($this->memberRepository->getCurrentPlayerMemberships($player) as $member) {
             /** @var Member $member */
             $team = $member->getTeam();
             array_push($teams, [
@@ -82,7 +88,7 @@ class PlayersBuilder implements BuilderInterface
                 'logo' => $this->buildLogo($team->getLogo()),
                 'join_date' => $member->getJoinDate()->format(DateTime::ISO8601),
                 'leave_date' => $member->getLeaveDate() ? $member->getLeaveDate()->format(DateTime::ISO8601) : null,
-                'current_members' => $this->buildMembers($team->getCurrentMemberships()),
+                'current_members' => $this->buildMembers($this->memberRepository->getCurrentTeamMemberships($team)),
                 'previous_members' => $this->buildMembers($team->getSharedMemberships($member)),
             ]);
         }
@@ -94,7 +100,7 @@ class PlayersBuilder implements BuilderInterface
     {
         $teams = [];
 
-        foreach ($player->getPreviousMemberships() as $member) {
+        foreach ($this->memberRepository->getPreviousPlayerMemberships($player) as $member) {
             /** @var Member $member */
             $team = $member->getTeam();
             array_push($teams, [
@@ -112,7 +118,7 @@ class PlayersBuilder implements BuilderInterface
         return $teams;
     }
 
-    protected function buildMembers(ArrayCollection $memberships): ?array
+    protected function buildMembers(Collection $memberships): ?array
     {
         if (!$memberships->count()) {
             return null;

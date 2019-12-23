@@ -6,7 +6,6 @@ use App\Entity\Core\Document\Document as Logo;
 use App\Entity\Core\Team\Member;
 use App\Entity\LeagueOfLegends\Player\Player;
 use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -28,9 +27,9 @@ abstract class DefaultTransformer implements DefaultTransformerInterface
         $this->logger = $logger;
     }
 
-    protected function buildMembers(ArrayCollection $memberships): ?array
+    protected function buildMembers($memberships): ?array
     {
-        if (!$memberships->count()) {
+        if (!count($memberships)) {
             return null;
         }
 
@@ -46,7 +45,7 @@ abstract class DefaultTransformer implements DefaultTransformerInterface
                 'uuid' => $player->getUuidAsString(),
                 'name' => $player->getName(),
                 'slug' => $player->getSlug(),
-                'current' => $membership->isCurrent(),
+                'current' => (bool) $membership->getLeaveDate(),
                 'country' => $player->getCountry(),
                 'join_date' => $membership->getJoinDate()->format(DateTime::ISO8601),
                 'join_timestamp' => $membership->getJoinDate()->getTimestamp(),

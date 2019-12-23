@@ -5,10 +5,16 @@ namespace App\Repository\LeagueOfLegends;
 use App\Entity\LeagueOfLegends\Player\Ranking;
 use App\Entity\LeagueOfLegends\Player\RiotAccount;
 use DateTime;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
-class RankingRepository extends EntityRepository
+class RankingRepository extends ServiceEntityRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Ranking::class);
+    }
+
     public function getBestForAccount(RiotAccount $account, $season = null): ?Ranking
     {
         $queryBuilder = $this->createQueryBuilder('ranking')

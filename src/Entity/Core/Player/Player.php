@@ -253,20 +253,6 @@ abstract class Player
         return $this;
     }
 
-    public function getCurrentMemberships(): ArrayCollection
-    {
-        return $this->memberships->filter(function (Member $membership) {
-            return $membership->isCurrent();
-        });
-    }
-
-    public function getPreviousMemberships(): ArrayCollection
-    {
-        return $this->memberships->filter(function (Member $membership) {
-            return !$membership->isCurrent();
-        });
-    }
-
     /**
      * @Serializer\VirtualProperty()
      */
@@ -274,7 +260,7 @@ abstract class Player
     {
         /** @var Member $membership */
         $membership = $this->memberships->filter(function (Member $membership) {
-            return $membership->isCurrent();
+            return (bool) $membership->getLeaveDate();
         })->first();
 
         return $membership ? $membership->getTeam() : null;

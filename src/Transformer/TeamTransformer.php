@@ -4,11 +4,25 @@ namespace App\Transformer;
 
 use App\Entity\Core\Team\Team;
 use App\Indexer\Indexer;
+use App\Repository\Core\MemberRepository;
 use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use Elastica\Document;
+use Psr\Log\LoggerInterface;
 
 class TeamTransformer extends DefaultTransformer
 {
+    /**
+     * @var MemberRepository
+     */
+    private $memberRepository;
+
+    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger, MemberRepository $memberRepository)
+    {
+        parent::__construct($entityManager, $logger);
+        $this->memberRepository = $memberRepository;
+    }
+
     public function fetchAndTransform($document, array $fields): ?Document
     {
         $team = $this->entityManager->getRepository(Team::class)->findOneBy(['uuid' => $document['uuid']]);
@@ -45,7 +59,7 @@ class TeamTransformer extends DefaultTransformer
                 'logo' => $this->buildLogo($region->getLogo()),
             ],
             'logo' => $this->buildLogo($team->getLogo()),
-            'active' => (bool) $team->getCurrentMemberships()->count(),
+            'active' => (bool) count($this->memberRepository->getCurrentTeamMemberships($team)),
             'creation_date' => $team->getCreationDate()->format(DateTime::ISO8601),
             'disband_date' => $team->getDisbandDate() ? $team->getDisbandDate()->format(DateTime::ISO8601) : null,
             'social_media' => [
@@ -54,8 +68,8 @@ class TeamTransformer extends DefaultTransformer
                 'facebook' => $socialMedia->getFacebook(),
                 'leaguepedia' => $socialMedia->getLeaguepedia(),
             ],
-            'current_members' => $this->buildMembers($team->getCurrentMemberships()),
-            'previous_members' => $this->buildMembers($team->getPreviousMemberships()),
+            'current_members' => $this->buildMembers($this->memberRepository->getCurrentTeamMemberships($team)),
+            'previous_members' => $this->buildMembers($this->memberRepository->getPreviousTeamMemberships($team)),
         ];
 
         return new Document($team->getUuidAsString(), $document, Indexer::INDEX_TYPE_TEAM, Indexer::INDEX_TEAMS);

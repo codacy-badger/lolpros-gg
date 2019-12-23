@@ -2,17 +2,21 @@
 
 namespace App\Repository\Core;
 
-use Doctrine\ORM\EntityRepository;
+use App\Entity\Core\Team\Team;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
-class TeamRepository extends EntityRepository
+class TeamRepository extends ServiceEntityRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Team::class);
+    }
+
     public function getTeamsUuids(): array
     {
-        $sql = <<<SQL
-SELECT uuid from team__team
-SQL;
-        $query = $this->getEntityManager()->getConnection()->prepare($sql);
+        $query = $this->getEntityManager()->getConnection()->prepare('SELECT uuid FROM team__team');
         $query->execute();
 
         $array = $query->fetchAll();

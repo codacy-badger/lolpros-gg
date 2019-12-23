@@ -2,11 +2,18 @@
 
 namespace App\Repository\Core;
 
-use Doctrine\ORM\EntityRepository;
+use App\Entity\Core\Report\AdminLog;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
-class AdminLogRepository extends EntityRepository
+class AdminLogRepository extends ServiceEntityRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, AdminLog::class);
+    }
+
     public function getPaginated(int $page = 1, int $pageSize = 20, $type = null, $user = null): Paginator
     {
         $queryBuilder = $this->createQueryBuilder('admin_log')

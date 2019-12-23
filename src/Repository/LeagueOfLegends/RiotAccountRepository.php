@@ -2,11 +2,18 @@
 
 namespace App\Repository\LeagueOfLegends;
 
-use Doctrine\ORM\EntityRepository;
+use App\Entity\LeagueOfLegends\Player\RiotAccount;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
-class RiotAccountRepository extends EntityRepository
+class RiotAccountRepository extends ServiceEntityRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, RiotAccount::class);
+    }
+
     public function getPaginated(int $page = 1, int $pageSize = 20): Paginator
     {
         return new Paginator(

@@ -40,7 +40,7 @@ class MemberTransformer extends DefaultTransformer
             'join_timestamp' => $member->getJoinDate()->getTimestamp(),
             'leave_date' => $member->getLeaveDate() ? $member->getLeaveDate()->format(DateTime::ISO8601) : null,
             'leave_timestamp' => $member->getLeaveDate() ? $member->getLeaveDate()->getTimestamp() : null,
-            'current' => $member->isCurrent(),
+            'current' => (bool) $member->getLeaveDate(),
             'event_type' => $member->getLeaveDate() ? self::TYPE_LEAVE : self::TYPE_JOIN,
             'event_date' => $member->getLeaveDate() ? $member->getLeaveDate()->format(DateTime::ISO8601) : $member->getJoinDate()->format(DateTime::ISO8601),
             'timestamp' => $member->getCreatedAt()->format(DateTime::ISO8601),

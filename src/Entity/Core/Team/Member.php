@@ -14,7 +14,7 @@ use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Table(name="team__members")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\Core\MemberRepository")
  */
 class Member
 {
