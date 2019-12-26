@@ -20,6 +20,7 @@ class Player extends BasePlayer
     const POSITION_MID = '30_mid';
     const POSITION_ADC = '40_adc';
     const POSITION_SUPPORT = '50_support';
+    const POSITION_FILL = '60_fill';
 
     /**
      * @var Collection|RiotAccount[]
@@ -132,6 +133,7 @@ class Player extends BasePlayer
             self::POSITION_MID,
             self::POSITION_ADC,
             self::POSITION_SUPPORT,
+            self::POSITION_FILL,
         ];
     }
 }

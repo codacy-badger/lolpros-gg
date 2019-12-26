@@ -122,6 +122,13 @@ abstract class Player
     private $regions;
 
     /**
+     * @var PlayerStaff
+     * @ORM\OneToOne(targetEntity="App\Entity\Core\Player\PlayerStaff", inversedBy="player")
+     * @Serializer\Type("App\Entity\Core\Player\PlayerStaff")
+     */
+    protected $staff;
+
+    /**
      * @var DateTime
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime")
