@@ -59,7 +59,7 @@ class TeamTransformer extends DefaultTransformer
                 'logo' => $this->buildLogo($region->getLogo()),
             ],
             'logo' => $this->buildLogo($team->getLogo()),
-            'active' => (bool) count($this->memberRepository->getCurrentTeamMemberships($team)),
+            'active' => (bool) $team->getCurrentMemberships()->count(),
             'creation_date' => $team->getCreationDate()->format(DateTime::ISO8601),
             'disband_date' => $team->getDisbandDate() ? $team->getDisbandDate()->format(DateTime::ISO8601) : null,
             'social_media' => [
@@ -68,8 +68,8 @@ class TeamTransformer extends DefaultTransformer
                 'facebook' => $socialMedia->getFacebook(),
                 'leaguepedia' => $socialMedia->getLeaguepedia(),
             ],
-            'current_members' => $this->buildMembers($this->memberRepository->getCurrentTeamMemberships($team)),
-            'previous_members' => $this->buildMembers($this->memberRepository->getPreviousTeamMemberships($team)),
+            'current_members' => $this->buildMembers($team->getCurrentMemberships()),
+            'previous_members' => $this->buildMembers($team->getPreviousMemberships(), false),
         ];
 
         return new Document($team->getUuidAsString(), $document, Indexer::INDEX_TYPE_TEAM, Indexer::INDEX_TEAMS);

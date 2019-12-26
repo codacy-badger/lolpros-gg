@@ -260,7 +260,7 @@ abstract class Player
     {
         /** @var Member $membership */
         $membership = $this->memberships->filter(function (Member $membership) {
-            return (bool) $membership->getLeaveDate();
+            return !$membership->getLeaveDate();
         })->first();
 
         return $membership ? $membership->getTeam() : null;

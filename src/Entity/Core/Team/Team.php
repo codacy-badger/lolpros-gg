@@ -296,9 +296,20 @@ class Team
         return $this;
     }
 
-    /**
-     * Returns members that belonged to the team at the same time as the member.
-     */
+    public function getCurrentMemberships(): ArrayCollection
+    {
+        return $this->members->filter(function (Member $membership) {
+            return $membership->isCurrent();
+        });
+    }
+    public function getPreviousMemberships(): ArrayCollection
+    {
+        return $this->members->filter(function (Member $membership) {
+            return !$membership->isCurrent();
+        });
+    }
+
+    //Returns members that belonged to the team at the same time as the member.
     public function getSharedMemberships(Member $current): ArrayCollection
     {
         if ($current->getTeam()->getUuidAsString() !== $this->getUuidAsString()) {

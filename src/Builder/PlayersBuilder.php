@@ -88,8 +88,8 @@ class PlayersBuilder implements BuilderInterface
                 'logo' => $this->buildLogo($team->getLogo()),
                 'join_date' => $member->getJoinDate()->format(DateTime::ISO8601),
                 'leave_date' => $member->getLeaveDate() ? $member->getLeaveDate()->format(DateTime::ISO8601) : null,
-                'current_members' => $this->buildMembers($this->memberRepository->getCurrentTeamMemberships($team)),
-                'previous_members' => $this->buildMembers($team->getSharedMemberships($member)),
+                'current_members' => $this->buildMembers($team->getCurrentMemberships()),
+                'previous_members' => $this->buildMembers($team->getSharedMemberships($member), false),
             ]);
         }
 
@@ -111,14 +111,14 @@ class PlayersBuilder implements BuilderInterface
                 'logo' => $this->buildLogo($team->getLogo()),
                 'join_date' => $member->getJoinDate()->format(DateTime::ISO8601),
                 'leave_date' => $member->getLeaveDate() ? $member->getLeaveDate()->format(DateTime::ISO8601) : null,
-                'members' => $this->buildMembers($team->getMembersBetweenDates($member->getJoinDate(), $member->getLeaveDate())),
+                'members' => $this->buildMembers($team->getMembersBetweenDates($member->getJoinDate(), $member->getLeaveDate()), false),
             ]);
         }
 
         return $teams;
     }
 
-    protected function buildMembers(Collection $memberships): ?array
+    protected function buildMembers(Collection $memberships, $withRankings = true): ?array
     {
         if (!$memberships->count()) {
             return null;
@@ -145,7 +145,7 @@ class PlayersBuilder implements BuilderInterface
             ];
 
             //League player specifics
-            if ($player instanceof Player) {
+            if ($player instanceof Player && $withRankings) {
                 $member = array_merge($member, [
                     'position' => $player->getPosition(),
                     'profile_icon_id' => $player->getBestAccount() ? $player->getBestAccount()->getProfileIconId() : null,

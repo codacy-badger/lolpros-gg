@@ -27,7 +27,7 @@ abstract class DefaultTransformer implements DefaultTransformerInterface
         $this->logger = $logger;
     }
 
-    protected function buildMembers($memberships): ?array
+    protected function buildMembers($memberships, $withRankings = true): ?array
     {
         if (!count($memberships)) {
             return null;
@@ -54,7 +54,7 @@ abstract class DefaultTransformer implements DefaultTransformerInterface
             ];
 
             //League player specifics
-            if ($player instanceof Player) {
+            if ($player instanceof Player && $withRankings) {
                 $member = array_merge($member, [
                     'position' => $player->getPosition(),
                     'profile_icon_id' => $player->getBestAccount() ? $player->getBestAccount()->getProfileIconId() : null,
