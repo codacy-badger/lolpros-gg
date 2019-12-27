@@ -18,9 +18,6 @@ fos_elastica:
               type: date
             leave_timestamp:
             current:
-            event_type:
-            event_date:
-              type: date
             timestamp:
               type: date
             player:

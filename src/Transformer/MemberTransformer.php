@@ -11,9 +11,6 @@ use Elastica\Document;
 
 class MemberTransformer extends DefaultTransformer
 {
-    const TYPE_JOIN = 'join';
-    const TYPE_LEAVE = 'leave';
-
     public function fetchAndTransform($document, array $fields): ?Document
     {
         $player = $this->entityManager->getRepository(Member::class)->findOneBy(['uuid' => $document['uuid']]);
@@ -40,9 +37,7 @@ class MemberTransformer extends DefaultTransformer
             'join_timestamp' => $member->getJoinDate()->getTimestamp(),
             'leave_date' => $member->getLeaveDate() ? $member->getLeaveDate()->format(DateTime::ISO8601) : null,
             'leave_timestamp' => $member->getLeaveDate() ? $member->getLeaveDate()->getTimestamp() : null,
-            'current' => (bool) $member->getLeaveDate(),
-            'event_type' => $member->getLeaveDate() ? self::TYPE_LEAVE : self::TYPE_JOIN,
-            'event_date' => $member->getLeaveDate() ? $member->getLeaveDate()->format(DateTime::ISO8601) : $member->getJoinDate()->format(DateTime::ISO8601),
+            'current' => $member->isCurrent(),
             'timestamp' => $member->getCreatedAt()->format(DateTime::ISO8601),
         ];
 
@@ -56,11 +51,8 @@ class MemberTransformer extends DefaultTransformer
             'name' => $player->getName(),
             'slug' => $player->getSlug(),
             'country' => $player->getCountry(),
+            'position' => $player->getPosition() ?? null,
         ];
-
-        if ($player instanceof \App\Entity\LeagueOfLegends\Player\Player) {
-            $player['position'] = $player->getPosition();
-        }
 
         return $player;
     }

@@ -4,25 +4,11 @@ namespace App\Transformer;
 
 use App\Entity\Core\Team\Team;
 use App\Indexer\Indexer;
-use App\Repository\Core\MemberRepository;
 use DateTime;
-use Doctrine\ORM\EntityManagerInterface;
 use Elastica\Document;
-use Psr\Log\LoggerInterface;
 
 class TeamTransformer extends DefaultTransformer
 {
-    /**
-     * @var MemberRepository
-     */
-    private $memberRepository;
-
-    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger, MemberRepository $memberRepository)
-    {
-        parent::__construct($entityManager, $logger);
-        $this->memberRepository = $memberRepository;
-    }
-
     public function fetchAndTransform($document, array $fields): ?Document
     {
         $team = $this->entityManager->getRepository(Team::class)->findOneBy(['uuid' => $document['uuid']]);
@@ -68,8 +54,6 @@ class TeamTransformer extends DefaultTransformer
                 'facebook' => $socialMedia->getFacebook(),
                 'leaguepedia' => $socialMedia->getLeaguepedia(),
             ],
-            'current_members' => $this->buildMembers($team->getCurrentMemberships()),
-            'previous_members' => $this->buildMembers($team->getPreviousMemberships(), false),
         ];
 
         return new Document($team->getUuidAsString(), $document, Indexer::INDEX_TYPE_TEAM, Indexer::INDEX_TEAMS);

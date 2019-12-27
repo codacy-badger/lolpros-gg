@@ -53,44 +53,6 @@ fos_elastica:
                 facebook:
                 website:
                 leaguepedia:
-            current_members:
-              type: nested
-              properties:
-                uuid:
-                name:
-                slug:
-                country:
-                current:
-                position:
-                join_date:
-                join_timestamp:
-                leave_date:
-                leave_timestamp:
-                summoner_name:
-                profile_icon_id:
-                tier:
-                rank:
-                league_points:
-                score:
-            previous_members:
-              type: nested
-              properties:
-                uuid:
-                name:
-                slug:
-                country:
-                current:
-                position:
-                join_date:
-                join_timestamp:
-                leave_date:
-                leave_timestamp:
-                summoner_name:
-                profile_icon_id:
-                tier:
-                rank:
-                league_points:
-                score:
 
           persistence:
             driver: orm
