@@ -4,8 +4,8 @@ namespace App\Repository\Core;
 
 use App\Entity\Core\Team\Team;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class TeamRepository extends ServiceEntityRepository
 {

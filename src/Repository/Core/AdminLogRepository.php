@@ -4,8 +4,8 @@ namespace App\Repository\Core;
 
 use App\Entity\Core\Report\AdminLog;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class AdminLogRepository extends ServiceEntityRepository
 {

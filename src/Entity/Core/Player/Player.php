@@ -265,4 +265,18 @@ abstract class Player
 
         return $membership ? $membership->getTeam() : null;
     }
+
+    public function getCurrentMemberships(): ArrayCollection
+    {
+        return $this->memberships->filter(function (Member $membership) {
+            return !$membership->getLeaveDate();
+        });
+    }
+
+    public function getPreviousMemberships(): ArrayCollection
+    {
+        return $this->memberships->filter(function (Member $membership) {
+            return (bool) $membership->getLeaveDate();
+        });
+    }
 }

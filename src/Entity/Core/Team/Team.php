@@ -302,6 +302,7 @@ class Team
             return $membership->isCurrent();
         });
     }
+
     public function getPreviousMemberships(): ArrayCollection
     {
         return $this->members->filter(function (Member $membership) {

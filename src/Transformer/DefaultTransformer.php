@@ -6,6 +6,7 @@ use App\Entity\Core\Document\Document as Logo;
 use App\Entity\Core\Team\Member;
 use App\Entity\LeagueOfLegends\Player\Player;
 use DateTime;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -27,9 +28,9 @@ abstract class DefaultTransformer implements DefaultTransformerInterface
         $this->logger = $logger;
     }
 
-    protected function buildMembers($memberships, $withRankings = true): ?array
+    protected function buildMembers(Collection $memberships, $withRankings = true): ?array
     {
-        if (!count($memberships)) {
+        if (!$memberships->count()) {
             return null;
         }
 
@@ -45,7 +46,7 @@ abstract class DefaultTransformer implements DefaultTransformerInterface
                 'uuid' => $player->getUuidAsString(),
                 'name' => $player->getName(),
                 'slug' => $player->getSlug(),
-                'current' => (bool) $membership->getLeaveDate(),
+                'current' => $membership->isCurrent(),
                 'country' => $player->getCountry(),
                 'join_date' => $membership->getJoinDate()->format(DateTime::ISO8601),
                 'join_timestamp' => $membership->getJoinDate()->getTimestamp(),
@@ -58,6 +59,7 @@ abstract class DefaultTransformer implements DefaultTransformerInterface
                 $member = array_merge($member, [
                     'position' => $player->getPosition(),
                     'profile_icon_id' => $player->getBestAccount() ? $player->getBestAccount()->getProfileIconId() : null,
+                    'summoner_name' => $player->getBestAccount() ? $player->getBestAccount()->getSummonerName() : null,
                     'tier' => $ranking ? $ranking->getTier() : null,
                     'rank' => $ranking ? $ranking->getRank() : null,
                     'league_points' => $ranking ? $ranking->getLeaguePoints() : null,

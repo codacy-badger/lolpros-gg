@@ -2,17 +2,18 @@
 
 namespace App\Builder;
 
-use App\Entity\Core\Document\Document as Logo;
 use App\Entity\Core\Team\Member;
 use App\Entity\LeagueOfLegends\Player\Player;
 use App\Fetcher\PlayerFetcher;
 use App\Repository\Core\MemberRepository;
 use App\Repository\Core\PlayerRepository;
+use App\Transformer\PlayerTransformer;
 use DateTime;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PlayersBuilder implements BuilderInterface
+class PlayersBuilder extends PlayerTransformer implements BuilderInterface
 {
     /**
      * @var PlayerFetcher
@@ -34,8 +35,9 @@ class PlayersBuilder implements BuilderInterface
      */
     private $optionResolver;
 
-    public function __construct(PlayerFetcher $fetcher, PlayerRepository $playerRepository, MemberRepository $memberRepository)
+    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger, PlayerFetcher $fetcher, PlayerRepository $playerRepository, MemberRepository $memberRepository)
     {
+        parent::__construct($entityManager, $logger);
         $this->fetcher = $fetcher;
         $this->playerRepository = $playerRepository;
         $this->memberRepository = $memberRepository;
@@ -77,7 +79,7 @@ class PlayersBuilder implements BuilderInterface
     {
         $teams = [];
 
-        foreach ($this->memberRepository->getCurrentPlayerMemberships($player) as $member) {
+        foreach ($player->getCurrentMemberships() as $member) {
             /** @var Member $member */
             $team = $member->getTeam();
             array_push($teams, [
@@ -100,7 +102,7 @@ class PlayersBuilder implements BuilderInterface
     {
         $teams = [];
 
-        foreach ($this->memberRepository->getPreviousPlayerMemberships($player) as $member) {
+        foreach ($player->getPreviousMemberships() as $member) {
             /** @var Member $member */
             $team = $member->getTeam();
             array_push($teams, [
@@ -116,62 +118,5 @@ class PlayersBuilder implements BuilderInterface
         }
 
         return $teams;
-    }
-
-    protected function buildMembers(Collection $memberships, $withRankings = true): ?array
-    {
-        if (!$memberships->count()) {
-            return null;
-        }
-
-        $members = [];
-
-        foreach ($memberships as $membership) {
-            /** @var Member $membership */
-            /** @var Player $player */
-            $player = $membership->getPlayer();
-            $ranking = $player->getBestAccount() ? $player->getBestAccount()->getCurrentRanking() : null;
-
-            $member = [
-                'uuid' => $player->getUuidAsString(),
-                'name' => $player->getName(),
-                'slug' => $player->getSlug(),
-                'current' => $membership->isCurrent(),
-                'country' => $player->getCountry(),
-                'join_date' => $membership->getJoinDate()->format(DateTime::ISO8601),
-                'join_timestamp' => $membership->getJoinDate()->getTimestamp(),
-                'leave_date' => $membership->getLeaveDate() ? $membership->getLeaveDate()->format(DateTime::ISO8601) : null,
-                'leave_timestamp' => $membership->getLeaveDate() ? $membership->getLeaveDate()->getTimestamp() : null,
-            ];
-
-            //League player specifics
-            if ($player instanceof Player && $withRankings) {
-                $member = array_merge($member, [
-                    'position' => $player->getPosition(),
-                    'profile_icon_id' => $player->getBestAccount() ? $player->getBestAccount()->getProfileIconId() : null,
-                    'tier' => $ranking ? $ranking->getTier() : null,
-                    'rank' => $ranking ? $ranking->getRank() : null,
-                    'league_points' => $ranking ? $ranking->getLeaguePoints() : null,
-                    'score' => $ranking ? $ranking->getScore() : null,
-                ]);
-            }
-
-            $members[] = $member;
-        }
-
-        return $members;
-    }
-
-    protected function buildLogo(?Logo $logo): ?array
-    {
-        if (!$logo) {
-            return null;
-        }
-
-        return [
-            'public_id' => $logo->getPublicId(),
-            'version' => $logo->getVersion(),
-            'url' => $logo->getUrl(),
-        ];
     }
 }
