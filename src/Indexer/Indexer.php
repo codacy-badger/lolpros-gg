@@ -116,6 +116,30 @@ class Indexer implements IndexerInterface
         return false;
     }
 
+    public function deleteMultiple(string $typeName, array $ids): bool
+    {
+        try {
+            $this->logger->debug('[Indexer::deleteMultiple]', ['name' => $this->name, 'total' => count($ids)]);
+            $documents = $this->fetcher->fetchByIds($ids);
+
+            if (!count($documents)) {
+                $this->logger->error(sprintf('[Indexer::deleteMultiple] Couldnt find documents in index %s', $typeName), $ids);
+
+                return false;
+            }
+
+            $response = $this->index->getType($typeName)->deleteDocuments($documents);
+
+            return $this->handleResponse($response);
+        } catch (NotFoundException $e) {
+            $this->logger->error($e->getMessage());
+        } catch (Exception $e) {
+            $this->logger->critical(sprintf('[Indexer::deleteMultiple] %s', $e->getMessage()));
+        }
+
+        return false;
+    }
+
     public function updateOne(string $typeName, $updatedObject): bool
     {
         try {
@@ -142,7 +166,6 @@ class Indexer implements IndexerInterface
     {
         try {
             $this->logger->debug('[Indexer::updateMultiple]', ['name' => $this->name, 'total' => count($ids)]);
-
             $documents = $this->fetcher->fetchByIds($ids);
 
             if (!count($documents)) {

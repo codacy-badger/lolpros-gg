@@ -29,7 +29,7 @@ final class SocialMediaManager extends DefaultManager
             return $media;
         } catch (Exception $e) {
             $this->logger->error('[SocialMediaManager] Could not update social medias for team {uuid} because of {reason}', ['uuid' => $team->getUuidAsString(), 'reason' => $e->getMessage()]);
-            throw new EntityNotUpdatedException($socialMedia->getOwner()->getUuidAsString(), $e->getMessage());
+            throw new EntityNotUpdatedException($socialMedia->getOwner() ? $socialMedia->getOwner()->getUuidAsString() : $socialMedia->getId(), $e->getMessage());
         }
     }
 }

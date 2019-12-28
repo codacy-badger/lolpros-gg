@@ -42,9 +42,6 @@ services:
             $playerIndexer: '@api.indexer.players'
             $ladderIndexer: '@api.indexer.ladder'
     App\Consumer\SummonerNamesConsumer: ~
-    App\Consumer\TeamsConsumer:
-        arguments:
-            $teamIndexer: '@api.indexer.teams'
 
     App\Service\FileUploader:
         arguments:

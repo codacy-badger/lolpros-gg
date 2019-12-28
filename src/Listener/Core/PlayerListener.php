@@ -3,7 +3,6 @@
 namespace App\Listener\Core;
 
 use App\Entity\Core\Player\Player;
-use App\Entity\Core\Team\Member;
 use App\Event\Core\Player\PlayerEvent;
 use App\Indexer\Indexer;
 use App\Manager\Core\Report\AdminLogManager;
@@ -27,11 +26,6 @@ class PlayerListener implements EventSubscriberInterface
      */
     private $playerIndexer;
 
-    /**
-     * @var Indexer
-     */
-    private $teamIndexer;
-
     public static function getSubscribedEvents()
     {
         return [
@@ -41,12 +35,11 @@ class PlayerListener implements EventSubscriberInterface
         ];
     }
 
-    public function __construct(LoggerInterface $logger, AdminLogManager $adminLogManager, Indexer $playerIndexer, Indexer $teamIndexer)
+    public function __construct(LoggerInterface $logger, AdminLogManager $adminLogManager, Indexer $playerIndexer)
     {
         $this->logger = $logger;
         $this->adminLogManager = $adminLogManager;
         $this->playerIndexer = $playerIndexer;
-        $this->teamIndexer = $teamIndexer;
     }
 
     public function onCreate(PlayerEvent $event)
@@ -70,10 +63,6 @@ class PlayerListener implements EventSubscriberInterface
         }
 
         $this->playerIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_PLAYER, $entity);
-        foreach ($entity->getMemberships() as $membership) {
-            /* @var Member $membership */
-            $this->teamIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_TEAM, $membership->getTeam());
-        }
         $this->adminLogManager->createLog(PlayerEvent::UPDATED, $entity->getUuidAsString(), $entity->getName());
     }
 
@@ -86,10 +75,6 @@ class PlayerListener implements EventSubscriberInterface
         }
 
         $this->playerIndexer->deleteOne(Indexer::INDEX_TYPE_PLAYER, $entity->getUuidAsString());
-        foreach ($entity->getMemberships() as $membership) {
-            /* @var Member $membership */
-            $this->teamIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_TEAM, $membership->getTeam());
-        }
         $this->adminLogManager->createLog(PlayerEvent::DELETED, $entity->getUuidAsString(), $entity->getName());
     }
 }

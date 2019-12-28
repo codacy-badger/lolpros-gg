@@ -23,7 +23,7 @@ class AdminLogManager extends DefaultManager
         $this->security = $security;
     }
 
-    public function createLog(string $type, string $entityUuid = '', string $entityName = '', string $linkedUuid = null, string $linkedName = null): AdminLog
+    public function createLog(string $type, string $entityUuid = '', string $entityName = '', string $linkedUuid = null, string $linkedName = null): ?AdminLog
     {
         try {
             $log = new AdminLog();

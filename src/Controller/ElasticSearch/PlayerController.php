@@ -4,6 +4,7 @@ namespace App\Controller\ElasticSearch;
 
 use App\Builder\PlayerBuilder;
 use App\Controller\APIController;
+use Elastica\Exception\NotFoundException;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\NamePrefix;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -21,13 +22,13 @@ class PlayerController extends APIController
      */
     public function getPlayerUuidAction(string $uuid, PlayerBuilder $playersBuilder): JsonResponse
     {
-        $player = $playersBuilder->build(['uuid' => $uuid]);
+        try {
+            $player = $playersBuilder->build(['uuid' => $uuid]);
 
-        if (!$player) {
+            return new JsonResponse($player);
+        } catch (NotFoundException $e) {
             throw new NotFoundHttpException();
         }
-
-        return new JsonResponse($player);
     }
 
     /**
@@ -36,12 +37,12 @@ class PlayerController extends APIController
      */
     public function getPlayerSlugAction(string $slug, PlayerBuilder $playersBuilder): JsonResponse
     {
-        $player = $playersBuilder->build(['slug' => $slug]);
+        try {
+            $player = $playersBuilder->build(['slug' => $slug]);
 
-        if (!$player) {
+            return new JsonResponse($player);
+        } catch (NotFoundException $e) {
             throw new NotFoundHttpException();
         }
-
-        return new JsonResponse($player);
     }
 }

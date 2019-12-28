@@ -43,11 +43,6 @@ class RiotAccountListener implements EventSubscriberInterface
      */
     private $summonerNameIndexer;
 
-    /**
-     * @var Indexer
-     */
-    private $teamIndexer;
-
     public static function getSubscribedEvents()
     {
         return [
@@ -57,7 +52,7 @@ class RiotAccountListener implements EventSubscriberInterface
         ];
     }
 
-    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger, AdminLogManager $adminLogManager, Indexer $playerIndexer, Indexer $ladderIndexer, Indexer $summonerNameIndexer, Indexer $teamIndexer)
+    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger, AdminLogManager $adminLogManager, Indexer $playerIndexer, Indexer $ladderIndexer, Indexer $summonerNameIndexer)
     {
         $this->entityManager = $entityManager;
         $this->logger = $logger;
@@ -65,7 +60,6 @@ class RiotAccountListener implements EventSubscriberInterface
         $this->playerIndexer = $playerIndexer;
         $this->ladderIndexer = $ladderIndexer;
         $this->summonerNameIndexer = $summonerNameIndexer;
-        $this->teamIndexer = $teamIndexer;
     }
 
     private function updateLinkedPlayer(Player $player)
@@ -74,10 +68,6 @@ class RiotAccountListener implements EventSubscriberInterface
         $this->ladderIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_LADDER, $player);
         $player->setScore($player->getScore());
         $this->entityManager->flush($player);
-
-        if ($player->getCurrentTeam()) {
-            $this->teamIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_TEAM, $player->getCurrentTeam());
-        }
     }
 
     public function onCreate(RiotAccountEvent $event)

@@ -2,11 +2,11 @@
 
 namespace App\Listener\LeagueOfLegends;
 
-use App\Entity\Core\Team\Member;
 use App\Entity\LeagueOfLegends\Player\Player;
 use App\Event\LeagueOfLegends\Player\PlayerEvent;
 use App\Indexer\Indexer;
 use App\Manager\Core\Report\AdminLogManager;
+use App\Repository\Core\MemberRepository;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -35,7 +35,12 @@ class PlayerListener implements EventSubscriberInterface
     /**
      * @var Indexer
      */
-    private $teamIndexer;
+    private $membersIndexer;
+
+    /**
+     * @var MemberRepository
+     */
+    private $memberRepository;
 
     public static function getSubscribedEvents()
     {
@@ -46,13 +51,14 @@ class PlayerListener implements EventSubscriberInterface
         ];
     }
 
-    public function __construct(LoggerInterface $logger, AdminLogManager $adminLogManager, Indexer $playerIndexer, Indexer $ladderIndexer, Indexer $teamIndexer)
+    public function __construct(LoggerInterface $logger, AdminLogManager $adminLogManager, Indexer $playerIndexer, Indexer $ladderIndexer, Indexer $membersIndexer, MemberRepository $memberRepository)
     {
         $this->logger = $logger;
         $this->adminLogManager = $adminLogManager;
         $this->playerIndexer = $playerIndexer;
         $this->ladderIndexer = $ladderIndexer;
-        $this->teamIndexer = $teamIndexer;
+        $this->membersIndexer = $membersIndexer;
+        $this->memberRepository = $memberRepository;
     }
 
     public function onCreate(PlayerEvent $event)
@@ -65,6 +71,7 @@ class PlayerListener implements EventSubscriberInterface
 
         $this->playerIndexer->addOne(Indexer::INDEX_TYPE_PLAYER, $entity);
         $this->ladderIndexer->addOne(Indexer::INDEX_TYPE_LADDER, $entity);
+
         $this->adminLogManager->createLog(PlayerEvent::CREATED, $entity->getUuidAsString(), $entity->getName());
     }
 
@@ -78,10 +85,8 @@ class PlayerListener implements EventSubscriberInterface
 
         $this->playerIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_PLAYER, $entity);
         $this->ladderIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_LADDER, $entity);
-        foreach ($entity->getMemberships() as $membership) {
-            /* @var Member $membership */
-            $this->teamIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_TEAM, $membership->getTeam());
-        }
+        $this->membersIndexer->updateMultiple(Indexer::INDEX_TYPE_MEMBER, $this->memberRepository->getMembersUuidsFromPlayer($entity));
+
         $this->adminLogManager->createLog(PlayerEvent::UPDATED, $entity->getUuidAsString(), $entity->getName());
     }
 
@@ -95,10 +100,8 @@ class PlayerListener implements EventSubscriberInterface
 
         $this->playerIndexer->deleteOne(Indexer::INDEX_TYPE_PLAYER, $entity->getUuidAsString());
         $this->ladderIndexer->deleteOne(Indexer::INDEX_TYPE_LADDER, $entity->getUuidAsString());
-        foreach ($entity->getMemberships() as $membership) {
-            /* @var Member $membership */
-            $this->teamIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_TEAM, $membership->getTeam());
-        }
+        $this->membersIndexer->deleteMultiple(Indexer::INDEX_TYPE_MEMBER, $this->memberRepository->getMembersUuidsFromPlayer($entity));
+
         $this->adminLogManager->createLog(PlayerEvent::DELETED, $entity->getUuidAsString(), $entity->getName());
     }
 }

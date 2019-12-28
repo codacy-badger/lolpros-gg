@@ -15,47 +15,50 @@ class MemberRepository extends ServiceEntityRepository
         parent::__construct($registry, Member::class);
     }
 
-    public function getCurrentPlayerMemberships(Player $player)
+    private function toArrayString(array $uuids)
     {
-        return $this->createQueryBuilder('members')
-            ->join('members.player', 'player')
-            ->where('player  = :player')
-            ->andWhere('members.leaveDate IS NULL')
-            ->setParameter('player', $player)
-            ->getQuery()
-            ->getResult();
+        return array_map(function ($array) {
+            return$array['uuid']->toString();
+        }, $uuids);
     }
 
-    public function getPreviousPlayerMemberships(Player $player)
+    public function getPlayersUuidsFromTeam(Team $team): array
     {
-        return $this->createQueryBuilder('members')
-            ->join('members.player', 'player')
-            ->where('player  = :player')
-            ->andWhere('members.leaveDate IS NOT NULL')
-            ->setParameter('player', $player)
-            ->getQuery()
-            ->getResult();
-    }
-
-    public function getCurrentTeamMemberships(Team $team)
-    {
-        return $this->createQueryBuilder('members')
-            ->join('members.team', 'team')
-            ->where('team  = :team')
-            ->andWhere('members.leaveDate IS NULL')
+        $uuids = $this->createQueryBuilder('member')
+            ->select('player.uuid')
+            ->join('member.player', 'player')
+            ->join('member.team', 'team')
+            ->where('team = :team')
             ->setParameter('team', $team)
             ->getQuery()
             ->getResult();
+
+        return $this->toArrayString($uuids);
     }
 
-    public function getPreviousTeamMemberships(Team $team)
+    public function getMembersUuidsFromTeam(Team $team): array
     {
-        return $this->createQueryBuilder('members')
+        $uuids = $this->createQueryBuilder('members')
+            ->select('members.uuid')
             ->join('members.team', 'team')
-            ->where('team  = :team')
-            ->andWhere('members.leaveDate IS NOT NULL')
+            ->where('team = :team')
             ->setParameter('team', $team)
             ->getQuery()
             ->getResult();
+
+        return $this->toArrayString($uuids);
+    }
+
+    public function getMembersUuidsFromPlayer(Player $player): array
+    {
+        $uuids = $this->createQueryBuilder('members')
+            ->select('members.uuid')
+            ->join('members.player', 'player')
+            ->where('player = :player')
+            ->setParameter('player', $player)
+            ->getQuery()
+            ->getResult();
+
+        return $this->toArrayString($uuids);
     }
 }

@@ -60,7 +60,7 @@ class PlayerBuilder extends AMemberBuilder implements BuilderInterface
     {
         $teams = [];
 
-        $memberships = $this->memberFetcher->fetch(['player' => $playerUuid]);
+        $memberships = $this->memberFetcher->fetch(['player' => $playerUuid, 'current' => true]);
         foreach ($memberships as $member) {
             $team = $member['team'];
             array_push($teams, [

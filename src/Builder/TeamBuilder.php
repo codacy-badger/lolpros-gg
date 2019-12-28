@@ -33,7 +33,7 @@ class TeamBuilder extends AMemberBuilder implements BuilderInterface
         $team = $this->teamFetcher->fetchOne($options);
 
         $team['current_members'] = $this->buildTeamMembers($this->memberFetcher->fetch(['team' => $team['uuid'], 'current' => true]));
-        $team['previous_members'] = $this->buildTeamMembers($this->memberFetcher->fetch(['team' => $team['uuid'], 'current' => false]));
+        $team['previous_members'] = $this->buildTeamMembers($this->memberFetcher->fetch(['team' => $team['uuid'], 'current' => false]), false);
 
         return $team;
     }

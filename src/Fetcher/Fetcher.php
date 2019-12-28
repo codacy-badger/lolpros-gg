@@ -3,6 +3,7 @@
 namespace App\Fetcher;
 
 use Elastica\Document;
+use Elastica\Exception\NotFoundException;
 use Elastica\Exception\ResponseException;
 use Elastica\Index;
 use Elastica\Query;
@@ -71,11 +72,11 @@ abstract class Fetcher
 
         $results = $this->type->search($this->createQuery($options))->getDocuments();
 
-        if (count($results)) {
-            return $results[0]->getData();
+        if (!count($results)) {
+            throw new NotFoundException();
         }
 
-        return [];
+        return $results[0]->getData();
     }
 
     public function fetchDocument($uuid): ?Document

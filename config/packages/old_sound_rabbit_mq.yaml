@@ -22,12 +22,3 @@ old_sound_rabbit_mq:
             queue_options:
                 name: 'summoner_names'
             callback: App\Consumer\SummonerNamesConsumer
-
-        teams:
-            connection: default
-            exchange_options:
-                name: 'teams'
-                type: 'direct'
-            queue_options:
-                name: 'teams'
-            callback: App\Consumer\TeamsConsumer

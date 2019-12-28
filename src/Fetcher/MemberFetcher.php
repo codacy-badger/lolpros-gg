@@ -28,7 +28,9 @@ class MemberFetcher extends Fetcher
         }
         if ($options['start'] && $options['end']) {
             $boolQuery = new Query\BoolQuery();
+            $boolQuery->addMustNot(new Query\Range('leave_timestamp', ['lte' => $options['start']]));
             $boolQuery->addMustNot(new Query\Match('leave_timestamp', $options['start']));
+            $boolQuery->addMustNot(new Query\Match('join_timestamp', $options['end']));
             $boolQuery->addMustNot(new Query\Range('join_timestamp', ['gte' => $options['end']]));
             $query->addMust($boolQuery);
         }

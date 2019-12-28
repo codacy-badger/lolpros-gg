@@ -7,22 +7,18 @@ services:
     App\Listener\Core\PlayerListener:
         arguments:
             $playerIndexer: '@api.indexer.players'
-            $teamIndexer: '@api.indexer.teams'
         tags:
             - { name: kernel.event_subscriber }
 
     App\Listener\Core\TeamListener:
         arguments:
             $teamIndexer: '@api.indexer.teams'
-            $playerIndexer: '@api.indexer.players'
             $ladderIndexer: '@api.indexer.ladder'
             $membersIndexer: '@api.indexer.members'
         tags: { name: kernel.event_subscriber }
 
     App\Listener\Core\MemberListener:
         arguments:
-            $teamIndexer: '@api.indexer.teams'
-            $playerIndexer: '@api.indexer.players'
             $ladderIndexer: '@api.indexer.ladder'
             $membersIndexer: '@api.indexer.members'
         tags: { name: kernel.event_subscriber }
@@ -40,7 +36,7 @@ services:
         arguments:
             $playerIndexer: '@api.indexer.players'
             $ladderIndexer: '@api.indexer.ladder'
-            $teamIndexer: '@api.indexer.teams'
+            $membersIndexer: '@api.indexer.members'
         tags:
             - { name: kernel.event_subscriber }
 
@@ -62,7 +58,6 @@ services:
         arguments:
             $playerIndexer: '@api.indexer.players'
             $ladderIndexer: '@api.indexer.ladder'
-            $teamIndexer: '@api.indexer.teams'
             $summonerNameIndexer: '@api.indexer.summoner_names'
         tags:
             - { name: kernel.event_subscriber }

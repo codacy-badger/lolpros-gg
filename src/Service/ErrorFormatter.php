@@ -2,7 +2,9 @@
 
 namespace App\Service;
 
-use Doctrine\Common\Util\Inflector;
+use Doctrine\Common\Inflector\Inflector;
+use ReflectionProperty;
+use RuntimeException;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
@@ -39,7 +41,7 @@ class ErrorFormatter
                 $error->getSubError($matches[1])->pushField($matches[2], $errorName);
                 continue;
             }
-            throw new \RuntimeException(sprintf('Unmanaged path %s', $violation->getPropertyPath()));
+            throw new RuntimeException(sprintf('Unmanaged path %s', $violation->getPropertyPath()));
         }
 
         return $error;
@@ -72,7 +74,7 @@ class ErrorFormatter
              * Update propertyPath to remove automatically added "data."
              * We need Reflection because we don't have access to $violation::propertyPath.
              */
-            $reflectionProperty = new \ReflectionProperty(ConstraintViolation::class, 'propertyPath');
+            $reflectionProperty = new ReflectionProperty(ConstraintViolation::class, 'propertyPath');
             $reflectionProperty->setAccessible(true);
             $path = $violation->getPropertyPath();
 

@@ -2,8 +2,10 @@
 
 namespace App\Controller\ElasticSearch;
 
+use App\Builder\TeamBuilder;
 use App\Controller\APIController;
 use App\Fetcher\TeamFetcher;
+use Elastica\Exception\NotFoundException;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\NamePrefix;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
@@ -48,29 +50,29 @@ class TeamsController extends APIController
      * @Get(path="/teams/{uuid}", requirements={"uuid"="[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"})
      * @IsGranted("IS_AUTHENTICATED_ANONYMOUSLY")
      */
-    public function getTeamsUuidAction(string $uuid, TeamFetcher $teamsFetcher): JsonResponse
+    public function getTeamsUuidAction(string $slug, TeamBuilder $teamBuilder): JsonResponse
     {
-        $team = $teamsFetcher->fetchOne(['uuid' => $uuid]);
+        try {
+            $team = $teamBuilder->build(['$slug' => $slug]);
 
-        if (!$team) {
+            return new JsonResponse($team);
+        } catch (NotFoundException $e) {
             throw new NotFoundHttpException();
         }
-
-        return new JsonResponse($team);
     }
 
     /**
      * @Get(path="/teams/{slug}")
      * @IsGranted("IS_AUTHENTICATED_ANONYMOUSLY")
      */
-    public function getTeamSlugAction(string $slug, TeamFetcher $teamsFetcher): JsonResponse
+    public function getTeamSlugAction(string $slug, TeamBuilder $teamBuilder): JsonResponse
     {
-        $team = $teamsFetcher->fetchOne(['slug' => $slug]);
+        try {
+            $team = $teamBuilder->build(['slug' => $slug]);
 
-        if (!$team) {
+            return new JsonResponse($team);
+        } catch (NotFoundException $e) {
             throw new NotFoundHttpException();
         }
-
-        return new JsonResponse($team);
     }
 }
