@@ -98,7 +98,7 @@ class Ranking
      *     "league.get_player_riot_accounts",
      * })
      */
-    protected $rank = 0;
+    protected $ranking = 0;
 
     /**
      * @var int
@@ -206,12 +206,12 @@ class Ranking
 
     public function getRank(): string
     {
-        return $this->rank;
+        return $this->ranking;
     }
 
-    public function setRank(string $rank): self
+    public function setRank(string $ranking): self
     {
-        $this->rank = $rank;
+        $this->ranking = $ranking;
 
         return $this;
     }
