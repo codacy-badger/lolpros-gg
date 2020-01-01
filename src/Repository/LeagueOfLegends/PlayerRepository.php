@@ -23,7 +23,7 @@ class PlayerRepository extends ServiceEntityRepository
     public function getPlayersRankings($playerUuid, $position = null, $country = null): int
     {
         $sql = <<<SQL
-SELECT player.name, player.uuid, RANK() OVER (ORDER BY player.score DESC) AS rank FROM player__player player
+SELECT player.name, player.uuid, RANK() OVER (ORDER BY player.score DESC) AS ranking FROM player__player player
 SQL;
         if ($position && !$country) {
             $sql .= " WHERE player.position = '{$position}'";
@@ -38,7 +38,7 @@ SQL;
 
         $results = $query->fetchAll();
 
-        return $results[array_search($playerUuid, array_column($results, 'uuid'))]['rank'];
+        return $results[array_search($playerUuid, array_column($results, 'uuid'))]['ranking'];
     }
 
     public function getPaginated(int $page = 1, int $pageSize = 20): Paginator

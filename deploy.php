@@ -28,6 +28,13 @@ host('3.121.206.39')
     ->forwardAgent(true)
     ->set('deploy_path', '~/{{application}}');
 
+host('64.225.65.15')
+    ->stage('v2')
+    ->user('chypriote')
+    ->multiplexing(false)
+    ->forwardAgent(true)
+    ->set('deploy_path', '~/{{application}}');
+
 // Hosts
 host('api.lolpros.gg')
     ->stage('prod')

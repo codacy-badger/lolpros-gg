@@ -51,7 +51,7 @@ abstract class AMemberBuilder implements BuilderInterface
                     'profile_icon_id' => $player['account']['profile_icon_id'],
                     'summoner_name' => $player['account']['summoner_name'],
                     'tier' => $player['account']['tier'],
-                    'rank' => $player['account']['rank'],
+                    'rank' => $player['account']['ranking'],
                     'league_points' => $player['account']['league_points'],
                     'score' => $player['score'],
                 ]);
