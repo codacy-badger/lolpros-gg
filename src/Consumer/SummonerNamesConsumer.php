@@ -3,7 +3,7 @@
 namespace App\Consumer;
 
 use App\Entity\LeagueOfLegends\Player\SummonerName;
-use App\Event\LeagueOfLegends\Player\SummonerNameEvent;
+use App\Indexer\Indexer;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
@@ -28,11 +28,23 @@ class SummonerNamesConsumer implements ConsumerInterface
      */
     private $eventDispatcher;
 
-    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger, EventDispatcherInterface $eventDispatcher)
+    /**
+     * @var Indexer
+     */
+    private $summonerNameIndexer;
+
+    /**
+     * @var Indexer
+     */
+    private $playerIndexer;
+
+    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger, EventDispatcherInterface $eventDispatcher, Indexer $summonerNameIndexer, Indexer $playerIndexer)
     {
         $this->entityManager = $entityManager;
         $this->logger = $logger;
         $this->eventDispatcher = $eventDispatcher;
+        $this->summonerNameIndexer = $summonerNameIndexer;
+        $this->playerIndexer = $playerIndexer;
     }
 
     public function execute(AMQPMessage $msg)
@@ -46,7 +58,11 @@ class SummonerNamesConsumer implements ConsumerInterface
         }
 
         try {
-            $this->eventDispatcher->dispatch(new SummonerNameEvent($summoner), SummonerNameEvent::CREATED);
+            $this->summonerNameIndexer->addOne(Indexer::INDEX_TYPE_SUMMONER_NAME, $summoner);
+            $this->playerIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_PLAYER, $summoner->getOwner()->getPlayer());
+            if ($previous = $summoner->getPrevious()) {
+                $this->summonerNameIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_SUMMONER_NAME, $previous);
+            }
         } catch (Exception $e) {
             $this->logger->critical(sprintf('[SummonerNamesConsumer] An error occured %s', $e->getMessage()));
 
