@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\Entity\Core\User\User;
+use App\Entity\User\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\Uuid;

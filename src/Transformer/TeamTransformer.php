@@ -2,7 +2,7 @@
 
 namespace App\Transformer;
 
-use App\Entity\Core\Team\Team;
+use App\Entity\Team\Team;
 use App\Indexer\Indexer;
 use DateTime;
 use Elastica\Document;

@@ -2,7 +2,7 @@
 
 namespace App\Security;
 
-use App\Entity\Core\User\User;
+use App\Entity\User\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\UserInterface;

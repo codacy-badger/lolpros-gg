@@ -2,8 +2,8 @@
 
 namespace App\Listener\LeagueOfLegends;
 
-use App\Entity\LeagueOfLegends\Player\Ranking;
-use App\Event\LeagueOfLegends\Player\RankingEvent;
+use App\Entity\LeagueOfLegends\Ranking;
+use App\Event\LeagueOfLegends\RankingEvent;
 use App\Indexer\Indexer;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -48,7 +48,7 @@ class RankingListener implements EventSubscriberInterface
             return;
         }
 
-        $this->playerIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_PLAYER, $entity->getOwner()->getPlayer());
-        $this->ladderIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_LADDER, $entity->getOwner()->getPlayer());
+        $this->playerIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_PLAYER, $entity->getOwner()->getLeaguePlayer());
+        $this->ladderIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_LADDER, $entity->getOwner()->getLeaguePlayer());
     }
 }

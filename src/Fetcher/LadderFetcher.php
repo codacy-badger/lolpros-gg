@@ -2,7 +2,7 @@
 
 namespace App\Fetcher;
 
-use App\Entity\LeagueOfLegends\Player\Player;
+use App\Entity\LeagueOfLegends\LeaguePlayer;
 use Elastica\Query;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

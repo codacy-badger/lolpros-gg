@@ -2,10 +2,10 @@
 
 namespace App\Transformer;
 
-use App\Entity\LeagueOfLegends\Player\Player;
-use App\Entity\LeagueOfLegends\Player\Ranking;
-use App\Entity\LeagueOfLegends\Player\RiotAccount;
-use App\Entity\LeagueOfLegends\Player\SummonerName;
+use App\Entity\LeagueOfLegends\LeaguePlayer;
+use App\Entity\LeagueOfLegends\Ranking;
+use App\Entity\LeagueOfLegends\RiotAccount;
+use App\Entity\LeagueOfLegends\SummonerName;
 use App\Indexer\Indexer;
 use App\Repository\LeagueOfLegends\RankingRepository;
 use DateTime;

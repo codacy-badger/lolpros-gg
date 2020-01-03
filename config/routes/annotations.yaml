@@ -1,5 +1,5 @@
 core_controllers:
-    resource: ../../src/Controller/Core/
+    resource: ../../src/Controller/
     type: annotation
 
 league_controllers:

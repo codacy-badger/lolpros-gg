@@ -2,23 +2,24 @@
 
 namespace App\Factory\LeagueOfLegends;
 
-use App\Entity\LeagueOfLegends\Player\Ranking;
-use App\Entity\LeagueOfLegends\Player\RiotAccount;
+use App\Entity\LeagueOfLegends\Ranking;
+use App\Entity\LeagueOfLegends\RiotAccount;
 use DateTime;
 
 class LoLProsFactory
 {
     public static function createArrayFromRiotAccount(RiotAccount $riotAccount): array
     {
-        $player = $riotAccount->getPlayer();
+        $player = $riotAccount->getLeaguePlayer();
+        $profile = $player->getProfile();
         $season = $riotAccount->getLatestRanking(Ranking::SEASON_10);
-        $team = $player->getCurrentTeam();
+        $team = $profile->getCurrentTeam();
 
         $lolpros = [
             'uuid' => $player->getUuidAsString(),
-            'name' => $player->getName(),
-            'slug' => $player->getSlug(),
-            'country' => $player->getCountry(),
+            'name' => $profile->getName(),
+            'slug' => $profile->getSlug(),
+            'country' => $profile->getCountry(),
             'position' => $player->getPosition(),
             'team' => $team ? [
                 'team' => $team->getUuidAsString(),

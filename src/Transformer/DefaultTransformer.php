@@ -2,9 +2,9 @@
 
 namespace App\Transformer;
 
-use App\Entity\Core\Document\Document as Logo;
-use App\Entity\Core\Team\Member;
-use App\Entity\LeagueOfLegends\Player\Player;
+use App\Entity\Document\Document as Logo;
+use App\Entity\Team\Member;
+use App\Entity\LeagueOfLegends\LeaguePlayer;
 use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -39,7 +39,7 @@ abstract class DefaultTransformer implements DefaultTransformerInterface
         foreach ($memberships as $membership) {
             /** @var Member $membership */
             /** @var Player $player */
-            $player = $membership->getPlayer();
+            $player = $membership->getProfile();
             $ranking = $player->getBestAccount() ? $player->getBestAccount()->getCurrentRanking() : null;
 
             $member = [

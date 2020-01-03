@@ -2,8 +2,8 @@
 
 namespace App\Form\Core\Team;
 
-use App\Entity\Core\Region\Region;
-use App\Entity\Core\Team\Team;
+use App\Entity\Region\Region;
+use App\Entity\Team\Team;
 use App\Form\EntityTransformer;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;

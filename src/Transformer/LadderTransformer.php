@@ -2,8 +2,8 @@
 
 namespace App\Transformer;
 
-use App\Entity\LeagueOfLegends\Player\Player;
-use App\Entity\LeagueOfLegends\Player\RiotAccount;
+use App\Entity\LeagueOfLegends\LeaguePlayer;
+use App\Entity\LeagueOfLegends\RiotAccount;
 use App\Indexer\Indexer;
 use DateTime;
 use Doctrine\Common\Collections\Collection;

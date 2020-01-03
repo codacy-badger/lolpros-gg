@@ -2,9 +2,9 @@
 
 namespace App\Transformer;
 
-use App\Entity\Core\Player\Player;
-use App\Entity\Core\Team\Member;
-use App\Entity\Core\Team\Team;
+use App\Entity\Profile\Profile;
+use App\Entity\Team\Member;
+use App\Entity\Team\Team;
 use App\Indexer\Indexer;
 use DateTime;
 use Elastica\Document;
@@ -30,7 +30,7 @@ class MemberTransformer extends DefaultTransformer
 
         $document = [
             'uuid' => $member->getUuidAsString(),
-            'player' => $this->buildPlayer($member->getPlayer()),
+            'player' => $this->buildPlayer($member->getProfile()),
             'team' => $this->buildTeam($member->getTeam()),
             'type' => $member->getRole(),
             'join_date' => $member->getJoinDate()->format(DateTime::ISO8601),
@@ -44,7 +44,7 @@ class MemberTransformer extends DefaultTransformer
         return new Document($member->getUuidAsString(), $document, Indexer::INDEX_TYPE_MEMBER, Indexer::INDEX_MEMBERS);
     }
 
-    private function buildPlayer(Player $player)
+    private function buildPlayer(Profile $player)
     {
         $player = [
             'uuid' => $player->getUuidAsString(),

@@ -2,9 +2,9 @@
 
 namespace App\Form\Core\Team;
 
-use App\Entity\Core\Team\Member;
-use App\Entity\Core\Team\Team;
-use App\Entity\LeagueOfLegends\Player\Player;
+use App\Entity\Team\Member;
+use App\Entity\Team\Team;
+use App\Entity\LeagueOfLegends\LeaguePlayer;
 use App\Form\EntityTransformer;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;

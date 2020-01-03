@@ -2,13 +2,13 @@
 
 namespace App\Service;
 
-use App\Entity\Core\Document\Document;
-use App\Entity\Core\Document\RegionLogo;
-use App\Entity\Core\Document\TeamLogo;
-use App\Entity\Core\Region\Region;
-use App\Entity\Core\Team\Team;
-use App\Event\Core\Region\RegionEvent;
-use App\Event\Core\Team\TeamEvent;
+use App\Entity\Document\Document;
+use App\Entity\Document\RegionLogo;
+use App\Entity\Document\TeamLogo;
+use App\Entity\Region\Region;
+use App\Entity\Team\Team;
+use App\Event\Region\RegionEvent;
+use App\Event\Team\TeamEvent;
 use App\Manager\DefaultManager;
 use Cloudinary\Uploader;
 use Doctrine\ORM\EntityManagerInterface;

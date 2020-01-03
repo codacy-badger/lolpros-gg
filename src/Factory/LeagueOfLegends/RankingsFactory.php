@@ -2,8 +2,8 @@
 
 namespace App\Factory\LeagueOfLegends;
 
-use App\Entity\LeagueOfLegends\Player\Ranking;
-use App\Manager\LeagueOfLegends\Player\RankingManager;
+use App\Entity\LeagueOfLegends\Ranking;
+use App\Manager\LeagueOfLegends\RankingManager;
 use RiotAPI\LeagueAPI\Objects\LeagueEntryDto;
 
 class RankingsFactory

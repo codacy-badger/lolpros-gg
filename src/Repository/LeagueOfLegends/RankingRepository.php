@@ -2,8 +2,8 @@
 
 namespace App\Repository\LeagueOfLegends;
 
-use App\Entity\LeagueOfLegends\Player\Ranking;
-use App\Entity\LeagueOfLegends\Player\RiotAccount;
+use App\Entity\LeagueOfLegends\Ranking;
+use App\Entity\LeagueOfLegends\RiotAccount;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;

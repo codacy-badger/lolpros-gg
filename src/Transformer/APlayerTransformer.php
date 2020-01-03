@@ -2,8 +2,8 @@
 
 namespace App\Transformer;
 
-use App\Entity\Core\Region\Region;
-use App\Entity\LeagueOfLegends\Player\Player;
+use App\Entity\Region\Region;
+use App\Entity\LeagueOfLegends\LeaguePlayer;
 
 abstract class APlayerTransformer extends DefaultTransformer
 {

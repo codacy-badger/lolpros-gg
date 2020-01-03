@@ -2,7 +2,7 @@
 
 namespace App\Repository\LeagueOfLegends;
 
-use App\Entity\LeagueOfLegends\Player\SummonerName;
+use App\Entity\LeagueOfLegends\SummonerName;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 

@@ -2,11 +2,11 @@
 
 namespace App\Listener\LeagueOfLegends;
 
-use App\Entity\LeagueOfLegends\Player\Player;
-use App\Event\LeagueOfLegends\Player\PlayerEvent;
+use App\Entity\LeagueOfLegends\LeaguePlayer;
+use App\Event\LeagueOfLegends\LeaguePlayerEvent;
 use App\Indexer\Indexer;
-use App\Manager\Core\Report\AdminLogManager;
-use App\Repository\Core\MemberRepository;
+use App\Manager\Report\AdminLogManager;
+use App\Repository\MemberRepository;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -45,9 +45,9 @@ class PlayerListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            PlayerEvent::CREATED => 'onCreate',
-            PlayerEvent::UPDATED => 'onUpdate',
-            PlayerEvent::DELETED => 'onDelete',
+            LeaguePlayerEvent::CREATED => 'onCreate',
+            LeaguePlayerEvent::UPDATED => 'onUpdate',
+            LeaguePlayerEvent::DELETED => 'onDelete',
         ];
     }
 
@@ -61,47 +61,50 @@ class PlayerListener implements EventSubscriberInterface
         $this->memberRepository = $memberRepository;
     }
 
-    public function onCreate(PlayerEvent $event)
+    public function onCreate(LeaguePlayerEvent $event)
     {
         $entity = $event->getPlayer();
 
-        if (!$entity instanceof Player) {
+        if (!$entity instanceof LeaguePlayer) {
             return;
         }
 
-        $this->playerIndexer->addOne(Indexer::INDEX_TYPE_PLAYER, $entity);
+        $player = $entity->getPlayer();
+        $this->playerIndexer->addOne(Indexer::INDEX_TYPE_PLAYER, $player);
         $this->ladderIndexer->addOne(Indexer::INDEX_TYPE_LADDER, $entity);
 
-        $this->adminLogManager->createLog(PlayerEvent::CREATED, $entity->getUuidAsString(), $entity->getName());
+        $this->adminLogManager->createLog(LeaguePlayerEvent::CREATED, $player->getUuidAsString(), $player->getName());
     }
 
-    public function onUpdate(PlayerEvent $event)
+    public function onUpdate(LeaguePlayerEvent $event)
     {
         $entity = $event->getPlayer();
 
-        if (!$entity instanceof Player) {
+        if (!$entity instanceof LeaguePlayer) {
             return;
         }
 
-        $this->playerIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_PLAYER, $entity);
+        $player = $entity->getPlayer();
+        $this->playerIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_PLAYER, $player);
         $this->ladderIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_LADDER, $entity);
-        $this->membersIndexer->updateMultiple(Indexer::INDEX_TYPE_MEMBER, $this->memberRepository->getMembersUuidsFromPlayer($entity));
+        $this->membersIndexer->updateMultiple(Indexer::INDEX_TYPE_MEMBER, $this->memberRepository->getMembersUuidsFromPlayer($player));
 
-        $this->adminLogManager->createLog(PlayerEvent::UPDATED, $entity->getUuidAsString(), $entity->getName());
+        $this->adminLogManager->createLog(LeaguePlayerEvent::UPDATED, $player->getUuidAsString(), $player->getName());
     }
 
-    public function onDelete(PlayerEvent $event)
+    public function onDelete(LeaguePlayerEvent $event)
     {
         $entity = $event->getPlayer();
 
-        if (!$entity instanceof Player) {
+        if (!$entity instanceof LeaguePlayer) {
             return;
         }
 
-        $this->playerIndexer->deleteOne(Indexer::INDEX_TYPE_PLAYER, $entity->getUuidAsString());
-        $this->ladderIndexer->deleteOne(Indexer::INDEX_TYPE_LADDER, $entity->getUuidAsString());
-        $this->membersIndexer->deleteMultiple(Indexer::INDEX_TYPE_MEMBER, $this->memberRepository->getMembersUuidsFromPlayer($entity));
+        $player = $entity->getPlayer();
+        $this->playerIndexer->deleteOne(Indexer::INDEX_TYPE_PLAYER, $player->getUuidAsString());
+        $this->ladderIndexer->deleteOne(Indexer::INDEX_TYPE_LADDER, $player->getUuidAsString());
+        $this->membersIndexer->deleteMultiple(Indexer::INDEX_TYPE_MEMBER, $this->memberRepository->getMembersUuidsFromPlayer($player));
 
-        $this->adminLogManager->createLog(PlayerEvent::DELETED, $entity->getUuidAsString(), $entity->getName());
+        $this->adminLogManager->createLog(LeaguePlayerEvent::DELETED, $player->getUuidAsString(), $player->getName());
     }
 }

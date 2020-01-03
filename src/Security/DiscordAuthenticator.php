@@ -2,7 +2,7 @@
 
 namespace App\Security;
 
-use App\Entity\Core\User\User;
+use App\Entity\User\User;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;

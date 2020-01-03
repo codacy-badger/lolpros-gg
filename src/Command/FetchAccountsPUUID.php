@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\Entity\LeagueOfLegends\Player\RiotAccount;
+use App\Entity\LeagueOfLegends\RiotAccount;
 use App\Manager\LeagueOfLegends\Riot\RiotSummonerManager;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;

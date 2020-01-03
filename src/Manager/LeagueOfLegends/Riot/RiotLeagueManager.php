@@ -2,7 +2,7 @@
 
 namespace App\Manager\LeagueOfLegends\Riot;
 
-use App\Entity\LeagueOfLegends\Player\Ranking;
+use App\Entity\LeagueOfLegends\Ranking;
 use RiotAPI\LeagueAPI\Definitions\Region;
 use RiotAPI\LeagueAPI\LeagueAPI;
 use RiotAPI\LeagueAPI\Objects\LeagueEntryDto;

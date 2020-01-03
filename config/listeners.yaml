@@ -4,26 +4,26 @@ services:
         autoconfigure: true
 
     #Core listeners
-    App\Listener\Core\PlayerListener:
+    App\Listener\Profile\ProfileListener:
         arguments:
             $playerIndexer: '@api.indexer.players'
         tags:
             - { name: kernel.event_subscriber }
 
-    App\Listener\Core\TeamListener:
+    App\Listener\Team\TeamListener:
         arguments:
             $teamIndexer: '@api.indexer.teams'
             $ladderIndexer: '@api.indexer.ladder'
             $membersIndexer: '@api.indexer.members'
         tags: { name: kernel.event_subscriber }
 
-    App\Listener\Core\MemberListener:
+    App\Listener\Team\MemberListener:
         arguments:
             $ladderIndexer: '@api.indexer.ladder'
             $membersIndexer: '@api.indexer.members'
         tags: { name: kernel.event_subscriber }
 
-    App\Listener\Core\RegionListener:
+    App\Listener\Region\RegionListener:
         arguments:
             $playerIndexer: '@api.indexer.players'
             $ladderIndexer: '@api.indexer.ladder'

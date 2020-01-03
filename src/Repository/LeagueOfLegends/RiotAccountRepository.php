@@ -2,7 +2,7 @@
 
 namespace App\Repository\LeagueOfLegends;
 
-use App\Entity\LeagueOfLegends\Player\RiotAccount;
+use App\Entity\LeagueOfLegends\RiotAccount;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\Pagination\Paginator;

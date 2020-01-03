@@ -2,7 +2,7 @@
 
 namespace App\Form\Core\Report;
 
-use App\Entity\Core\Report\AddRequest;
+use App\Entity\Report\AddRequest;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

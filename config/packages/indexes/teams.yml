@@ -56,7 +56,7 @@ fos_elastica:
 
           persistence:
             driver: orm
-            model: App\Entity\Core\Team\Team
+            model: App\Entity\Team\Team
             model_to_elastica_transformer:
               service: App\Transformer\TeamTransformer
             listener:

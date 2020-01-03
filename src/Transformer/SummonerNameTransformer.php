@@ -2,7 +2,7 @@
 
 namespace App\Transformer;
 
-use App\Entity\LeagueOfLegends\Player\SummonerName;
+use App\Entity\LeagueOfLegends\SummonerName;
 use App\Indexer\Indexer;
 use DateTime;
 use Elastica\Document;

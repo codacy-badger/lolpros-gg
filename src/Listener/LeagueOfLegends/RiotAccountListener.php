@@ -2,11 +2,11 @@
 
 namespace App\Listener\LeagueOfLegends;
 
-use App\Entity\LeagueOfLegends\Player\Player;
-use App\Entity\LeagueOfLegends\Player\RiotAccount;
-use App\Event\LeagueOfLegends\Player\RiotAccountEvent;
+use App\Entity\LeagueOfLegends\LeaguePlayer;
+use App\Entity\LeagueOfLegends\RiotAccount;
+use App\Event\LeagueOfLegends\RiotAccountEvent;
 use App\Indexer\Indexer;
-use App\Manager\Core\Report\AdminLogManager;
+use App\Manager\Report\AdminLogManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -78,7 +78,7 @@ class RiotAccountListener implements EventSubscriberInterface
             return;
         }
 
-        $this->updateLinkedPlayer($entity->getPlayer());
+        $this->updateLinkedPlayer($entity->getLeaguePlayer());
         $this->adminLogManager->createLog(RiotAccountEvent::CREATED, $entity->getUuidAsString(), $entity->getSummonerName());
     }
 
@@ -90,7 +90,7 @@ class RiotAccountListener implements EventSubscriberInterface
             return;
         }
 
-        $this->updateLinkedPlayer($entity->getPlayer());
+        $this->updateLinkedPlayer($entity->getLeaguePlayer());
     }
 
     public function onDelete(RiotAccountEvent $event)
@@ -101,7 +101,7 @@ class RiotAccountListener implements EventSubscriberInterface
             return;
         }
 
-        $this->updateLinkedPlayer($entity->getPlayer());
+        $this->updateLinkedPlayer($entity->getLeaguePlayer());
         $this->adminLogManager->createLog(RiotAccountEvent::DELETED, $entity->getUuidAsString());
     }
 }

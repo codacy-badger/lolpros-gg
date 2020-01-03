@@ -2,7 +2,7 @@
 
 namespace App\Form\Core\Region;
 
-use App\Entity\Core\Region\Region;
+use App\Entity\Region\Region;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
