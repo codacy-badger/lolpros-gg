@@ -5,6 +5,7 @@ namespace App\Builder;
 use App\Fetcher\LadderFetcher;
 use App\Fetcher\MemberFetcher;
 use App\Fetcher\PlayerFetcher;
+use App\Repository\LeagueOfLegends\PlayerRepository;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PlayerBuilder extends AMemberBuilder implements BuilderInterface
@@ -19,12 +20,18 @@ class PlayerBuilder extends AMemberBuilder implements BuilderInterface
      */
     private $optionResolver;
 
-    public function __construct(PlayerFetcher $playerFetcher, MemberFetcher $memberFetcher, LadderFetcher $ladderFetcher)
+    /**
+     * @var PlayerRepository
+     */
+    private $playerRepository;
+
+    public function __construct(PlayerFetcher $playerFetcher, MemberFetcher $memberFetcher, LadderFetcher $ladderFetcher, PlayerRepository $playerRepository)
     {
         parent::__construct($memberFetcher, $ladderFetcher);
         $this->playerFetcher = $playerFetcher;
         $this->optionResolver = new OptionsResolver();
         $this->configureOptions($this->optionResolver);
+        $this->playerRepository = $playerRepository;
     }
 
     public function build(array $options): array
@@ -34,6 +41,7 @@ class PlayerBuilder extends AMemberBuilder implements BuilderInterface
 
         $player['teams'] = $this->buildTeams($player['uuid']);
         $player['previous_teams'] = $this->buildPreviousTeams($player['uuid']);
+        $player['rankings'] = $this->buildPlayerRankings($player);
 
         return $player;
     }
@@ -106,5 +114,19 @@ class PlayerBuilder extends AMemberBuilder implements BuilderInterface
         }
 
         return $teams;
+    }
+
+    private function buildPlayerRankings(array $player): array
+    {
+        $rankings = [];
+
+        if ($player['score']) {
+            $rankings['global'] = $this->playerRepository->getPlayersRankings($player['uuid']);
+            $rankings['country'] = $this->playerRepository->getPlayersRankings($player['uuid'], null, $player['country']);
+            $rankings['position'] = $this->playerRepository->getPlayersRankings($player['uuid'], $player['position']);
+            $rankings['country_position'] = $this->playerRepository->getPlayersRankings($player['uuid'], $player['position'], $player['country']);
+        }
+
+        return $rankings;
     }
 }
