@@ -43,7 +43,7 @@ class FetchAccountsPUUID extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Resets scores for all Riot Accounts')
+            ->setDescription('Updates missing puuids for players')
             ->addOption('force', 'f');
     }
 
