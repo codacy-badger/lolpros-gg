@@ -22,6 +22,7 @@ class Indexer implements IndexerInterface
     const INDEX_SUMMONER_NAMES = 'summoner_names';
     const INDEX_TEAMS = 'teams';
     const INDEX_MEMBERS = 'members';
+    const INDEX_RANKINGS = 'rankings';
 
     //types
     const INDEX_TYPE_LADDER = 'ladder';
@@ -29,6 +30,7 @@ class Indexer implements IndexerInterface
     const INDEX_TYPE_SUMMONER_NAME = 'summoner_name';
     const INDEX_TYPE_TEAM = 'team';
     const INDEX_TYPE_MEMBER = 'member';
+    const INDEX_TYPE_RANKING = 'ranking';
 
     /**
      * @var string

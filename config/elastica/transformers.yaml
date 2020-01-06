@@ -8,3 +8,4 @@ services:
     App\Transformer\SummonerNameTransformer: ~
     App\Transformer\TeamTransformer: ~
     App\Transformer\MemberTransformer: ~
+    App\Transformer\RankingTransformer: ~

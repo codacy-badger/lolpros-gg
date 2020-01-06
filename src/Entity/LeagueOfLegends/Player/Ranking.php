@@ -281,6 +281,16 @@ class Ranking
         return $this->createdAt;
     }
 
+    public function getTotalGames(): int
+    {
+        return $this->wins + $this->losses;
+    }
+
+    public function getWinrate(): float
+    {
+        return $this->getTotalGames() ? $this->wins / $this->getTotalGames() * 100 : 0;
+    }
+
     public static function getAvailableTiers(): array
     {
         return [

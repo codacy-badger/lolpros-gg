@@ -13,13 +13,13 @@ class MemberTransformer extends DefaultTransformer
 {
     public function fetchAndTransform($document, array $fields): ?Document
     {
-        $player = $this->entityManager->getRepository(Member::class)->findOneBy(['uuid' => $document['uuid']]);
+        $member = $this->entityManager->getRepository(Member::class)->findOneBy(['uuid' => $document['uuid']]);
 
-        if (!$player instanceof Member) {
+        if (!$member instanceof Member) {
             return null;
         }
 
-        return $this->transform($player, $fields);
+        return $this->transform($member, $fields);
     }
 
     public function transform($member, array $fields)

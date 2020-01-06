@@ -6,6 +6,7 @@ imports:
     - { resource: indexes/teams.yml }
     - { resource: indexes/summoner_names.yml }
     - { resource: indexes/members.yml }
+    - { resource: indexes/rankings.yml }
 
 fos_elastica:
     clients:

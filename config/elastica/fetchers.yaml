@@ -26,3 +26,7 @@ services:
     App\Fetcher\SearchFetcher:
         arguments:
             $type: '@fos_elastica.index.lp_players'
+
+    App\Fetcher\RankingFetcher:
+        arguments:
+            $type: '@fos_elastica.index.lp_rankings'

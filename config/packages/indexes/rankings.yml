@@ -1,0 +1,46 @@
+fos_elastica:
+    indexes:
+        lp_rankings:
+            index_name: "lp_rankings"
+            settings:
+                number_of_replicas: 0
+                number_of_shards: 1
+            types:
+                ranking:
+                    dynamic: strict
+                    properties:
+                        created_at:
+                            type: date
+                        queue_type:
+                        season:
+                        tier:
+                        ranking:
+                        league_points:
+                        wins:
+                            type: integer
+                        losses:
+                            type: integer
+                        games:
+                            type: integer
+                        winrate:
+                            type: float
+                        score:
+                            type: integer
+                        owner:
+                            type: object
+                            properties:
+                                uuid:
+                                    type: keyword
+                                player_uuid:
+                                    type: keyword
+                                player_slug:
+                                    type: keyword
+
+                    persistence:
+                        driver: orm
+                        model: App\Entity\LeagueOfLegends\Player\Ranking
+                        model_to_elastica_transformer:
+                            service: App\Transformer\RankingTransformer
+                        listener:
+                            defer: true
+                            logger: true

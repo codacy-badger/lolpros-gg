@@ -42,3 +42,11 @@ services:
             - '@fos_elastica.index.lp_members'
             - '@App\Fetcher\MemberFetcher'
             - '@App\Transformer\MemberTransformer'
+
+    api.indexer.rankings:
+        class: App\Indexer\Indexer
+        arguments:
+            - 'lp_members'
+            - '@fos_elastica.index.lp_rankings'
+            - '@App\Fetcher\RankingFetcher'
+            - '@App\Transformer\RankingTransformer'
