@@ -4,9 +4,9 @@ namespace App\Controller\Report;
 
 use App\Controller\APIController;
 use App\Entity\Report\AddRequest;
-use App\Exception\Core\EntityNotCreatedException;
-use App\Exception\Core\EntityNotDeletedException;
-use App\Exception\Core\EntityNotUpdatedException;
+use App\Exception\EntityNotCreatedException;
+use App\Exception\EntityNotDeletedException;
+use App\Exception\EntityNotUpdatedException;
 use App\Form\Core\Report\AddRequestForm;
 use App\Manager\Report\AddRequestManager;
 use FOS\RestBundle\Controller\Annotations\Delete;

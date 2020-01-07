@@ -5,7 +5,7 @@ namespace App\Manager\Team;
 use App\Entity\Team\SocialMedia;
 use App\Entity\Team\Team;
 use App\Event\Team\TeamEvent;
-use App\Exception\Core\EntityNotUpdatedException;
+use App\Exception\EntityNotUpdatedException;
 use App\Manager\DefaultManager;
 use Exception;
 

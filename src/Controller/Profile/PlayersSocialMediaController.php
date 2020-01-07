@@ -5,7 +5,7 @@ namespace App\Controller\Profile;
 use App\Controller\APIController;
 use App\Entity\Profile\Profile;
 use App\Entity\Profile\SocialMedia;
-use App\Exception\Core\EntityNotUpdatedException;
+use App\Exception\EntityNotUpdatedException;
 use App\Manager\Profile\SocialMediaManager;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Put;

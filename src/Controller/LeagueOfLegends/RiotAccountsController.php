@@ -4,7 +4,7 @@ namespace App\Controller\LeagueOfLegends;
 
 use App\Controller\APIController;
 use App\Entity\LeagueOfLegends\RiotAccount;
-use App\Exception\Core\EntityNotDeletedException;
+use App\Exception\EntityNotDeletedException;
 use App\Exception\LeagueOfLegends\AccountRecentlyUpdatedException;
 use App\Manager\LeagueOfLegends\RiotAccountManager;
 use FOS\RestBundle\Controller\Annotations\Delete;

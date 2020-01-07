@@ -4,9 +4,9 @@ namespace App\Manager\Team;
 
 use App\Entity\Team\Team;
 use App\Event\Team\TeamEvent;
-use App\Exception\Core\EntityNotCreatedException;
-use App\Exception\Core\EntityNotDeletedException;
-use App\Exception\Core\EntityNotUpdatedException;
+use App\Exception\EntityNotCreatedException;
+use App\Exception\EntityNotDeletedException;
+use App\Exception\EntityNotUpdatedException;
 use App\Manager\DefaultManager;
 use Exception;
 

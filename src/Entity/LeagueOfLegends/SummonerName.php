@@ -2,7 +2,6 @@
 
 namespace App\Entity\LeagueOfLegends;
 
-use App\Entity\SelfReferencedEntityTrait;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -15,8 +14,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class SummonerName
 {
-    use SelfReferencedEntityTrait;
-
     /**
      * @var int
      * @ORM\Column(type="integer")

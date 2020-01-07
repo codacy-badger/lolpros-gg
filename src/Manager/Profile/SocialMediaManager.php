@@ -7,7 +7,7 @@ use App\Entity\Profile\Profile;
 use App\Entity\Profile\SocialMedia;
 use App\Event\LeagueOfLegends\PlayerEvent;
 use App\Event\Profile\ProfileEvent;
-use App\Exception\Core\EntityNotUpdatedException;
+use App\Exception\EntityNotUpdatedException;
 use App\Manager\DefaultManager;
 use Exception;
 

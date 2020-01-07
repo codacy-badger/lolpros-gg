@@ -4,9 +4,9 @@ namespace App\Controller\Region;
 
 use App\Controller\APIController;
 use App\Entity\Region\Region;
-use App\Exception\Core\EntityNotCreatedException;
-use App\Exception\Core\EntityNotDeletedException;
-use App\Exception\Core\EntityNotUpdatedException;
+use App\Exception\EntityNotCreatedException;
+use App\Exception\EntityNotDeletedException;
+use App\Exception\EntityNotUpdatedException;
 use App\Form\Core\Region\RegionForm;
 use App\Manager\Region\RegionManager;
 use FOS\RestBundle\Controller\Annotations\Delete;

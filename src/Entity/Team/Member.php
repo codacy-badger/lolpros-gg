@@ -3,7 +3,6 @@
 namespace App\Entity\Team;
 
 use App\Entity\Profile\Profile;
-use App\Entity\SelfReferencedEntityTrait;
 use App\Entity\StringUuidTrait;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
@@ -18,7 +17,6 @@ use Ramsey\Uuid\UuidInterface;
  */
 class Member
 {
-    use SelfReferencedEntityTrait;
     use StringUuidTrait;
     const MEMBER_STAFF = 'staff';
     const MEMBER_PLAYER = 'player';

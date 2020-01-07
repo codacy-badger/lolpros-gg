@@ -5,7 +5,7 @@ namespace App\Controller\Team;
 use App\Controller\APIController;
 use App\Entity\Team\SocialMedia;
 use App\Entity\Team\Team;
-use App\Exception\Core\EntityNotUpdatedException;
+use App\Exception\EntityNotUpdatedException;
 use App\Manager\Team\SocialMediaManager;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Put;
