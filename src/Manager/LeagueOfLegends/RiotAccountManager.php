@@ -2,9 +2,10 @@
 
 namespace App\Manager\LeagueOfLegends;
 
-use App\Entity\LeagueOfLegends\LeaguePlayer;
+use App\Entity\LeagueOfLegends\Player;
 use App\Entity\LeagueOfLegends\Ranking;
 use App\Entity\LeagueOfLegends\RiotAccount;
+use App\Entity\Profile\Profile;
 use App\Event\LeagueOfLegends\RiotAccountEvent;
 use App\Exception\Core\EntityNotDeletedException;
 use App\Exception\Core\EntityNotUpdatedException;
@@ -115,10 +116,17 @@ final class RiotAccountManager extends DefaultManager
         }
     }
 
-    public function createRiotAccount(RiotAccount $riotAccountData, LeaguePlayer $player): RiotAccount
+    public function createRiotAccount(RiotAccount $riotAccountData, Profile $profile): RiotAccount
     {
         try {
             $summoner = $this->riotSummonerManager->getForId($riotAccountData->getRiotId());
+
+            $player = $profile->getLeaguePlayer();
+            if (!$player) {
+                $player = new Player();
+                $player->setProfile($profile);
+                $this->entityManager->persist($player);
+            }
 
             $riotAccount = new RiotAccount();
             $riotAccount->setRiotId($riotAccountData->getRiotId());
@@ -128,7 +136,7 @@ final class RiotAccountManager extends DefaultManager
             $riotAccount->setEncryptedRiotId($summoner->id);
             $riotAccount->setProfileIconId($summoner->profileIconId);
             $riotAccount->setSummonerLevel($summoner->summonerLevel);
-            $riotAccount->setLeaguePlayer($player);
+            $riotAccount->setPlayer($player);
             $this->entityManager->persist($riotAccount);
 
             $summonerName = SummonerNameManager::createFromSummoner($summoner);
@@ -151,8 +159,8 @@ final class RiotAccountManager extends DefaultManager
 
             return $riotAccount;
         } catch (Exception $e) {
-            $this->logger->error('[RiotAccountsManager] Could not create RiotAccount for player {uuid} because of {reason}', [
-                'uuid' => $player->getUuidAsString() ?? null,
+            $this->logger->error('[RiotAccountsManager] Could not create RiotAccount for profile {uuid} because of {reason}', [
+                'uuid' => $profile->getUuidAsString() ?? null,
                 'reason' => $e->getMessage(),
             ]);
 

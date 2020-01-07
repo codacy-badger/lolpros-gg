@@ -2,10 +2,10 @@
 
 namespace App\Manager\Profile;
 
-use App\Entity\LeagueOfLegends\LeaguePlayer;
+use App\Entity\LeagueOfLegends\Player;
 use App\Entity\Profile\Profile;
 use App\Entity\Profile\SocialMedia;
-use App\Event\LeagueOfLegends\LeaguePlayerEvent;
+use App\Event\LeagueOfLegends\PlayerEvent;
 use App\Event\Profile\ProfileEvent;
 use App\Exception\Core\EntityNotUpdatedException;
 use App\Manager\DefaultManager;
@@ -28,8 +28,8 @@ final class SocialMediaManager extends DefaultManager
             $this->entityManager->flush($profile);
 
             switch (true) {
-                case $profile instanceof LeaguePlayer:
-                    $this->eventDispatcher->dispatch(new LeaguePlayerEvent($profile), LeaguePlayerEvent::UPDATED);
+                case $profile instanceof Player:
+                    $this->eventDispatcher->dispatch(new PlayerEvent($profile), PlayerEvent::UPDATED);
                     break;
                 default:
                     $this->eventDispatcher->dispatch(new ProfileEvent($profile), ProfileEvent::UPDATED);

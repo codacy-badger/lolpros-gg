@@ -10,10 +10,10 @@ use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Table(name="profile__league_player")
- * @ORM\Entity(repositoryClass="App\Repository\LeagueOfLegends\LeaguePlayerRepository")
+ * @ORM\Table(name="league__player")
+ * @ORM\Entity(repositoryClass="App\Repository\LeagueOfLegends\PlayerRepository")
  */
-class LeaguePlayer
+class Player
 {
     const POSITION_TOP = '10_top';
     const POSITION_JUNGLE = '20_jungle';
@@ -38,20 +38,20 @@ class LeaguePlayer
      * @Assert\NotNull(groups={"league.post_player"})
      * @Assert\Choice(callback="getAvailablePositions", strict=true)
      * @Serializer\Groups({
-     *     "league.get_players",
-     *     "league.get_player",
-     *     "league.put_player",
+     *     "get_profiles",
+     *     "get_profile",
+     *     "put_profile",
      * })
      */
     protected $position;
 
     /**
      * @var Collection|RiotAccount[]
-     * @ORM\OneToMany(targetEntity="App\Entity\LeagueOfLegends\RiotAccount", mappedBy="leaguePlayer")
+     * @ORM\OneToMany(targetEntity="App\Entity\LeagueOfLegends\RiotAccount", mappedBy="player")
      * @ORM\OrderBy({"score" = "DESC"})
      * @Serializer\Type("App\Entity\LeagueOfLegends\RiotAccount")
      * @Serializer\Groups({
-     *     "league.get_players",
+     *     "get_profile",
      * })
      */
     protected $accounts;

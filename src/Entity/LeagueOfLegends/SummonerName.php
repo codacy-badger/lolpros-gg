@@ -10,7 +10,7 @@ use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Table(name="player__league__summoner_name")
+ * @ORM\Table(name="league__summoner_name")
  * @ORM\Entity(repositoryClass="App\Repository\LeagueOfLegends\SummonerNameRepository")
  */
 class SummonerName
@@ -163,8 +163,8 @@ class SummonerName
     /**
      * @Serializer\VirtualProperty()
      */
-    public function getPlayer(): Profile
+    public function getPlayer(): Player
     {
-        return $this->owner->getLeaguePlayer();
+        return $this->owner->getPlayer();
     }
 }

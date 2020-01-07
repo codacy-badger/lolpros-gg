@@ -2,7 +2,7 @@
 
 namespace App\Entity\Report;
 
-use App\Entity\LeagueOfLegends\LeaguePlayer;
+use App\Entity\LeagueOfLegends\Player;
 use App\Entity\StringUuidTrait;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;

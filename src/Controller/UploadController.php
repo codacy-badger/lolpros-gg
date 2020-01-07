@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Controller\APIController;
 use App\Entity\Region\Region;
 use App\Entity\Team\Team;
 use App\Service\FileUploader;

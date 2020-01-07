@@ -2,11 +2,11 @@
 
 namespace App\Entity\Profile;
 
+use App\Entity\LeagueOfLegends\Player;
 use App\Entity\Region\Region;
+use App\Entity\StringUuidTrait;
 use App\Entity\Team\Member;
 use App\Entity\Team\Team;
-use App\Entity\LeagueOfLegends\LeaguePlayer;
-use App\Entity\StringUuidTrait;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -39,11 +39,8 @@ class Profile
      * @ORM\Column(name="uuid", type="uuid", nullable=false)
      * @Serializer\Type("string")
      * @Serializer\Groups({
-     *     "league.get_players",
-     *     "league.get_player",
-     *     "league.get_riot_account",
-     *     "get_team_members",
-     *     "get_member",
+     *     "get_profiles",
+     *     "get_profile",
      * })
      */
     protected $uuid;
@@ -53,12 +50,8 @@ class Profile
      * @ORM\Column(type="string", nullable=false)
      * @Serializer\Type("string")
      * @Serializer\Groups({
-     *     "league.get_players",
-     *     "league.get_player",
-     *     "league.put_player",
-     *     "league.get_riot_account",
-     *     "get_team_members",
-     *     "get_member",
+     *     "get_profiles",
+     *     "get_profile",
      * })
      * @Assert\NotNull(groups={"league.post_player"})
      */
@@ -69,6 +62,10 @@ class Profile
      * @Gedmo\Slug(fields={"name"})
      * @ORM\Column(type="string", nullable=false)
      * @Serializer\Type("string")
+     * @Serializer\Groups({
+     *     "get_profiles",
+     *     "get_profile",
+     * })
      */
     protected $slug;
 
@@ -77,11 +74,8 @@ class Profile
      * @ORM\Column(type="string", nullable=true)
      * @Serializer\Type("string")
      * @Serializer\Groups({
-     *     "league.get_players",
-     *     "league.get_player",
-     *     "league.put_player",
-     *     "get_team_members",
-     *     "get_member",
+     *     "get_profiles",
+     *     "get_profile",
      * })
      */
     protected $country;
@@ -90,10 +84,10 @@ class Profile
      * @var ArrayCollection|Member[]
      * @ORM\OneToMany(targetEntity="App\Entity\Team\Member", mappedBy="profile")
      * @ORM\OrderBy({"joinDate"="DESC"})
-     * @Serializer\Type("App\Entity\Team\Member")
+     * @Serializer\Type("ArrayCollection<App\Entity\Team\Member>")
      * @Serializer\Groups({
-     *     "league.get_players",
-     *     "league.get_player",
+     *     "get_profiles",
+     *     "get_profile",
      * })
      */
     protected $memberships;
@@ -102,39 +96,42 @@ class Profile
      * @var SocialMedia
      * @ORM\OneToOne(targetEntity="App\Entity\Profile\SocialMedia", mappedBy="owner", cascade={"persist", "remove"})
      * @Serializer\Type("App\Entity\Profile\SocialMedia")
+     * @Serializer\Groups({
+     *     "get_profile",
+     * })
      */
     protected $socialMedia;
 
     /**
      * @var ArrayCollection|Region[]
      * @ORM\ManyToMany(targetEntity="App\Entity\Region\Region", inversedBy="profiles")
+     * @ORM\JoinTable(name="region__profile")
      * @Serializer\Type("App\Entity\Region\Region")
      * @Serializer\Groups({
-     *     "league.get_players",
-     *     "league.get_player",
-     *     "league.put_player",
+     *     "get_profiles",
+     *     "get_profile",
      * })
      */
     private $regions;
 
     /**
      * @var Staff
-     * @ORM\OneToOne(targetEntity="App\Entity\Profile\Staff", mappedBy="player")
+     * @ORM\OneToOne(targetEntity="App\Entity\Profile\Staff", mappedBy="profile")
      * @Serializer\Type("App\Entity\Profile\Staff")
      * @Serializer\Groups({
-     *     "league.get_players",
-     *     "league.get_player",
+     *     "get_profiles",
+     *     "get_profile",
      * })
      */
     protected $staff;
 
     /**
-     * @var LeaguePlayer
-     * @ORM\OneToOne(targetEntity="App\Entity\LeagueOfLegends\LeaguePlayer", mappedBy="profile")
-     * @Serializer\Type("App\Entity\LeagueOfLegends\LeaguePlayer")
+     * @var Player
+     * @ORM\OneToOne(targetEntity="App\Entity\LeagueOfLegends\Player", mappedBy="profile")
+     * @Serializer\Type("App\Entity\LeagueOfLegends\Player")
      * @Serializer\Groups({
-     *     "league.get_players",
-     *     "league.get_player",
+     *     "get_profiles",
+     *     "get_profile",
      * })
      */
     protected $leaguePlayer;
@@ -283,12 +280,12 @@ class Profile
         return $this;
     }
 
-    public function getLeaguePlayer(): ?LeaguePlayer
+    public function getLeaguePlayer(): ?Player
     {
         return $this->leaguePlayer;
     }
 
-    public function setLeaguePlayer(LeaguePlayer $leaguePlayer): self
+    public function setLeaguePlayer(Player $leaguePlayer): self
     {
         $this->leaguePlayer = $leaguePlayer;
 

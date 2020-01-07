@@ -6,7 +6,7 @@ services:
     #Core listeners
     App\Listener\Profile\ProfileListener:
         arguments:
-            $playerIndexer: '@api.indexer.players'
+            $playerIndexer: '@api.indexer.profiles'
         tags:
             - { name: kernel.event_subscriber }
 
@@ -25,7 +25,7 @@ services:
 
     App\Listener\Region\RegionListener:
         arguments:
-            $playerIndexer: '@api.indexer.players'
+            $playerIndexer: '@api.indexer.profiles'
             $ladderIndexer: '@api.indexer.ladder'
             $teamIndexer: '@api.indexer.teams'
         tags:
@@ -34,7 +34,7 @@ services:
     #League listeners
     App\Listener\LeagueOfLegends\PlayerListener:
         arguments:
-            $playerIndexer: '@api.indexer.players'
+            $playerIndexer: '@api.indexer.profiles'
             $ladderIndexer: '@api.indexer.ladder'
             $membersIndexer: '@api.indexer.members'
         tags:
@@ -42,21 +42,21 @@ services:
 
     App\Listener\LeagueOfLegends\RankingListener:
         arguments:
-            $playerIndexer: '@api.indexer.players'
+            $playerIndexer: '@api.indexer.profiles'
             $ladderIndexer: '@api.indexer.ladder'
         tags:
             - { name: kernel.event_subscriber }
 
     App\Listener\LeagueOfLegends\SummonerNameListener:
         arguments:
-            $playerIndexer: '@api.indexer.players'
+            $playerIndexer: '@api.indexer.profiles'
             $summonerNameIndexer: '@api.indexer.summoner_names'
         tags:
             - { name: kernel.event_subscriber }
 
     App\Listener\LeagueOfLegends\RiotAccountListener:
         arguments:
-            $playerIndexer: '@api.indexer.players'
+            $playerIndexer: '@api.indexer.profiles'
             $ladderIndexer: '@api.indexer.ladder'
             $summonerNameIndexer: '@api.indexer.summoner_names'
         tags:

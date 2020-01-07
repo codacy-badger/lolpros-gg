@@ -16,18 +16,18 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/players")
  */
-class LeaguePlayersRiotAccountsController extends APIController
+class PlayersRiotAccountsController extends APIController
 {
     /**
      * @Get(path="/{uuid}/riot-accounts")
      * @IsGranted("ROLE_ADMIN")
      */
-    public function getLeaguePlayersRiotAccountsAction(string $uuid): Response
+    public function getPlayersRiotAccountsAction(string $uuid): Response
     {
-        /* @var Profile $player */
-        $player = $this->find(Profile::class, $uuid);
+        /* @var Profile $profile */
+        $profile = $this->find(Profile::class, $uuid);
 
-        if (!($leaguePlayer = $player->getLeaguePlayer())) {
+        if (!($leaguePlayer = $profile->getLeaguePlayer())) {
             return new JsonResponse([]);
         }
 
@@ -38,12 +38,12 @@ class LeaguePlayersRiotAccountsController extends APIController
      * @Post(path="/{uuid}/riot-accounts")
      * @IsGranted("ROLE_ADMIN")
      */
-    public function postLeaguePlayerRiotAccountAction(string $uuid, RiotAccountManager $riotAccountManager): Response
+    public function postPlayerRiotAccountAction(string $uuid, RiotAccountManager $riotAccountManager): Response
     {
-        /* @var Profile $player */
-        $player = $this->find(Profile::class, $uuid);
+        /* @var Profile $profile */
+        $profile = $this->find(Profile::class, $uuid);
         $riotAccount = $this->deserialize(RiotAccount::class, 'league.post_riot_account');
-        $riotAccount = $riotAccountManager->createRiotAccount($riotAccount, $player);
+        $riotAccount = $riotAccountManager->createRiotAccount($riotAccount, $profile);
 
         return $this->serialize($riotAccount, 'league.get_riot_account', 201);
     }

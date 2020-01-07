@@ -3,9 +3,9 @@ services:
         autowire: true
         autoconfigure: true
 
-    App\Fetcher\PlayerFetcher:
+    App\Fetcher\ProfileFetcher:
         arguments:
-            $type: '@fos_elastica.index.lp_players'
+            $type: '@fos_elastica.index.lp_profiles'
 
     App\Fetcher\LadderFetcher:
         arguments:
@@ -25,4 +25,4 @@ services:
 
     App\Fetcher\SearchFetcher:
         arguments:
-            $type: '@fos_elastica.index.lp_players'
+            $type: '@fos_elastica.index.lp_profiles'

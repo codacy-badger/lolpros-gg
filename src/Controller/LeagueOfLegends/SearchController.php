@@ -3,9 +3,9 @@
 namespace App\Controller\LeagueOfLegends;
 
 use App\Controller\APIController;
-use App\Entity\Team\Team;
-use App\Entity\LeagueOfLegends\LeaguePlayer;
+use App\Entity\LeagueOfLegends\Player;
 use App\Entity\LeagueOfLegends\RiotAccount;
+use App\Entity\Team\Team;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Request\ParamFetcher;

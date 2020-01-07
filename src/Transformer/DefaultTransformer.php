@@ -3,8 +3,8 @@
 namespace App\Transformer;
 
 use App\Entity\Document\Document as Logo;
+use App\Entity\LeagueOfLegends\Player;
 use App\Entity\Team\Member;
-use App\Entity\LeagueOfLegends\LeaguePlayer;
 use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -38,16 +38,14 @@ abstract class DefaultTransformer implements DefaultTransformerInterface
 
         foreach ($memberships as $membership) {
             /** @var Member $membership */
-            /** @var Player $player */
-            $player = $membership->getProfile();
-            $ranking = $player->getBestAccount() ? $player->getBestAccount()->getCurrentRanking() : null;
+            $profile = $membership->getProfile();
 
             $member = [
-                'uuid' => $player->getUuidAsString(),
-                'name' => $player->getName(),
-                'slug' => $player->getSlug(),
+                'uuid' => $profile->getUuidAsString(),
+                'name' => $profile->getName(),
+                'slug' => $profile->getSlug(),
                 'current' => $membership->isCurrent(),
-                'country' => $player->getCountry(),
+                'country' => $profile->getCountry(),
                 'join_date' => $membership->getJoinDate()->format(DateTime::ISO8601),
                 'join_timestamp' => $membership->getJoinDate()->getTimestamp(),
                 'leave_date' => $membership->getLeaveDate() ? $membership->getLeaveDate()->format(DateTime::ISO8601) : null,
@@ -55,7 +53,9 @@ abstract class DefaultTransformer implements DefaultTransformerInterface
             ];
 
             //League player specifics
+            $player = $profile->getLeaguePlayer();
             if ($player instanceof Player && $withRankings) {
+                $ranking = $player->getBestAccount() ? $player->getBestAccount()->getCurrentRanking() : null;
                 $member = array_merge($member, [
                     'position' => $player->getPosition(),
                     'profile_icon_id' => $player->getBestAccount() ? $player->getBestAccount()->getProfileIconId() : null,

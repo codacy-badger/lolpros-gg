@@ -24,6 +24,7 @@ class MemberTransformer extends DefaultTransformer
 
     public function transform($member, array $fields)
     {
+        /** @var Member $member */
         if (!$member instanceof Member) {
             return null;
         }
@@ -44,15 +45,17 @@ class MemberTransformer extends DefaultTransformer
         return new Document($member->getUuidAsString(), $document, Indexer::INDEX_TYPE_MEMBER, Indexer::INDEX_MEMBERS);
     }
 
-    private function buildPlayer(Profile $player)
+    private function buildPlayer(Profile $profile)
     {
         $player = [
-            'uuid' => $player->getUuidAsString(),
-            'name' => $player->getName(),
-            'slug' => $player->getSlug(),
-            'country' => $player->getCountry(),
-            'position' => $player->getPosition() ?? null,
+            'uuid' => $profile->getUuidAsString(),
+            'name' => $profile->getName(),
+            'slug' => $profile->getSlug(),
+            'country' => $profile->getCountry(),
         ];
+        if ($profile->getLeaguePlayer()) {
+            $player['position'] = $profile->getLeaguePlayer()->getPosition();
+        }
 
         return $player;
     }

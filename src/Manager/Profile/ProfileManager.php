@@ -2,8 +2,8 @@
 
 namespace App\Manager\Profile;
 
-use App\Entity\Profile\Profile;
 use App\Entity\LeagueOfLegends\RiotAccount;
+use App\Entity\Profile\Profile;
 use App\Event\Profile\ProfileEvent;
 use App\Exception\Core\EntityNotCreatedException;
 use App\Exception\Core\EntityNotDeletedException;

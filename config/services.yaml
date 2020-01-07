@@ -39,12 +39,12 @@ services:
     # Consumers
     App\Consumer\PlayersConsumer:
         arguments:
-            $playerIndexer: '@api.indexer.players'
+            $playerIndexer: '@api.indexer.profiles'
             $ladderIndexer: '@api.indexer.ladder'
     App\Consumer\SummonerNamesConsumer:
         arguments:
             $summonerNameIndexer: '@api.indexer.summoner_names'
-            $playerIndexer: '@api.indexer.players'
+            $playerIndexer: '@api.indexer.profiles'
 
     App\Service\FileUploader:
         arguments:

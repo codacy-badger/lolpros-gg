@@ -38,13 +38,10 @@ class Member
      * @ORM\Column(type="uuid", nullable=false)
      * @Serializer\Type("string")
      * @Serializer\Groups({
-     *     "get_member",
-     *     "league.get_players",
-     *     "get_profile_memberships",
+     *     "get_profiles",
+     *     "get_profile",
      *     "get_teams",
      *     "get_team",
-     *     "get_team_members",
-     *     "league.get_player",
      * })
      */
     protected $uuid;
@@ -54,8 +51,6 @@ class Member
      * @ORM\ManyToOne(targetEntity="App\Entity\Profile\Profile", inversedBy="memberships")
      * @Serializer\Type("App\Entity\Profile\Profile")
      * @Serializer\Groups({
-     *     "get_member",
-     *     "get_team_members",
      * })
      */
     protected $profile;
@@ -65,9 +60,6 @@ class Member
      * @ORM\ManyToOne(targetEntity="App\Entity\Team\Team", inversedBy="members")
      * @Serializer\Type("App\Entity\Team\Team")
      * @Serializer\Groups({
-     *     "get_member",
-     *     "get_profile_memberships",
-     *     "get_team_members",
      * })
      */
     protected $team;
@@ -77,10 +69,8 @@ class Member
      * @ORM\Column(name="join_date", type="datetime", nullable=true)
      * @Serializer\Type("DateTime<'Y-m-d'>")
      * @Serializer\Groups({
-     *     "get_member",
-     *     "get_profile_memberships",
-     *     "get_team_members",
      *     "get_teams",
+     *     "get_team",
      * })
      */
     protected $joinDate;
@@ -90,11 +80,8 @@ class Member
      * @ORM\Column(name="leave_date", type="datetime", nullable=true)
      * @Serializer\Type("DateTime<'Y-m-d'>")
      * @Serializer\Groups({
-     *     "get_member",
-     *     "league.get_players",
-     *     "get_profile_memberships",
-     *     "get_team_members",
      *     "get_teams",
+     *     "get_team",
      * })
      */
     protected $leaveDate;

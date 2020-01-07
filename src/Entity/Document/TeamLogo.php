@@ -4,7 +4,6 @@ namespace App\Entity\Document;
 
 use App\Entity\Team\Team;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -15,7 +14,6 @@ class TeamLogo extends Document
     /**
      * @var Team
      * @ORM\OneToOne(targetEntity="App\Entity\Team\Team", inversedBy="logo")
-     * @Serializer\Type("App\Entity\Team\Team")
      * @Assert\NotNull
      */
     protected $team;

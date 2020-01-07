@@ -10,7 +10,7 @@ class LoLProsFactory
 {
     public static function createArrayFromRiotAccount(RiotAccount $riotAccount): array
     {
-        $player = $riotAccount->getLeaguePlayer();
+        $player = $riotAccount->getPlayer();
         $profile = $player->getProfile();
         $season = $riotAccount->getLatestRanking(Ranking::SEASON_10);
         $team = $profile->getCurrentTeam();

@@ -4,8 +4,8 @@ namespace App\Entity\Region;
 
 use App\Entity\Document\RegionLogo;
 use App\Entity\Profile\Profile;
-use App\Entity\Team\Team;
 use App\Entity\StringUuidTrait;
+use App\Entity\Team\Team;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -37,10 +37,10 @@ class Region
      * @ORM\Column(type="uuid", nullable=false)
      * @Serializer\Type("string")
      * @Serializer\Groups({
-     *     "league.get_regions",
-     *     "league.get_region",
-     *     "league.get_players",
-     *     "league.get_player",
+     *     "get_regions",
+     *     "get_region",
+     *     "get_profiles",
+     *     "get_profile",
      *     "get_teams",
      *     "get_team",
      * })
@@ -50,13 +50,12 @@ class Region
     /**
      * @var string
      * @ORM\Column(type="string", nullable=false)
-     *
      * @Serializer\Type("string")
      * @Serializer\Groups({
-     *     "league.get_regions",
-     *     "league.get_region",
-     *     "league.get_players",
-     *     "league.get_player",
+     *     "get_regions",
+     *     "get_region",
+     *     "get_profiles",
+     *     "get_profile",
      *     "get_teams",
      *     "get_team",
      * })
@@ -68,6 +67,10 @@ class Region
      * @Gedmo\Slug(fields={"name"})
      * @ORM\Column(type="string", nullable=false)
      * @Serializer\Type("string")
+     * @Serializer\Groups({
+     *     "get_regions",
+     *     "get_region",
+     * })
      */
     protected $slug;
 
@@ -76,10 +79,10 @@ class Region
      * @ORM\Column(type="string", nullable=false)
      * @Serializer\Type("string")
      * @Serializer\Groups({
-     *     "league.get_regions",
-     *     "league.get_region",
-     *     "league.get_players",
-     *     "league.get_player",
+     *     "get_regions",
+     *     "get_region",
+     *     "get_profiles",
+     *     "get_profile",
      *     "get_teams",
      *     "get_team",
      * })
@@ -91,8 +94,8 @@ class Region
      * @ORM\Column(type="array", nullable=true)
      * @Serializer\Type("array")
      * @Serializer\Groups({
-     *     "league.get_regions",
-     *     "league.get_region",
+     *     "get_regions",
+     *     "get_region",
      * })
      */
     protected $countries;
@@ -100,6 +103,7 @@ class Region
     /**
      * @var ArrayCollection|Profile[]
      * @ORM\ManyToMany(targetEntity="App\Entity\Profile\Profile", mappedBy="regions")
+     * @ORM\JoinTable(name="region__profile")
      * @Serializer\Type("ArrayCollection<App\Entity\Profile\Profile>")
      */
     protected $profiles;
@@ -116,10 +120,10 @@ class Region
      * @ORM\OneToOne(targetEntity="App\Entity\Document\RegionLogo", mappedBy="region", cascade={"remove"})
      * @Serializer\Type("App\Entity\Document\RegionLogo")
      * @Serializer\Groups({
-     *     "league.get_regions",
-     *     "league.get_region",
-     *     "league.get_players",
-     *     "league.get_player",
+     *     "get_profiles",
+     *     "get_profile",
+     *     "get_regions",
+     *     "get_region",
      *     "get_teams",
      *     "get_team",
      * })

@@ -11,31 +11,34 @@ class SummonerNameTransformer extends DefaultTransformer
 {
     public function fetchAndTransform($document, array $fields): ?Document
     {
-        $team = $this->entityManager->getRepository(SummonerName::class)->findOneBy(['uuid' => $document['uuid']]);
+        $summonerName = $this->entityManager->getRepository(SummonerName::class)->findOneBy(['uuid' => $document['uuid']]);
 
-        if (!$team instanceof SummonerName) {
-            return null;
-        }
-
-        return $this->transform($team, $fields);
-    }
-
-    public function transform($summonerName, array $fields)
-    {
+        /** @var SummonerName $summonerName */
         if (!$summonerName instanceof SummonerName) {
             return null;
         }
 
+        return $this->transform($summonerName, $fields);
+    }
+
+    public function transform($summonerName, array $fields)
+    {
+        /** @var SummonerName $summonerName */
+        if (!$summonerName instanceof SummonerName) {
+            return null;
+        }
+
+        $profile = $summonerName->getPlayer()->getProfile();
         $document = [
             'name' => $summonerName->getName(),
             'current' => $summonerName->isCurrent(),
             'created_at' => $summonerName->getCreatedAt()->format(DateTime::ISO8601),
             'previous' => $summonerName->getPrevious() ? $summonerName->getPrevious()->getName() : null,
             'player' => [
-                'uuid' => $summonerName->getPlayer()->getUuidAsString(),
-                'name' => $summonerName->getPlayer()->getName(),
-                'slug' => $summonerName->getPlayer()->getSlug(),
-                'country' => $summonerName->getPlayer()->getCountry(),
+                'uuid' => $profile->getUuidAsString(),
+                'name' => $profile->getName(),
+                'slug' => $profile->getSlug(),
+                'country' => $profile->getCountry(),
             ],
         ];
 

@@ -15,7 +15,7 @@ use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Table(name="player__league__riot_account")
+ * @ORM\Table(name="league__riot_account")
  * @ORM\Entity(repositoryClass="App\Repository\LeagueOfLegends\RiotAccountRepository")
  */
 class RiotAccount
@@ -36,8 +36,7 @@ class RiotAccount
      * @ORM\Column(type="uuid", nullable=false)
      * @Serializer\Type("string")
      * @Serializer\Groups({
-     *     "league.get_players",
-     *     "league.get_player_riot_accounts",
+     *     "get_profile",
      *     "league.get_riot_account",
      *     "league.get_riot_accounts",
      * })
@@ -115,14 +114,14 @@ class RiotAccount
     protected $profileIconId;
 
     /**
-     * @var LeaguePlayer
-     * @ORM\ManyToOne(targetEntity="App\Entity\LeagueOfLegends\LeaguePlayer", inversedBy="accounts")
-     * @Serializer\Type("App\Entity\LeagueOfLegends\LeaguePlayer")
+     * @var Player
+     * @ORM\ManyToOne(targetEntity="App\Entity\LeagueOfLegends\Player", inversedBy="accounts")
+     * @Serializer\Type("App\Entity\LeagueOfLegends\Player")
      * @Serializer\Groups({
      *     "league.get_riot_account",
      * })
      */
-    protected $leaguePlayer;
+    protected $player;
 
     /**
      * @var Collection|SummonerName[]
@@ -259,14 +258,14 @@ class RiotAccount
         return $this;
     }
 
-    public function getLeaguePlayer(): LeaguePlayer
+    public function getPlayer(): Player
     {
-        return $this->leaguePlayer;
+        return $this->player;
     }
 
-    public function setLeaguePlayer(LeaguePlayer $leaguePlayer): self
+    public function setPlayer(Player $player): self
     {
-        $this->leaguePlayer = $leaguePlayer;
+        $this->player = $player;
 
         return $this;
     }
@@ -356,6 +355,7 @@ class RiotAccount
     /**
      * @Serializer\VirtualProperty()
      * @Serializer\Groups({
+     *     "get_profile",
      *     "league.get_player_riot_accounts",
      *     "league.get_riot_account",
      *     "league.get_riot_accounts",

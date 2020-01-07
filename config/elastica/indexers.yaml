@@ -11,13 +11,13 @@ services:
             - '@App\Fetcher\LadderFetcher'
             - '@App\Transformer\LadderTransformer'
 
-    api.indexer.players:
+    api.indexer.profiles:
         class: App\Indexer\Indexer
         arguments:
-            - 'lp_players'
-            - '@fos_elastica.index.lp_players'
-            - '@App\Fetcher\PlayerFetcher'
-            - '@App\Transformer\PlayerTransformer'
+            - 'lp_profiles'
+            - '@fos_elastica.index.lp_profiles'
+            - '@App\Fetcher\ProfileFetcher'
+            - '@App\Transformer\ProfileTransformer'
 
     api.indexer.summoner_names:
         class: App\Indexer\Indexer

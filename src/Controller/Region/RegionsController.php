@@ -30,7 +30,7 @@ class RegionsController extends APIController
      */
     public function getRegionsAction(): Response
     {
-        return $this->serialize($this->getDoctrine()->getRepository(Region::class)->findBy([], ['name' => 'asc']), 'league.get_regions');
+        return $this->serialize($this->getDoctrine()->getRepository(Region::class)->findBy([], ['name' => 'asc']), 'get_regions');
     }
 
     /**
@@ -39,7 +39,7 @@ class RegionsController extends APIController
      */
     public function getRegionAction(string $uuid): Response
     {
-        return $this->serialize($this->find(Region::class, $uuid), 'league.get_region');
+        return $this->serialize($this->find(Region::class, $uuid), 'get_region');
     }
 
     /**
@@ -63,7 +63,7 @@ class RegionsController extends APIController
 
         $region = $regionManager->create($region);
 
-        return $this->serialize($region, 'league.get_region', 201);
+        return $this->serialize($region, 'get_region', 201);
     }
 
     /**
@@ -91,7 +91,7 @@ class RegionsController extends APIController
 
         $region = $regionManager->update($region);
 
-        return $this->serialize($region, 'league.get_region');
+        return $this->serialize($region, 'get_region');
     }
 
     /**

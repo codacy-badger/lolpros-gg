@@ -9,7 +9,7 @@ use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\LeagueOfLegends\RankingRepository")
- * @ORM\Table(name="player__league__ranking")
+ * @ORM\Table(name="league__ranking")
  */
 class Ranking
 {
@@ -280,6 +280,16 @@ class Ranking
     public function getCreatedAt(): DateTime
     {
         return $this->createdAt;
+    }
+
+    public function getTotalGames(): int
+    {
+        return $this->wins + $this->losses;
+    }
+
+    public function getWinrate(): float
+    {
+        return $this->getTotalGames() ? $this->wins / $this->getTotalGames() * 100 : 0;
     }
 
     public static function getAvailableTiers(): array

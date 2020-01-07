@@ -2,7 +2,7 @@
 
 namespace App\Listener\LeagueOfLegends;
 
-use App\Entity\LeagueOfLegends\LeaguePlayer;
+use App\Entity\LeagueOfLegends\Player;
 use App\Entity\LeagueOfLegends\RiotAccount;
 use App\Event\LeagueOfLegends\RiotAccountEvent;
 use App\Indexer\Indexer;

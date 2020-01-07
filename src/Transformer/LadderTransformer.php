@@ -2,19 +2,20 @@
 
 namespace App\Transformer;
 
-use App\Entity\LeagueOfLegends\LeaguePlayer;
+use App\Entity\LeagueOfLegends\Player;
 use App\Entity\LeagueOfLegends\RiotAccount;
 use App\Indexer\Indexer;
 use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Elastica\Document;
 
-class LadderTransformer extends APlayerTransformer
+class LadderTransformer extends AProfileTransformer
 {
     public function fetchAndTransform($document, array $fields): ?Document
     {
         $player = $this->entityManager->getRepository(Player::class)->findOneBy(['uuid' => $document['uuid']]);
 
+        /** @var Player $player */
         if (!$player instanceof Player) {
             return null;
         }
@@ -27,24 +28,26 @@ class LadderTransformer extends APlayerTransformer
 
     public function transform($player, array $fields): ?Document
     {
+        /** @var Player $player */
         if (!$player instanceof Player) {
             return null;
         }
 
+        $profile = $player->getProfile();
         $accounts = $player->getAccounts();
 
         $document = [
-            'uuid' => $player->getUuidAsString(),
-            'name' => $player->getName(),
-            'slug' => $player->getSlug(),
-            'country' => $player->getCountry(),
-            'regions' => $this->buildRegions($player),
+            'uuid' => $profile->getUuidAsString(),
+            'name' => $profile->getName(),
+            'slug' => $profile->getSlug(),
+            'country' => $profile->getCountry(),
+            'regions' => $this->buildRegions($profile),
             'position' => $player->getPosition(),
             'score' => $player->getScore(),
             'account' => $accounts->count() ? $this->buildAccount($player->getBestAccount()) : null,
             'peak' => $this->buildPeak($player),
             'total_games' => $this->getTotalGames($accounts),
-            'team' => $this->buildTeam($player),
+            'team' => $this->buildTeam($profile),
         ];
 
         return new Document($player->getUuidAsString(), $document, Indexer::INDEX_TYPE_LADDER, Indexer::INDEX_LADDER);
@@ -53,7 +56,6 @@ class LadderTransformer extends APlayerTransformer
     private function buildAccount(RiotAccount $account): array
     {
         $rank = $account->getCurrentRanking();
-        $totalGames = $rank->getWins() + $rank->getLosses();
 
         return [
             'uuid' => $account->getUuidAsString(),
@@ -64,15 +66,15 @@ class LadderTransformer extends APlayerTransformer
             'rank' => $rank->getRank(),
             'tier' => $rank->getTier(),
             'league_points' => $rank->getLeaguePoints(),
-            'games' => $totalGames,
-            'winrate' => $totalGames ? round($rank->getWins() / $totalGames * 100, 1) : 0,
+            'games' => $rank->getTotalGames(),
+            'winrate' => round($rank->getWinrate(), 1),
         ];
     }
 
     private function buildPeak(Player $player): ?array
     {
         if (!count($accounts = $player->getAccounts())) {
-            $this->logger->notice(sprintf('[LadderTransformer] No accounts found for %s (%s)', $player->getName(), $player->getUuidAsString()));
+            $this->logger->notice(sprintf('[LadderTransformer] No accounts found for %s (%s)', $player->getProfile()->getName(), $player->getUuidAsString()));
 
             return null;
         }
@@ -108,7 +110,7 @@ class LadderTransformer extends APlayerTransformer
 
         foreach ($accounts as $account) {
             /* @var RiotAccount $account */
-            $games += $account->getCurrentRanking()->getWins() + $account->getCurrentRanking()->getLosses();
+            $games += $account->getCurrentRanking()->getTotalGames();
         }
 
         return $games;

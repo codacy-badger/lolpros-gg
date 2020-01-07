@@ -4,8 +4,6 @@ namespace App\Controller\Profile;
 
 use App\Controller\APIController;
 use App\Entity\Profile\Profile;
-use App\Entity\Team\Member;
-use App\Factory\Core\TeamFactory;
 use FOS\RestBundle\Controller\Annotations\Get;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;

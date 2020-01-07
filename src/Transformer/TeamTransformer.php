@@ -13,6 +13,7 @@ class TeamTransformer extends DefaultTransformer
     {
         $team = $this->entityManager->getRepository(Team::class)->findOneBy(['uuid' => $document['uuid']]);
 
+        /** @var Team $team */
         if (!$team instanceof Team) {
             return null;
         }
@@ -25,6 +26,7 @@ class TeamTransformer extends DefaultTransformer
 
     public function transform($team, array $fields)
     {
+        /** @var Team $team */
         if (!$team instanceof Team) {
             return null;
         }

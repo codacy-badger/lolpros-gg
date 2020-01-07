@@ -4,7 +4,7 @@ services:
         autoconfigure: true
 
     App\Transformer\LadderTransformer: ~
-    App\Transformer\PlayerTransformer: ~
+    App\Transformer\ProfileTransformer: ~
     App\Transformer\SummonerNameTransformer: ~
     App\Transformer\TeamTransformer: ~
     App\Transformer\MemberTransformer: ~

@@ -2,8 +2,8 @@
 
 namespace App\Consumer;
 
-use App\Indexer\Indexer;
 use App\Entity\LeagueOfLegends\SummonerName;
+use App\Indexer\Indexer;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;

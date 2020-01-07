@@ -8,7 +8,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
- * @ORM\Table(name="player__social_media")
+ * @ORM\Table(name="profile__social_media")
  * @ORM\Entity
  */
 class SocialMedia
@@ -49,6 +49,7 @@ class SocialMedia
      * @ORM\Column(type="string", nullable=true)
      * @Serializer\Type("string")
      * @Serializer\Groups({
+     *     "get_profile",
      *     "get_profile_social_medias",
      *     "put_player_social_medias",
      * })
@@ -60,6 +61,7 @@ class SocialMedia
      * @ORM\Column(type="string", nullable=true)
      * @Serializer\Type("string")
      * @Serializer\Groups({
+     *     "get_profile",
      *     "get_profile_social_medias",
      *     "put_player_social_medias",
      * })
@@ -71,6 +73,7 @@ class SocialMedia
      * @ORM\Column(type="string", nullable=true)
      * @Serializer\Type("string")
      * @Serializer\Groups({
+     *     "get_profile",
      *     "get_profile_social_medias",
      *     "put_player_social_medias",
      * })
@@ -82,6 +85,7 @@ class SocialMedia
      * @ORM\Column(type="string", nullable=true)
      * @Serializer\Type("string")
      * @Serializer\Groups({
+     *     "get_profile",
      *     "get_profile_social_medias",
      *     "put_player_social_medias",
      * })
@@ -93,6 +97,7 @@ class SocialMedia
      * @ORM\Column(type="string", nullable=true)
      * @Serializer\Type("string")
      * @Serializer\Groups({
+     *     "get_profile",
      *     "get_profile_social_medias",
      *     "put_player_social_medias",
      * })

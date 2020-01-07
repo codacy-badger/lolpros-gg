@@ -4,14 +4,14 @@ namespace App\Builder;
 
 use App\Fetcher\LadderFetcher;
 use App\Fetcher\MemberFetcher;
-use App\Fetcher\PlayerFetcher;
+use App\Fetcher\ProfileFetcher;
 use App\Repository\LeagueOfLegends\PlayerRepository;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PlayerBuilder extends AMemberBuilder implements BuilderInterface
 {
     /**
-     * @var PlayerFetcher
+     * @var ProfileFetcher
      */
     private $playerFetcher;
 
@@ -25,7 +25,7 @@ class PlayerBuilder extends AMemberBuilder implements BuilderInterface
      */
     private $playerRepository;
 
-    public function __construct(PlayerFetcher $playerFetcher, MemberFetcher $memberFetcher, LadderFetcher $ladderFetcher, PlayerRepository $playerRepository)
+    public function __construct(ProfileFetcher $playerFetcher, MemberFetcher $memberFetcher, LadderFetcher $ladderFetcher, PlayerRepository $playerRepository)
     {
         parent::__construct($memberFetcher, $ladderFetcher);
         $this->playerFetcher = $playerFetcher;

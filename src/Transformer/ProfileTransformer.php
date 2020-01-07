@@ -2,47 +2,51 @@
 
 namespace App\Transformer;
 
-use App\Entity\LeagueOfLegends\LeaguePlayer;
+use App\Entity\LeagueOfLegends\Player;
 use App\Entity\LeagueOfLegends\Ranking;
 use App\Entity\LeagueOfLegends\RiotAccount;
 use App\Entity\LeagueOfLegends\SummonerName;
+use App\Entity\Profile\Profile;
 use App\Indexer\Indexer;
 use App\Repository\LeagueOfLegends\RankingRepository;
 use DateTime;
 use Elastica\Document;
 
-class PlayerTransformer extends APlayerTransformer
+class ProfileTransformer extends AProfileTransformer
 {
     public function fetchAndTransform($document, array $fields): ?Document
     {
-        $player = $this->entityManager->getRepository(Player::class)->findOneBy(['uuid' => $document['uuid']]);
+        $profile = $this->entityManager->getRepository(Profile::class)->findOneBy(['uuid' => $document['uuid']]);
 
-        if (!$player instanceof Player) {
+        /** @var Profile $profile */
+        if (!$profile instanceof Profile) {
             return null;
         }
 
-        $document = $this->transform($player, $fields);
+        $document = $this->transform($profile, $fields);
         $this->entityManager->clear();
 
         return $document;
     }
 
-    public function transform($player, array $fields): ?Document
+    public function transform($profile, array $fields): ?Document
     {
-        if (!$player instanceof Player) {
+        /** @var Profile $profile */
+        if (!$profile instanceof Profile) {
             return null;
         }
 
+        $player = $profile->getLeaguePlayer();
         $document = [
-            'uuid' => $player->getUuidAsString(),
-            'name' => $player->getName(),
-            'slug' => $player->getSlug(),
-            'country' => $player->getCountry(),
-            'regions' => $this->buildRegions($player),
+            'uuid' => $profile->getUuidAsString(),
+            'name' => $profile->getName(),
+            'slug' => $profile->getSlug(),
+            'country' => $profile->getCountry(),
+            'regions' => $this->buildRegions($profile),
             'position' => $player->getPosition(),
             'score' => $player->getScore(),
             'accounts' => $this->buildAccounts($player),
-            'social_media' => $this->buildSocialMedia($player),
+            'social_media' => $this->buildSocialMedia($profile),
         ];
 
         return new Document($player->getUuidAsString(), $document, Indexer::INDEX_TYPE_PLAYER, Indexer::INDEX_PLAYERS);
