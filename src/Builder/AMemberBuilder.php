@@ -45,16 +45,18 @@ abstract class AMemberBuilder implements BuilderInterface
 
             if ($withRankings) {
                 $ladderPlayer = $this->ladderFetcher->fetchDocument($player['uuid']);
-                $player = $ladderPlayer->getData();
 
-                $member = array_merge($member, [
-                    'profile_icon_id' => $player['account']['profile_icon_id'],
-                    'summoner_name' => $player['account']['summoner_name'],
-                    'tier' => $player['account']['tier'],
-                    'rank' => $player['account']['rank'],
-                    'league_points' => $player['account']['league_points'],
-                    'score' => $player['score'],
-                ]);
+                if ($ladderPlayer) {
+                    $player = $ladderPlayer->getData();
+                    $member = array_merge($member, [
+                        'profile_icon_id' => $player['account']['profile_icon_id'],
+                        'summoner_name' => $player['account']['summoner_name'],
+                        'tier' => $player['account']['tier'],
+                        'rank' => $player['account']['rank'],
+                        'league_points' => $player['account']['league_points'],
+                        'score' => $player['score'],
+                    ]);
+                }
             }
 
             $members[] = $member;
