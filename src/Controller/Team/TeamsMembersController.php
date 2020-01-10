@@ -16,7 +16,7 @@ class TeamsMembersController extends APIController
 {
     /**
      * @Get(path="/{uuid}/members")
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("IS_AUTHENTICATED_ANONYMOUSLY")
      */
     public function getTeamMembersAction(string $uuid): Response
     {

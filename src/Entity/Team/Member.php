@@ -40,6 +40,7 @@ class Member
      *     "get_profile",
      *     "get_teams",
      *     "get_team",
+     *     "get_team_members",
      * })
      */
     protected $uuid;
@@ -49,6 +50,7 @@ class Member
      * @ORM\ManyToOne(targetEntity="App\Entity\Profile\Profile", inversedBy="memberships")
      * @Serializer\Type("App\Entity\Profile\Profile")
      * @Serializer\Groups({
+     *     "get_team_members",
      * })
      */
     protected $profile;
@@ -69,6 +71,7 @@ class Member
      * @Serializer\Groups({
      *     "get_teams",
      *     "get_team",
+     *     "get_team_members",
      * })
      */
     protected $joinDate;
@@ -80,6 +83,7 @@ class Member
      * @Serializer\Groups({
      *     "get_teams",
      *     "get_team",
+     *     "get_team_members",
      * })
      */
     protected $leaveDate;

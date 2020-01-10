@@ -34,6 +34,7 @@ class Staff
      * @Serializer\Groups({
      *     "league.get_players",
      *     "league.get_player",
+     *     "get_team_members",
      * })
      */
     protected $position;

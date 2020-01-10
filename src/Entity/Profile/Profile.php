@@ -41,6 +41,7 @@ class Profile
      * @Serializer\Groups({
      *     "get_profiles",
      *     "get_profile",
+     *     "get_team_members",
      * })
      */
     protected $uuid;
@@ -52,6 +53,7 @@ class Profile
      * @Serializer\Groups({
      *     "get_profiles",
      *     "get_profile",
+     *     "get_team_members",
      * })
      * @Assert\NotNull(groups={"league.post_player"})
      */
@@ -65,6 +67,7 @@ class Profile
      * @Serializer\Groups({
      *     "get_profiles",
      *     "get_profile",
+     *     "get_team_members",
      * })
      */
     protected $slug;
@@ -76,6 +79,7 @@ class Profile
      * @Serializer\Groups({
      *     "get_profiles",
      *     "get_profile",
+     *     "get_team_members",
      * })
      */
     protected $country;
@@ -121,6 +125,7 @@ class Profile
      * @Serializer\Groups({
      *     "get_profiles",
      *     "get_profile",
+     *     "get_team_members",
      * })
      */
     protected $staff;
@@ -132,6 +137,7 @@ class Profile
      * @Serializer\Groups({
      *     "get_profiles",
      *     "get_profile",
+     *     "get_team_members",
      * })
      */
     protected $leaguePlayer;

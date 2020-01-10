@@ -96,6 +96,7 @@ class Region
      * @Serializer\Groups({
      *     "get_regions",
      *     "get_region",
+     *     "get_team",
      * })
      */
     protected $countries;

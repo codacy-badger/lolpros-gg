@@ -41,6 +41,7 @@ class Player
      *     "get_profiles",
      *     "get_profile",
      *     "put_profile",
+     *     "get_team_members",
      * })
      */
     protected $position;
