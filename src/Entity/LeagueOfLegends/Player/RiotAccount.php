@@ -387,6 +387,16 @@ class RiotAccount
         return $this->rankings->count() ? $this->rankings->first() : null;
     }
 
+    public function getLatestRanking(string $season = Ranking::SEASON_10): ?Ranking
+    {
+        $rankings = $this->rankings;
+        $current = $rankings->filter(function (Ranking $ranking) use ($season) {
+            return $season === $ranking->getSeason();
+        });
+
+        return $current->count() ? $current->first() : null;
+    }
+
     /**
      * @Serializer\VirtualProperty
      */
