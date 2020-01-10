@@ -15,7 +15,7 @@ class RankingRepository extends ServiceEntityRepository
         parent::__construct($registry, Ranking::class);
     }
 
-    public function getBestForAccount(RiotAccount $account, $season = null): ?Ranking
+    public function getBestForAccount(RiotAccount $account, string $season = null): ?Ranking
     {
         $queryBuilder = $this->createQueryBuilder('ranking')
             ->where('ranking.owner = :account')
@@ -37,19 +37,47 @@ class RankingRepository extends ServiceEntityRepository
         return null;
     }
 
-    public function getXForAccount(RiotAccount $account, $months)
+    public function getForAccount(RiotAccount $account, int $months = null, string $season = null)
     {
-        $today = new DateTime('+1 day');
-        $previous = new DateTime('-'.$months.' month');
-
-        return $this->createQueryBuilder('ranking')
+        $queryBuilder = $this->createQueryBuilder('ranking')
             ->where('ranking.owner = :account')
             ->orderBy('ranking.createdAt', 'desc')
-            ->andWhere('ranking.createdAt BETWEEN :date AND :today')
+            ->setParameter('account', $account);
+
+        if ($months) {
+            $today = new DateTime('+1 day');
+            $previous = new DateTime('-'.$months.' month');
+            $queryBuilder
+                ->andWhere('ranking.createdAt BETWEEN :date AND :today')
+                ->setParameter('date', $previous->format('Y-m-d'))
+                ->setParameter('today', $today->format('Y-m-d'));
+        }
+
+        if ($season) {
+            $queryBuilder->andWhere('ranking.season = :season')->setParameter('season', $season);
+        }
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+    public function getLatestForAccount(RiotAccount $account, string $season = null)
+    {
+        $queryBuilder = $this->createQueryBuilder('ranking')
+            ->where('ranking.owner = :account')
+            ->orderBy('ranking.createdAt', 'desc')
             ->setParameter('account', $account)
-            ->setParameter('date', $previous->format('Y-m-d'))
-            ->setParameter('today', $today->format('Y-m-d'))
-            ->getQuery()
-            ->getResult();
+            ->setMaxResults(1);
+
+        if ($season) {
+            $queryBuilder->andWhere('ranking.season = :season')->setParameter('season', $season);
+        }
+
+        $result = $queryBuilder->getQuery()->getResult();
+
+        if (isset($result[0])) {
+            return $result[0];
+        }
+
+        return null;
     }
 }

@@ -11,7 +11,7 @@ class LoLProsFactory
     public static function createArrayFromRiotAccount(RiotAccount $riotAccount): array
     {
         $player = $riotAccount->getPlayer();
-        $season = $riotAccount->getLatestRanking(Ranking::SEASON_9);
+        $season = $riotAccount->getLatestRanking(Ranking::SEASON_10);
         $team = $player->getCurrentTeam();
 
         $lolpros = [

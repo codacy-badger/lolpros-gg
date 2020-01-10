@@ -61,9 +61,11 @@ final class RankingManager extends DefaultManager
         $this->eventDispatcher->dispatch(new RankingEvent($ranking), RankingEvent::CREATED);
     }
 
-    public function getRankingsForRiotAccount(RiotAccount $riotAccount, $months)
+    public function getRankingsForRiotAccount(RiotAccount $riotAccount, $months, $season)
     {
-        return $this->entityManager->getRepository(Ranking::class)->getXForAccount($riotAccount, $months);
+        $season = Ranking::SEASON_9 === $season ? Ranking::SEASON_9_V2 : $season;
+
+        return $this->entityManager->getRepository(Ranking::class)->getForAccount($riotAccount, $months, $season);
     }
 
     public function getForRiotAccount(RiotAccount $riotAccount): ?Ranking

@@ -21,12 +21,13 @@ class RiotAccountsRankingsController extends APIController
      * @Get(path="/{uuid}/rankings")
      * @IsGranted("IS_AUTHENTICATED_ANONYMOUSLY")
      * @QueryParam(name="months", nullable=true)
+     * @QueryParam(name="season", nullable=true)
      */
     public function getRiotAccountsRankingsAction(string $uuid, Request $request, RankingManager $rankingManager): Response
     {
         /* @var RiotAccount $riotAccount */
         $riotAccount = $this->find(RiotAccount::class, $uuid);
-        $rankings = $rankingManager->getRankingsForRiotAccount($riotAccount, $request->get('months', 1));
+        $rankings = $rankingManager->getRankingsForRiotAccount($riotAccount, $request->get('months'), $request->get('season'));
 
         return $this->serialize($rankings, 'league.get_riot_account_rankings');
     }

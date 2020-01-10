@@ -7,6 +7,7 @@ use App\Entity\LeagueOfLegends\Player\Ranking;
 use App\Entity\LeagueOfLegends\Player\RiotAccount;
 use App\Entity\LeagueOfLegends\Player\SummonerName;
 use App\Indexer\Indexer;
+use App\Repository\LeagueOfLegends\RankingRepository;
 use DateTime;
 use Elastica\Document;
 
@@ -50,6 +51,8 @@ class PlayerTransformer extends APlayerTransformer
     private function buildAccounts(Player $player): array
     {
         $accounts = [];
+        /** @var RankingRepository $rankingRepository */
+        $rankingRepository = $this->entityManager->getRepository(Ranking::class);
 
         foreach ($player->getAccounts() as $account) {
             /* @var RiotAccount $account */
@@ -59,9 +62,12 @@ class PlayerTransformer extends APlayerTransformer
                 'riot_id' => $account->getRiotId(),
                 'summoner_name' => $account->getSummonerName(),
                 'summoner_names' => $this->buildSummonerNames($account),
-                'rank' => $this->buildRanking($account->getCurrentRanking()),
-                'peak' => $this->buildRanking($account->getBestRanking()),
-                's9peak' => $this->buildRanking($account->getBestRanking(Ranking::SEASON_9_V2)),
+                'rank' => $this->buildRanking($rankingRepository->getLatestForAccount($account, Ranking::SEASON_10)),
+                'peak' => $this->buildRanking($rankingRepository->getBestForAccount($account, Ranking::SEASON_10)),
+                'season9' => [
+                    'end' => $this->buildRanking($rankingRepository->getLatestForAccount($account, Ranking::SEASON_9_V2)),
+                    'peak' => $this->buildRanking($rankingRepository->getBestForAccount($account, Ranking::SEASON_9_V2)),
+                ],
             ]);
         }
 
