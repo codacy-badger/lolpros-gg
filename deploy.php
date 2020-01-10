@@ -21,27 +21,20 @@ host('api.lolpros.xyz')
     ->forwardAgent(true)
     ->set('deploy_path', '~/{{application}}');
 
-host('3.121.206.39')
-    ->stage('amazon')
-    ->user('ubuntu')
-    ->multiplexing(false)
-    ->forwardAgent(true)
-    ->set('deploy_path', '~/{{application}}');
-
 host('64.225.65.15')
-    ->stage('v2')
+    ->stage('prod')
     ->user('chypriote')
     ->multiplexing(false)
     ->forwardAgent(true)
     ->set('deploy_path', '~/{{application}}');
 
 // Hosts
-host('api.lolpros.gg')
-    ->stage('prod')
-    ->user('chypriote')
-    ->multiplexing(false)
-    ->forwardAgent(true)
-    ->set('deploy_path', '~/{{application}}');
+//host('api.lolpros.gg')
+//    ->stage('prod')
+//    ->user('chypriote')
+//    ->multiplexing(false)
+//    ->forwardAgent(true)
+//    ->set('deploy_path', '~/{{application}}');
 
 task('deploy', [
     'deploy:info',

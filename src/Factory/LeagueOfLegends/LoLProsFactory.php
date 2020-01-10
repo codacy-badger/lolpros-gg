@@ -10,7 +10,6 @@ class LoLProsFactory
     public static function createArrayFromRiotAccount(RiotAccount $riotAccount): array
     {
         $player = $riotAccount->getPlayer();
-        $peak = $riotAccount->getBestRanking();
         $team = $player->getCurrentTeam();
 
         return [
@@ -19,15 +18,6 @@ class LoLProsFactory
             'slug' => $player->getSlug(),
             'country' => $player->getCountry(),
             'position' => $player->getPosition(),
-            'peak' => [
-                'score' => $peak->getScore(),
-                'tier' => $peak->getTier(),
-                'rank' => $peak->getRank(),
-                'league_points' => $peak->getLeaguePoints(),
-                'wins' => $peak->getWins(),
-                'losses' => $peak->getLosses(),
-                'created_at' => $peak->getCreatedAt()->format(DateTime::ISO8601),
-            ],
             'team' => $team ? [
                 'team' => $team->getUuidAsString(),
                 'name' => $team->getName(),
