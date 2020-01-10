@@ -139,7 +139,7 @@ final class RiotAccountManager extends DefaultManager
 
             $ranking = $this->rankingsManager->getForRiotAccount($riotAccount);
             $ranking->setOwner($riotAccount);
-            $ranking->setSeason(Ranking::PRE_SEASON_10);
+            $ranking->setSeason(Ranking::SEASON_10);
             $riotAccount->addRanking($ranking);
             $riotAccount->setScore($ranking->getScore());
             $this->entityManager->persist($ranking);

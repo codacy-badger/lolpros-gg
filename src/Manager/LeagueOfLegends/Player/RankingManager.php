@@ -51,7 +51,7 @@ final class RankingManager extends DefaultManager
         $soloQ = $this->riotLeagueManager->getForId($riotAccount->getEncryptedRiotId());
         $ranking = $soloQ ? RankingsFactory::createFromLeague($soloQ) : RankingsFactory::createEmptyRanking();
         $ranking->setOwner($riotAccount);
-        $ranking->setSeason(Ranking::PRE_SEASON_10);
+        $ranking->setSeason(Ranking::SEASON_10);
         $riotAccount->addRanking($ranking);
 
         $this->entityManager->persist($ranking);

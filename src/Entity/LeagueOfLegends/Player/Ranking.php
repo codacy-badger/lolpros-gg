@@ -33,6 +33,7 @@ class Ranking
     const SEASON_9 = 'season_9';
     const SEASON_9_V2 = 'season_9_v2';
     const PRE_SEASON_10 = 'pre_season_10';
+    const SEASON_10 = 'season_10';
 
     /**
      * @var int
