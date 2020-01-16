@@ -32,8 +32,8 @@ class Staff
      * @Assert\NotNull()
      * @Assert\Choice(callback="getAvailablePosition", strict=true)
      * @Serializer\Groups({
-     *     "league.get_players",
-     *     "league.get_player",
+     *     "get_profiles",
+     *     "get_profile",
      *     "get_team_members",
      * })
      */

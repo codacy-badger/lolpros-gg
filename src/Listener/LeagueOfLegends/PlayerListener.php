@@ -70,7 +70,7 @@ class PlayerListener implements EventSubscriberInterface
         }
 
         $player = $entity->getLeaguePlayer();
-        $this->playerIndexer->addOne(Indexer::INDEX_TYPE_PLAYER, $player);
+        $this->playerIndexer->addOne(Indexer::INDEX_TYPE_PROFILE, $player);
         $this->ladderIndexer->addOne(Indexer::INDEX_TYPE_LADDER, $entity);
 
         $this->adminLogManager->createLog(PlayerEvent::CREATED, $player->getUuidAsString(), $entity->getName());
@@ -85,7 +85,7 @@ class PlayerListener implements EventSubscriberInterface
         }
 
         $player = $entity->getLeaguePlayer();
-        $this->playerIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_PLAYER, $player);
+        $this->playerIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_PROFILE, $player);
         $this->ladderIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_LADDER, $entity);
         $this->membersIndexer->updateMultiple(Indexer::INDEX_TYPE_MEMBER, $this->memberRepository->getMembersUuidsFromPlayer($entity));
 
@@ -101,7 +101,7 @@ class PlayerListener implements EventSubscriberInterface
         }
 
         $player = $entity->getLeaguePlayer();
-        $this->playerIndexer->deleteOne(Indexer::INDEX_TYPE_PLAYER, $player->getUuidAsString());
+        $this->playerIndexer->deleteOne(Indexer::INDEX_TYPE_PROFILE, $player->getUuidAsString());
         $this->ladderIndexer->deleteOne(Indexer::INDEX_TYPE_LADDER, $player->getUuidAsString());
         $this->membersIndexer->deleteMultiple(Indexer::INDEX_TYPE_MEMBER, $this->memberRepository->getMembersUuidsFromPlayer($entity));
 

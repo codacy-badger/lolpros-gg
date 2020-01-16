@@ -46,7 +46,7 @@ class PlayersConsumer implements ConsumerInterface
             $ids = json_decode($msg->body);
             $this->logger->notice(sprintf('[PlayersConsumer] Starting update %s players', count($ids)));
 
-            $this->playerIndexer->updateMultiple(Indexer::INDEX_TYPE_PLAYER, $ids);
+            $this->playerIndexer->updateMultiple(Indexer::INDEX_TYPE_PROFILE, $ids);
             $this->ladderIndexer->updateMultiple(Indexer::INDEX_TYPE_LADDER, $ids);
         } catch (Exception $e) {
             $this->logger->critical(sprintf('[PlayersConsumer] An error occured %s', $e->getMessage()));

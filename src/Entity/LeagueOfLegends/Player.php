@@ -52,6 +52,7 @@ class Player
      * @ORM\OrderBy({"score" = "DESC"})
      * @Serializer\Type("App\Entity\LeagueOfLegends\RiotAccount")
      * @Serializer\Groups({
+     *     "get_profiles",
      *     "get_profile",
      * })
      */

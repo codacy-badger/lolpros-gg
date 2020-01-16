@@ -49,7 +49,7 @@ class ProfileTransformer extends AProfileTransformer
             'social_media' => $this->buildSocialMedia($profile),
         ];
 
-        return new Document($player->getUuidAsString(), $document, Indexer::INDEX_TYPE_PLAYER, Indexer::INDEX_PLAYERS);
+        return new Document($player->getUuidAsString(), $document, Indexer::INDEX_TYPE_PROFILE, Indexer::INDEX_PROFILES);
     }
 
     private function buildAccounts(Player $player): array

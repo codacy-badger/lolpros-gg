@@ -59,7 +59,7 @@ class SummonerNamesConsumer implements ConsumerInterface
 
         try {
             $this->summonerNameIndexer->addOne(Indexer::INDEX_TYPE_SUMMONER_NAME, $summoner);
-            $this->playerIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_PLAYER, $summoner->getOwner()->getPlayer());
+            $this->playerIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_PROFILE, $summoner->getOwner()->getPlayer());
             if ($previous = $summoner->getPrevious()) {
                 $this->summonerNameIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_SUMMONER_NAME, $previous);
             }

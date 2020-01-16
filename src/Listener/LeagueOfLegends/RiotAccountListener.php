@@ -64,7 +64,7 @@ class RiotAccountListener implements EventSubscriberInterface
 
     private function updateLinkedPlayer(Player $player)
     {
-        $this->playerIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_PLAYER, $player);
+        $this->playerIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_PROFILE, $player);
         $this->ladderIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_LADDER, $player);
         $player->setScore($player->getScore());
         $this->entityManager->flush($player);

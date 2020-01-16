@@ -50,7 +50,7 @@ class ProfileListener implements EventSubscriberInterface
             return;
         }
 
-        $this->playerIndexer->addOne(Indexer::INDEX_TYPE_PLAYER, $entity);
+        $this->playerIndexer->addOne(Indexer::INDEX_TYPE_PROFILE, $entity);
         $this->adminLogManager->createLog(ProfileEvent::CREATED, $entity->getUuidAsString(), $entity->getName());
     }
 
@@ -62,7 +62,7 @@ class ProfileListener implements EventSubscriberInterface
             return;
         }
 
-        $this->playerIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_PLAYER, $entity);
+        $this->playerIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_PROFILE, $entity);
         $this->adminLogManager->createLog(ProfileEvent::UPDATED, $entity->getUuidAsString(), $entity->getName());
     }
 
@@ -74,7 +74,7 @@ class ProfileListener implements EventSubscriberInterface
             return;
         }
 
-        $this->playerIndexer->deleteOne(Indexer::INDEX_TYPE_PLAYER, $entity->getUuidAsString());
+        $this->playerIndexer->deleteOne(Indexer::INDEX_TYPE_PROFILE, $entity->getUuidAsString());
         $this->adminLogManager->createLog(ProfileEvent::DELETED, $entity->getUuidAsString(), $entity->getName());
     }
 }

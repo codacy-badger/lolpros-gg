@@ -90,7 +90,7 @@ class LadderTransformer extends AProfileTransformer
         }
 
         if (!$peak) {
-            $this->logger->error(sprintf('[LadderTransformer] No best account found for %s (%s)', $player->getName(), $player->getUuidAsString()));
+            $this->logger->error(sprintf('[LadderTransformer] No best account found for %s (%s)', $player->getProfile()->getName(), $player->getUuidAsString()));
 
             return null;
         }

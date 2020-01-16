@@ -57,7 +57,7 @@ class RegionListener implements EventSubscriberInterface
     private function updateLinkedEntities(Region $region)
     {
         foreach ($region->getProfiles() as $player) {
-            $this->playerIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_PLAYER, $player);
+            $this->playerIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_PROFILE, $player);
             $this->ladderIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_LADDER, $player);
         }
         foreach ($region->getTeams() as $team) {
