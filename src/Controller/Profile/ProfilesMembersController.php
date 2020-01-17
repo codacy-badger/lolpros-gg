@@ -10,15 +10,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/players")
+ * @Route("/profiles")
  */
-class PlayersMembersController extends APIController
+class ProfilesMembersController extends APIController
 {
     /**
      * @Get(path="/{uuid}/members")
      * @IsGranted("ROLE_ADMIN")
      */
-    public function getPlayersMembersAction(string $uuid): Response
+    public function getProfilesMembersAction(string $uuid): Response
     {
         /** @var Profile $profile */
         $profile = $this->find(Profile::class, $uuid);

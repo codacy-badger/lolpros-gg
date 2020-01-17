@@ -41,6 +41,7 @@ class Member
      *     "get_teams",
      *     "get_team",
      *     "get_team_members",
+     *     "get_profile_memberships",
      * })
      */
     protected $uuid;
@@ -60,6 +61,7 @@ class Member
      * @ORM\ManyToOne(targetEntity="App\Entity\Team\Team", inversedBy="members")
      * @Serializer\Type("App\Entity\Team\Team")
      * @Serializer\Groups({
+     *     "get_profile_memberships",
      * })
      */
     protected $team;
@@ -72,6 +74,7 @@ class Member
      *     "get_teams",
      *     "get_team",
      *     "get_team_members",
+     *     "get_profile_memberships",
      * })
      */
     protected $joinDate;
@@ -84,6 +87,7 @@ class Member
      *     "get_teams",
      *     "get_team",
      *     "get_team_members",
+     *     "get_profile_memberships",
      * })
      */
     protected $leaveDate;
@@ -94,9 +98,9 @@ class Member
      * @Serializer\Type("string")
      * @Serializer\Groups({
      *     "get_member",
-     *     "get_player_members",
-     *     "get_team_members",
      *     "get_teams",
+     *     "get_profile_memberships",
+     *     "get_team_members",
      * })
      */
     protected $role;

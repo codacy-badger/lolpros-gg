@@ -75,9 +75,9 @@ class Team
      * @ORM\OneToOne(targetEntity="\App\Entity\Document\TeamLogo", mappedBy="team", cascade={"remove"})
      * @Serializer\Type("App\Entity\Document\TeamLogo")
      * @Serializer\Groups({
-     *     "get_profile_memberships",
      *     "get_teams",
      *     "get_team",
+     *     "get_profile_memberships",
      * })
      */
     protected $logo;
@@ -90,6 +90,7 @@ class Team
      *     "get_team",
      *     "get_teams",
      *     "put_team",
+     *     "get_profile_memberships",
      * })
      */
     protected $tag;

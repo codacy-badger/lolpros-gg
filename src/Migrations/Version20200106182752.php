@@ -45,6 +45,7 @@ final class Version20200106182752 extends AbstractMigration
         $this->addSql('INSERT INTO league__riot_account (id, player_id, uuid, riot_id, account_id, encrypted_puuid, encrypted_riot_id, encrypted_account_id, profile_icon_id, created_at, updated_at, score, summoner_level) SELECT id, player_id, uuid, riot_id, account_id, encrypted_puuid, encrypted_riot_id, encrypted_account_id, profile_icon_id, created_at, updated_at, score, summoner_level FROM player__league__riot_account');
         $this->addSql('INSERT INTO league__ranking SELECT * FROM player__league__ranking');
         $this->addSql('INSERT INTO league__summoner_name (id, owner_id, name, current, created_at, changed_at, previous_id) SELECT * FROM player__league__summoner_name');
+        $this->addSql('INSERT INTO profile__staff (profile_id) SELECT id FROM profile__profile');
 
         $this->addSql('ALTER TABLE league__player ADD CONSTRAINT FK_D8838497CCFA12B8 FOREIGN KEY (profile_id) REFERENCES profile__profile (id)');
         $this->addSql('ALTER TABLE league__ranking ADD CONSTRAINT FK_D34B301E7E3C61F9 FOREIGN KEY (owner_id) REFERENCES league__riot_account (id)');

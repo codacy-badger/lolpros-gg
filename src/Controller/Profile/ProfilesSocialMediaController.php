@@ -16,15 +16,15 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
- * @Route("/players")
+ * @Route("/profiles")
  */
-class PlayersSocialMediaController extends APIController
+class ProfilesSocialMediaController extends APIController
 {
     /**
      * @Get(path="/{uuid}/social-medias")
      * @IsGranted("ROLE_ADMIN")
      */
-    public function getPlayerSocialMediasAction(string $uuid): Response
+    public function getProfileSocialMediasAction(string $uuid): Response
     {
         /** @var Profile $profile */
         $profile = $this->find(Profile::class, $uuid);
@@ -38,7 +38,7 @@ class PlayersSocialMediaController extends APIController
      *
      * @throws EntityNotUpdatedException
      */
-    public function putPlayerSocialMediasAction(string $uuid, ValidatorInterface $validator, SocialMediaManager $socialMediaManager): Response
+    public function putProfileSocialMediasAction(string $uuid, ValidatorInterface $validator, SocialMediaManager $socialMediaManager): Response
     {
         /** @var Profile $profile */
         $profile = $this->find(Profile::class, $uuid);

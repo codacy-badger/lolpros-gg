@@ -36,7 +36,7 @@ class Player
      * @ORM\Column(type="string")
      * @Serializer\Type("string")
      * @Assert\NotNull(groups={"league.post_player"})
-     * @Assert\Choice(callback="getAvailablePositions", strict=true)
+     * @Assert\Choice(callback="getAvailablePositions", strict=true, )
      * @Serializer\Groups({
      *     "get_profiles",
      *     "get_profile",

@@ -7,6 +7,7 @@ use App\Entity\LeagueOfLegends\RiotAccount;
 use App\Exception\EntityNotDeletedException;
 use App\Exception\LeagueOfLegends\AccountRecentlyUpdatedException;
 use App\Manager\LeagueOfLegends\RiotAccountManager;
+use App\Repository\LeagueOfLegends\RiotAccountRepository;
 use FOS\RestBundle\Controller\Annotations\Delete;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Put;
@@ -46,7 +47,7 @@ class RiotAccountsController extends APIController
     }
 
     /**
-     * @Get(path="/{uuid}")
+     * @Get(path="/{uuid}", requirements={"uuid"="[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"})
      * @IsGranted("ROLE_ADMIN")
      */
     public function getRiotAccountAction($uuid): Response
@@ -72,7 +73,7 @@ class RiotAccountsController extends APIController
     }
 
     /**
-     * @Delete(path="/{uuid}")
+     * @Delete(path="/{uuid}", requirements={"uuid"="[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"})
      */
     public function deleteRiotAccountAction(string $uuid, RiotAccountManager $riotAccountManager): Response
     {
@@ -85,5 +86,29 @@ class RiotAccountsController extends APIController
         }
 
         return new JsonResponse(null, 204);
+    }
+
+    /**
+     * @Get(path="/search")
+     * @QueryParam(name="page", default=1, nullable=true)
+     * @QueryParam(name="per_page", default=20, nullable=true)
+     * @QueryParam(name="query", nullable=false)
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function getSearchRiotAccountsAction(ParamFetcher $paramFetcher, RiotAccountRepository $riotAccountRepository): Response
+    {
+        $page = (int) $paramFetcher->get('page');
+        $pageSize = (int) $paramFetcher->get('per_page');
+
+        $accounts = $riotAccountRepository->searchPaginated($paramFetcher->get('query'), $page, $pageSize);
+        $total = $accounts->count();
+
+        return $this->serialize([
+            'total' => $total,
+            'pages' => ceil($total / $pageSize),
+            'current' => $page,
+            'per_page' => $pageSize,
+            'results' => $accounts->getIterator()->getArrayCopy(),
+        ], 'league.get_riot_accounts');
     }
 }

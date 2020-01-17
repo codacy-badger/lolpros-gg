@@ -59,7 +59,7 @@ class ProfilesController extends APIController
     }
 
     /**
-     * @Get(path="/{uuid}")
+     * @Get(path="/{uuid}", requirements={"uuid"="[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"})
      * @IsGranted("ROLE_ADMIN")
      */
     public function getProfileAction(string $uuid): Response
@@ -99,7 +99,7 @@ class ProfilesController extends APIController
     }
 
     /**
-     * @Put(path="/{uuid}")
+     * @Put(path="/{uuid}", requirements={"uuid"="[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"})
      * @IsGranted("ROLE_ADMIN")
      *
      * @throws EntityNotUpdatedException
@@ -128,7 +128,7 @@ class ProfilesController extends APIController
     }
 
     /**
-     * @Delete(path="/{uuid}")
+     * @Delete(path="/{uuid}", requirements={"uuid"="[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"})
      * @IsGranted("ROLE_ADMIN")
      *
      * @throws EntityNotDeletedException
@@ -178,5 +178,29 @@ class ProfilesController extends APIController
     public function getProfilesCountriesAction(ProfileRepository $profileRepository): Response
     {
         return new JsonResponse($profileRepository->getCountries(), 200);
+    }
+
+    /**
+     * @Get(path="/search")
+     * @QueryParam(name="page", default=1, nullable=true)
+     * @QueryParam(name="per_page", default=20, nullable=true)
+     * @QueryParam(name="query", nullable=false)
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function getSearchProfilesAction(ParamFetcher $paramFetcher, ProfileRepository $profileRepository): Response
+    {
+        $page = (int) $paramFetcher->get('page');
+        $pageSize = (int) $paramFetcher->get('per_page');
+
+        $profiles = $profileRepository->searchPaginated($paramFetcher->get('query'), $page, $pageSize);
+        $total = $profiles->count();
+
+        return $this->serialize([
+            'total' => $total,
+            'pages' => ceil($total / $pageSize),
+            'current' => $page,
+            'per_page' => $pageSize,
+            'results' => $profiles->getIterator()->getArrayCopy(),
+        ], 'get_profiles');
     }
 }

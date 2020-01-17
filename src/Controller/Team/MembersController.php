@@ -27,7 +27,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class MembersController extends APIController
 {
     /**
-     * @Get(path="/{uuid}")
+     * @Get(path="/{uuid}", requirements={"uuid"="[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"})
      * @IsGranted("ROLE_ADMIN")
      */
     public function getMemberAction(string $uuid): Response
@@ -65,7 +65,7 @@ class MembersController extends APIController
     }
 
     /**
-     * @Put(path="/{uuid}")
+     * @Put(path="/{uuid}", requirements={"uuid"="[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"})
      * @IsGranted("ROLE_ADMIN")
      *
      * @throws EntityNotUpdatedException
@@ -90,7 +90,7 @@ class MembersController extends APIController
     }
 
     /**
-     * @Delete(path="/{uuid}")
+     * @Delete(path="/{uuid}", requirements={"uuid"="[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"})
      * @IsGranted("ROLE_ADMIN")
      *
      * @throws EntityNotDeletedException

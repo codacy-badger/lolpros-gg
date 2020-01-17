@@ -34,7 +34,7 @@ class RegionsController extends APIController
     }
 
     /**
-     * @Get(path="/{uuid}")
+     * @Get(path="/{uuid}", requirements={"uuid"="[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"})
      * @IsGranted("IS_AUTHENTICATED_ANONYMOUSLY")
      */
     public function getRegionAction(string $uuid): Response
@@ -67,7 +67,7 @@ class RegionsController extends APIController
     }
 
     /**
-     * @Put(path="/{uuid}")
+     * @Put(path="/{uuid}", requirements={"uuid"="[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"})
      * @IsGranted("ROLE_ADMIN")
      *
      * @throws EntityNotUpdatedException
@@ -95,7 +95,7 @@ class RegionsController extends APIController
     }
 
     /**
-     * @Delete(path="/{uuid}")
+     * @Delete(path="/{uuid}", requirements={"uuid"="[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"})
      * @IsGranted("ROLE_ADMIN")
      *
      * @throws EntityNotDeletedException

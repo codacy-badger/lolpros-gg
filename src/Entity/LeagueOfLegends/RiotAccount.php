@@ -39,6 +39,7 @@ class RiotAccount
      *     "get_profile",
      *     "league.get_riot_account",
      *     "league.get_riot_accounts",
+     *     "league.get_player_riot_accounts",
      * })
      * @Assert\NotNull
      * @Assert\NotBlank

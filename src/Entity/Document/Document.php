@@ -67,6 +67,7 @@ abstract class Document
      *     "get_region",
      *     "get_teams",
      *     "get_team",
+     *     "get_profile_memberships",
      * })
      */
     protected $url;

@@ -10,6 +10,7 @@ use App\Exception\EntityNotDeletedException;
 use App\Exception\EntityNotUpdatedException;
 use App\Form\Core\Team\TeamForm;
 use App\Manager\Team\TeamManager;
+use App\Repository\TeamRepository;
 use FOS\RestBundle\Controller\Annotations\Delete;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
@@ -51,7 +52,7 @@ class TeamsController extends APIController
     }
 
     /**
-     * @Get(path="/{uuid}")
+     * @Get(path="/{uuid}", requirements={"uuid"="[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"})
      * @IsGranted("ROLE_ADMIN")
      */
     public function getTeamAction(string $uuid): Response
@@ -87,7 +88,7 @@ class TeamsController extends APIController
     }
 
     /**
-     * @Put(path="/{uuid}")
+     * @Put(path="/{uuid}", requirements={"uuid"="[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"})
      * @IsGranted("ROLE_ADMIN")
      *
      * @throws EntityNotUpdatedException
@@ -112,7 +113,7 @@ class TeamsController extends APIController
     }
 
     /**
-     * @Delete(path="/{uuid}")
+     * @Delete(path="/{uuid}", requirements={"uuid"="[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"})
      * @IsGranted("ROLE_ADMIN")
      *
      * @throws EntityNotDeletedException
@@ -125,5 +126,29 @@ class TeamsController extends APIController
         $teamManager->delete($team);
 
         return new JsonResponse(null, 204);
+    }
+
+    /**
+     * @Get(path="/search")
+     * @QueryParam(name="page", default=1, nullable=true)
+     * @QueryParam(name="per_page", default=20, nullable=true)
+     * @QueryParam(name="query", nullable=false)
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function getSearchTeamsAction(ParamFetcher $paramFetcher, TeamRepository $teamRepository): Response
+    {
+        $page = (int) $paramFetcher->get('page');
+        $pageSize = (int) $paramFetcher->get('per_page');
+
+        $teams = $teamRepository->searchPaginated($paramFetcher->get('query'), $page, $pageSize);
+        $total = $teams->count();
+
+        return $this->serialize([
+            'total' => $total,
+            'pages' => ceil($total / $pageSize),
+            'current' => $page,
+            'per_page' => $pageSize,
+            'results' => $teams->getIterator()->getArrayCopy(),
+        ], 'get_teams');
     }
 }
