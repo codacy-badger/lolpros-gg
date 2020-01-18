@@ -129,6 +129,13 @@ class Player
         return $this->getBestAccount()->getScore();
     }
 
+    /**
+     * @Serializer\VirtualProperty
+     * @Serializer\SerializedName("uuid")
+     * @Serializer\Groups({
+     *     "league.get_riot_account",
+     * })
+     */
     public function getUuidAsString(): string
     {
         return $this->getProfile()->getUuidAsString();
