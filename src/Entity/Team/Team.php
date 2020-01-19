@@ -43,6 +43,7 @@ class Team
      *     "get_profile_memberships",
      *     "get_team_members",
      *     "get_member",
+     *     "get_member",
      * })
      */
     protected $uuid;
@@ -57,6 +58,7 @@ class Team
      *     "put_team",
      *     "get_profile_memberships",
      *     "get_team_members",
+     *     "get_member",
      *     "get_member",
      * })
      */

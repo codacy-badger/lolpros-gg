@@ -42,6 +42,7 @@ class Member
      *     "get_team",
      *     "get_team_members",
      *     "get_profile_memberships",
+     *     "get_member",
      * })
      */
     protected $uuid;
@@ -52,6 +53,7 @@ class Member
      * @Serializer\Type("App\Entity\Profile\Profile")
      * @Serializer\Groups({
      *     "get_team_members",
+     *     "get_member",
      * })
      */
     protected $profile;
@@ -62,6 +64,8 @@ class Member
      * @Serializer\Type("App\Entity\Team\Team")
      * @Serializer\Groups({
      *     "get_profile_memberships",
+     *     "get_team_members",
+     *     "get_member",
      * })
      */
     protected $team;
@@ -75,6 +79,8 @@ class Member
      *     "get_team",
      *     "get_team_members",
      *     "get_profile_memberships",
+     *     "put_member",
+     *     "get_member",
      * })
      */
     protected $joinDate;
@@ -88,6 +94,8 @@ class Member
      *     "get_team",
      *     "get_team_members",
      *     "get_profile_memberships",
+     *     "put_member",
+     *     "get_member",
      * })
      */
     protected $leaveDate;
@@ -97,10 +105,12 @@ class Member
      * @ORM\Column(name="role", type="string")
      * @Serializer\Type("string")
      * @Serializer\Groups({
-     *     "get_member",
      *     "get_teams",
-     *     "get_profile_memberships",
+     *     "get_team",
      *     "get_team_members",
+     *     "get_profile_memberships",
+     *     "put_member",
+     *     "get_member",
      * })
      */
     protected $role;

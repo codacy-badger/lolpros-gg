@@ -42,6 +42,7 @@ class Profile
      *     "get_profiles",
      *     "get_profile",
      *     "get_team_members",
+     *     "get_member",
      * })
      */
     protected $uuid;
@@ -54,6 +55,7 @@ class Profile
      *     "get_profiles",
      *     "get_profile",
      *     "get_team_members",
+     *     "get_member",
      * })
      * @Assert\NotNull(groups={"league.post_player"})
      */
@@ -68,6 +70,7 @@ class Profile
      *     "get_profiles",
      *     "get_profile",
      *     "get_team_members",
+     *     "get_member",
      * })
      */
     protected $slug;
@@ -80,6 +83,7 @@ class Profile
      *     "get_profiles",
      *     "get_profile",
      *     "get_team_members",
+     *     "get_member",
      * })
      */
     protected $country;
@@ -126,6 +130,7 @@ class Profile
      *     "get_profiles",
      *     "get_profile",
      *     "get_team_members",
+     *     "get_member",
      * })
      */
     protected $staff;
@@ -138,6 +143,7 @@ class Profile
      *     "get_profiles",
      *     "get_profile",
      *     "get_team_members",
+     *     "get_member",
      * })
      */
     protected $leaguePlayer;

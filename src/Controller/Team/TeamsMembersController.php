@@ -18,12 +18,8 @@ class TeamsMembersController extends APIController
      * @Get(path="/{uuid}/members")
      * @IsGranted("IS_AUTHENTICATED_ANONYMOUSLY")
      */
-    public function getTeamMembersAction(string $uuid): Response
+    public function getTeamMembersAction(Team $team): Response
     {
-        /** @var Team $team */
-        $team = $this->find(Team::class, $uuid);
-        $members = $team->getMembers();
-
-        return $this->serialize($members, 'get_team_members');
+        return $this->serialize($team->getMembers(), 'get_team_members');
     }
 }
