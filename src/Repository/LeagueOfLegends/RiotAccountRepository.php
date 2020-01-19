@@ -19,6 +19,7 @@ class RiotAccountRepository extends ServiceEntityRepository
         return new Paginator(
             $this->createQueryBuilder('riotAccount')
                 ->leftJoin('riotAccount.summonerNames', 'summonerNames')
+                ->where('summonerNames.current = 1')
                 ->orderBy('summonerNames.name', 'ASC')
                 ->setFirstResult($pageSize * ($page - 1))
                 ->setMaxResults($pageSize)

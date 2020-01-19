@@ -10,6 +10,6 @@ class EntityNotDeletedException extends \Exception
     {
         parent::__construct($message, $code, $previous);
 
-        $this->message = sprintf('Entity %s with uuid %s could not be deleted because of reason %s', $entity, $uuid, $message);
+        $this->message = sprintf("Entity %s with uuid %s could not be deleted because of reason '%s'", $entity, $uuid, $message);
     }
 }

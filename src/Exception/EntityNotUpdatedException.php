@@ -10,6 +10,6 @@ class EntityNotUpdatedException extends \Exception
     {
         parent::__construct($message, $code, $previous);
 
-        $this->message = sprintf('Entity %s with uuid %s could not be updated because of reason %s', $entity, $uuid, $message);
+        $this->message = sprintf("Entity %s with uuid %s could not be updated because of reason '%s'", $entity, $uuid, $message);
     }
 }

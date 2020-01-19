@@ -36,20 +36,23 @@ class ProfileTransformer extends AProfileTransformer
             return null;
         }
 
-        $player = $profile->getLeaguePlayer();
         $document = [
             'uuid' => $profile->getUuidAsString(),
             'name' => $profile->getName(),
             'slug' => $profile->getSlug(),
             'country' => $profile->getCountry(),
             'regions' => $this->buildRegions($profile),
-            'position' => $player->getPosition(),
-            'score' => $player->getScore(),
-            'accounts' => $this->buildAccounts($player),
             'social_media' => $this->buildSocialMedia($profile),
         ];
+        if (($player = $profile->getLeaguePlayer())) {
+            $document = array_merge($document, [
+                'position' => $player->getPosition(),
+                'score' => $player->getScore(),
+                'accounts' => $this->buildAccounts($player),
+            ]);
+        }
 
-        return new Document($player->getUuidAsString(), $document, Indexer::INDEX_TYPE_PROFILE, Indexer::INDEX_PROFILES);
+        return new Document($profile->getUuidAsString(), $document, Indexer::INDEX_TYPE_PROFILE, Indexer::INDEX_PROFILES);
     }
 
     private function buildAccounts(Player $player): array

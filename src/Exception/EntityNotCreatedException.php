@@ -10,6 +10,6 @@ class EntityNotCreatedException extends \Exception
     {
         parent::__construct($message, $code, $previous);
 
-        $this->message = sprintf('Entity %s could not be created because of reason %s', $className, $message);
+        $this->message = sprintf("Entity %s could not be created because of reason '%s'", $className, $message);
     }
 }

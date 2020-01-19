@@ -5,9 +5,9 @@ namespace App\Controller;
 use App\Service\ErrorFormatter;
 use Doctrine\Common\Inflector\Inflector;
 use Exception;
-use FOS\RestBundle\Context\Context;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use JMS\Serializer\DeserializationContext;
+use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,9 +39,9 @@ class APIController extends AbstractFOSRestController
 
     protected function serialize($data, $groups = null, int $code = 200): Response
     {
-        $context = (new Context())->setGroups($groups ? (array) $groups : null)->setSerializeNull(true);
+        $context = (new SerializationContext())->setGroups($groups ? (array) $groups : null)->setSerializeNull(true);
 
-        return $this->handleView($this->view($data, $code)->setContext($context)->setFormat('json'));
+        return new Response($this->serializer->serialize($data, 'json', $context), $code);
     }
 
     protected function deserialize(string $class, string $group = null)

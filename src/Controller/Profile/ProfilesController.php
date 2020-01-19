@@ -4,16 +4,13 @@ namespace App\Controller\Profile;
 
 use App\Controller\APIController;
 use App\Entity\Profile\Profile;
-use App\Entity\Region\Region;
 use App\Exception\EntityNotCreatedException;
 use App\Exception\EntityNotDeletedException;
 use App\Exception\EntityNotUpdatedException;
 use App\Exception\LeagueOfLegends\AccountRecentlyUpdatedException;
-use App\Form\LeagueOfLegends\Player\PlayerForm;
 use App\Manager\LeagueOfLegends\RiotAccountManager;
 use App\Manager\Profile\ProfileManager;
 use App\Repository\ProfileRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
 use FOS\RestBundle\Controller\Annotations\Delete;
 use FOS\RestBundle\Controller\Annotations\Get;
@@ -24,7 +21,6 @@ use FOS\RestBundle\Request\ParamFetcher;
 use RiotAPI\LeagueAPI\Exceptions\ServerLimitException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -70,30 +66,14 @@ class ProfilesController extends APIController
     /**
      * @Post(path="")
      * @IsGranted("ROLE_ADMIN")
-     *
-     * @throws EntityNotCreatedException
      */
     public function postProfilesAction(ProfileManager $profileManager): Response
     {
-        $profile = new Profile();
-        $postedData = $this->getPostedData();
-
-        $regions = new ArrayCollection();
-        foreach ($postedData['regions'] as $region) {
-            $regions->add($this->find(Region::class, $region));
+        try {
+            $profile = $profileManager->create($this->getPostedData());
+        } catch (EntityNotCreatedException $e) {
+            return new JsonResponse($e->getMessage(), 409);
         }
-        $profile->setRegions($regions);
-        unset($postedData['regions']);
-
-        $form = $this
-            ->createForm(PlayerForm::class, $profile, PlayerForm::buildOptions(Request::METHOD_POST, $postedData))
-            ->submit($postedData, false);
-
-        if (!$form->isValid()) {
-            return new JsonResponse($this->errorFormatter->reduceForm($form), 422);
-        }
-
-        $profile = $profileManager->create($profile);
 
         return $this->serialize($profile, 'get_profile', 201);
     }
@@ -101,28 +81,14 @@ class ProfilesController extends APIController
     /**
      * @Put(path="/{uuid}", requirements={"uuid"="[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"})
      * @IsGranted("ROLE_ADMIN")
-     *
-     * @throws EntityNotUpdatedException
      */
-    public function putProfilesAction(string $uuid, ProfileManager $profileManager, ValidatorInterface $validator): Response
+    public function putProfilesAction(Profile $profile, ProfileManager $profileManager, ValidatorInterface $validator): Response
     {
-        /** @var Profile $profile */
-        $profile = $this->find(Profile::class, $uuid);
-        $postedData = $this->getPostedData();
-
-        $profileData = $this->deserialize(Profile::class, 'put_profile');
-        $regions = new ArrayCollection();
-        foreach ($postedData['regions'] as $region) {
-            $regions->add($this->find(Region::class, is_array($region) ? $region['uuid'] : $region));
+        try {
+            $profile = $profileManager->update($profile, $this->getPostedData());
+        } catch (EntityNotUpdatedException $e) {
+            return new JsonResponse($e->getMessage(), 409);
         }
-        $profileData->setRegions($regions);
-
-        $violationList = $validator->validate($profileData, null, ['put_profile']);
-        if ($violationList->count() > 0) {
-            return new JsonResponse($this->errorFormatter->reduce($violationList), 422);
-        }
-
-        $profile = $profileManager->update($profile, $profileData);
 
         return $this->serialize($profile, 'get_profile');
     }
@@ -133,11 +99,8 @@ class ProfilesController extends APIController
      *
      * @throws EntityNotDeletedException
      */
-    public function deleteProfilesAction(string $uuid, ProfileManager $profileManager): Response
+    public function deleteProfilesAction(Profile $profile, ProfileManager $profileManager): Response
     {
-        /** @var Profile $profile */
-        $profile = $this->find(Profile::class, $uuid);
-
         $profileManager->delete($profile);
 
         return new JsonResponse(null, 204);
@@ -149,12 +112,10 @@ class ProfilesController extends APIController
      *
      * @throws ServerLimitException
      */
-    public function getProfileUpdateAction(string $uuid, RiotAccountManager $riotAccountManager): Response
+    public function getProfileUpdateAction(Profile $profile, RiotAccountManager $riotAccountManager): Response
     {
-        /** @var Profile $profile */
-        $profile = $this->find(Profile::class, $uuid);
         $errorCount = 0;
-        $accounts = $profile->getAccounts();
+        $accounts = $profile->getLeaguePlayer()->getAccounts();
 
         foreach ($accounts as $account) {
             try {

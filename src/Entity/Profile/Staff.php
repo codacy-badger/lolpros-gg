@@ -3,6 +3,7 @@
 namespace App\Entity\Profile;
 
 use Doctrine\ORM\Mapping as ORM;
+use InvalidArgumentException;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -27,7 +28,7 @@ class Staff
 
     /**
      * @var string
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      * @Serializer\Type("string")
      * @Assert\NotNull()
      * @Assert\Choice(callback="getAvailablePosition", strict=true)
@@ -51,8 +52,12 @@ class Staff
         return $this->position;
     }
 
-    public function setPosition(string $position): self
+    public function setPosition(?string $position): self
     {
+        if ($position && !in_array($position, self::getAvailablePositions())) {
+            throw new InvalidArgumentException('Invalid position for Staff');
+        }
+
         $this->position = $position;
 
         return $this;
