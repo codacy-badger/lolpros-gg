@@ -22,6 +22,7 @@ class Member
     use StringUuidTrait;
     const MEMBER_STAFF = 'staff';
     const MEMBER_PLAYER = 'player';
+    const MEMBER_SUB = 'sub';
 
     /**
      * @var int
@@ -102,6 +103,12 @@ class Member
      * @var string
      * @ORM\Column(name="role", type="string")
      * @Serializer\Type("string")
+     * @Serializer\Groups({
+     *     "get_member",
+     *     "get_player_members",
+     *     "get_team_members",
+     *     "get_teams",
+     * })
      */
     protected $role;
 
@@ -209,6 +216,7 @@ class Member
         return [
             self::MEMBER_STAFF,
             self::MEMBER_PLAYER,
+            self::MEMBER_SUB,
         ];
     }
 }

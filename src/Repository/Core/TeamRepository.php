@@ -44,7 +44,7 @@ class TeamRepository extends ServiceEntityRepository
     {
         return new Paginator(
             $this->createQueryBuilder('team')
-                ->andWhere('team.name LIKE :name')
+                ->where('team.name LIKE :name OR team.tag LIKE :name')
                 ->setParameter('name', '%'.$query.'%')
                 ->setFirstResult($pageSize * ($page - 1))
                 ->setMaxResults($pageSize)
