@@ -38,6 +38,7 @@ abstract class Document
      *     "get_region",
      *     "get_team",
      *     "get_profile",
+     *     "get_document",
      * })
      */
     protected $uuid;
@@ -68,6 +69,7 @@ abstract class Document
      *     "get_teams",
      *     "get_team",
      *     "get_profile_memberships",
+     *     "get_document",
      * })
      */
     protected $url;

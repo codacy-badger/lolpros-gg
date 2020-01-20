@@ -82,7 +82,7 @@ class TeamListener implements EventSubscriberInterface
         }
 
         $this->teamIndexer->addOrUpdateOne(Indexer::INDEX_TYPE_TEAM, $entity);
-        $this->ladderIndexer->updateMultiple(Indexer::INDEX_TYPE_LADDER, $this->membersRepository->getPlayersUuidsFromTeam($entity));
+        $this->ladderIndexer->updateMultiple(Indexer::INDEX_TYPE_LADDER, $this->membersRepository->getProfilesUuidsFromTeam($entity));
         $this->membersIndexer->updateMultiple(Indexer::INDEX_TYPE_MEMBER, $this->membersRepository->getMembersUuidsFromTeam($entity));
 
         $this->adminLogManager->createLog(TeamEvent::UPDATED, $entity->getUuidAsString(), $entity->getName());
@@ -97,7 +97,7 @@ class TeamListener implements EventSubscriberInterface
         }
 
         $this->teamIndexer->deleteOne(Indexer::INDEX_TYPE_TEAM, $entity->getUuidAsString());
-        $this->ladderIndexer->updateMultiple(Indexer::INDEX_TYPE_LADDER, $this->membersRepository->getPlayersUuidsFromTeam($entity));
+        $this->ladderIndexer->updateMultiple(Indexer::INDEX_TYPE_LADDER, $this->membersRepository->getProfilesUuidsFromTeam($entity));
         $this->membersIndexer->updateMultiple(Indexer::INDEX_TYPE_MEMBER, $this->membersRepository->getMembersUuidsFromTeam($entity));
 
         $this->adminLogManager->createLog(TeamEvent::DELETED, $entity->getUuidAsString(), $entity->getName());

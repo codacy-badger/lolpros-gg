@@ -3,7 +3,6 @@
 namespace App\Controller\Team;
 
 use App\Controller\APIController;
-use App\Entity\Team\SocialMedia;
 use App\Entity\Team\Team;
 use App\Exception\EntityNotUpdatedException;
 use App\Manager\Team\SocialMediaManager;
@@ -24,32 +23,22 @@ class TeamsSocialMediasController extends APIController
      * @Get(path="/{uuid}/social-medias")
      * @IsGranted("ROLE_ADMIN")
      */
-    public function getTeamSocialMediasAction(string $uuid): Response
+    public function getTeamSocialMediasAction(Team $team): Response
     {
-        /** @var Team $team */
-        $team = $this->find(Team::class, $uuid);
-
         return $this->serialize($team->getSocialMedia(), 'get_team_social_medias');
     }
 
     /**
      * @Put(path="/{uuid}/social-medias")
      * @IsGranted("ROLE_ADMIN")
-     *
-     * @throws EntityNotUpdatedException
      */
-    public function putTeamSocialMediasAction(string $uuid, SocialMediaManager $socialMediaManager, ValidatorInterface $validator): Response
+    public function putTeamSocialMediasAction(Team $team, SocialMediaManager $socialMediaManager, ValidatorInterface $validator): Response
     {
-        /** @var Team $team */
-        $team = $this->find(Team::class, $uuid);
-        $socialMedia = $this->deserialize(SocialMedia::class, 'put_team_social_medias');
-
-        $violationList = $validator->validate($socialMedia, null, ['put_team_social_medias']);
-        if ($violationList->count() > 0) {
-            return new JsonResponse($this->errorFormatter->reduce($violationList), 422);
+        try {
+            $socialMedia = $socialMediaManager->updateSocialMedia($team, $this->getPostedData());
+        } catch (EntityNotUpdatedException $e) {
+            return new JsonResponse($e->getMessage(), 409);
         }
-
-        $socialMedia = $socialMediaManager->updateSocialMedia($team, $socialMedia);
 
         return $this->serialize($socialMedia, 'get_team_social_medias');
     }

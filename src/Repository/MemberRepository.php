@@ -22,11 +22,11 @@ class MemberRepository extends ServiceEntityRepository
         }, $uuids);
     }
 
-    public function getPlayersUuidsFromTeam(Team $team): array
+    public function getProfilesUuidsFromTeam(Team $team): array
     {
         $uuids = $this->createQueryBuilder('member')
-            ->select('player.uuid')
-            ->join('member.player', 'player')
+            ->select('profile.uuid')
+            ->join('member.profile', 'profile')
             ->join('member.team', 'team')
             ->where('team = :team')
             ->setParameter('team', $team)
@@ -49,13 +49,13 @@ class MemberRepository extends ServiceEntityRepository
         return $this->toArrayString($uuids);
     }
 
-    public function getMembersUuidsFromPlayer(Profile $player): array
+    public function getMembersUuidsFromPlayer(Profile $profile): array
     {
         $uuids = $this->createQueryBuilder('members')
             ->select('members.uuid')
-            ->join('members.player', 'player')
-            ->where('player = :player')
-            ->setParameter('player', $player)
+            ->join('members.profile', 'profile')
+            ->where('profile = :profile')
+            ->setParameter('profile', $profile)
             ->getQuery()
             ->getResult();
 

@@ -11,25 +11,24 @@ use Exception;
 
 final class SocialMediaManager extends DefaultManager
 {
-    public function updateSocialMedia(Team $team, SocialMedia $socialMedia): SocialMedia
+    public function updateSocialMedia(Team $team, array $data): SocialMedia
     {
         try {
             $media = $team->getSocialMedia();
 
-            $media->setFacebook($socialMedia->getFacebook());
-            $media->setWebsite($socialMedia->getWebsite());
-            $media->setTwitter($socialMedia->getTwitter());
-            $media->setLeaguepedia($socialMedia->getLeaguepedia());
+            $media->setFacebook($data['facebook']);
+            $media->setWebsite($data['website']);
+            $media->setTwitter($data['twitter']);
+            $media->setLeaguepedia($data['leaguepedia']);
 
-            $this->entityManager->flush($media);
-            $this->entityManager->flush($team);
+            $this->entityManager->flush();
 
             $this->eventDispatcher->dispatch(new TeamEvent($team), TeamEvent::UPDATED);
 
             return $media;
         } catch (Exception $e) {
             $this->logger->error('[SocialMediaManager] Could not update social medias for team {uuid} because of {reason}', ['uuid' => $team->getUuidAsString(), 'reason' => $e->getMessage()]);
-            throw new EntityNotUpdatedException($socialMedia->getOwner() ? $socialMedia->getOwner()->getUuidAsString() : $socialMedia->getId(), $e->getMessage());
+            throw new EntityNotUpdatedException($team->getUuidAsString(), $e->getMessage());
         }
     }
 }
