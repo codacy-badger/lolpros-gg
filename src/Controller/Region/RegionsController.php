@@ -37,9 +37,9 @@ class RegionsController extends APIController
      * @Get(path="/{uuid}", requirements={"uuid"="[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"})
      * @IsGranted("IS_AUTHENTICATED_ANONYMOUSLY")
      */
-    public function getRegionAction(string $uuid): Response
+    public function getRegionAction(Region $region): Response
     {
-        return $this->serialize($this->find(Region::class, $uuid), 'get_region');
+        return $this->serialize($region, 'get_region');
     }
 
     /**
@@ -72,10 +72,8 @@ class RegionsController extends APIController
      *
      * @throws EntityNotUpdatedException
      */
-    public function putRegionAction(string $uuid, RegionManager $regionManager): Response
+    public function putRegionAction(Region $region, RegionManager $regionManager): Response
     {
-        /** @var Region $region */
-        $region = $this->find(Region::class, $uuid);
         $postedData = $this->getPostedData();
 
         $form = $this
@@ -86,9 +84,7 @@ class RegionsController extends APIController
             return new JsonResponse($this->errorFormatter->reduceForm($form), 422);
         }
 
-        /* @var Region $region*/
         $region->setCountries($postedData['countries']);
-
         $region = $regionManager->update($region);
 
         return $this->serialize($region, 'get_region');
@@ -100,11 +96,8 @@ class RegionsController extends APIController
      *
      * @throws EntityNotDeletedException
      */
-    public function deleteRegionsAction(string $uuid, RegionManager $regionManager): Response
+    public function deleteRegionsAction(Region $region, RegionManager $regionManager): Response
     {
-        /** @var Region $region */
-        $region = $this->find(Region::class, $uuid);
-
         $regionManager->delete($region);
 
         return new JsonResponse(null, 204);
