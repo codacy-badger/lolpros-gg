@@ -55,6 +55,7 @@ final class Version20200106182752 extends AbstractMigration
         $this->addSql('ALTER TABLE region__profile ADD CONSTRAINT FK_86D84F8098260155 FOREIGN KEY (region_id) REFERENCES region__region (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE profile__social_media ADD CONSTRAINT FK_54E4D2F77E3C61F9 FOREIGN KEY (owner_id) REFERENCES profile__profile (id)');
         $this->addSql('ALTER TABLE profile__staff ADD CONSTRAINT FK_A07C7869CCFA12B8 FOREIGN KEY (profile_id) REFERENCES profile__profile (id)');
+        $this->addSql('ALTER TABLE team__team DROP disband_date;');
         $this->addSql('DROP TABLE player__league__ranking');
         $this->addSql('DROP TABLE player__league__riot_account');
         $this->addSql('DROP TABLE player__league__summoner_name');

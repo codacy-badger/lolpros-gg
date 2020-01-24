@@ -34,7 +34,6 @@ final class TeamManager extends DefaultManager
             $team->setTag($teamData->getTag() ? $teamData->getTag() : $team->getTag());
             $team->setRegion($teamData->getRegion());
             $team->setCreationDate($teamData->getCreationDate() ? $teamData->getCreationDate() : $team->getCreationDate());
-            $team->setDisbandDate($teamData->getDisbandDate() ? $teamData->getDisbandDate() : $team->getDisbandDate());
 
             $this->entityManager->flush($team);
 

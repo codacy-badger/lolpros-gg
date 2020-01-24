@@ -109,17 +109,6 @@ class Team
     protected $creationDate;
 
     /**
-     * @var DateTime
-     * @ORM\Column(name="disband_date", type="datetime", nullable=true)
-     * @Serializer\Type("DateTime<'Y-m-d'>")
-     * @Serializer\Groups({
-     *     "get_team",
-     *     "put_team",
-     * })
-     */
-    protected $disbandDate;
-
-    /**
      * @var SocialMedia
      * @ORM\OneToOne(targetEntity="App\Entity\Team\SocialMedia", mappedBy="owner", cascade={"persist", "remove"})
      * @Serializer\Type("App\Entity\Team\SocialMedia")
@@ -211,18 +200,6 @@ class Team
     public function setCreationDate(?DateTime $creationDate): self
     {
         $this->creationDate = $creationDate;
-
-        return $this;
-    }
-
-    public function getDisbandDate(): ?DateTime
-    {
-        return $this->disbandDate;
-    }
-
-    public function setDisbandDate(?DateTime $disbandDate): self
-    {
-        $this->disbandDate = $disbandDate;
 
         return $this;
     }
