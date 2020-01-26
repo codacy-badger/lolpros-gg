@@ -35,21 +35,14 @@ class ProfilesSocialMediaController extends APIController
     /**
      * @Put(path="/{uuid}/social-medias")
      * @IsGranted("ROLE_ADMIN")
-     *
-     * @throws EntityNotUpdatedException
      */
-    public function putProfileSocialMediasAction(string $uuid, ValidatorInterface $validator, SocialMediaManager $socialMediaManager): Response
+    public function putProfileSocialMediasAction(Profile $profile, SocialMediaManager $socialMediaManager): Response
     {
-        /** @var Profile $profile */
-        $profile = $this->find(Profile::class, $uuid);
-        $socialMedia = $this->deserialize(SocialMedia::class, 'put_profile_social_medias');
-
-        $violationList = $validator->validate($socialMedia, null, ['put_profile_social_medias']);
-        if ($violationList->count() > 0) {
-            return new JsonResponse($this->errorFormatter->reduce($violationList), 422);
+        try {
+            $socialMedia = $socialMediaManager->updateSocialMedia($profile, $this->getPostedData());
+        } catch (EntityNotUpdatedException $e) {
+            return new JsonResponse($e->getMessage(), 409);
         }
-
-        $socialMedia = $socialMediaManager->updateSocialMedia($profile, $socialMedia);
 
         return $this->serialize($socialMedia, 'get_profile_social_medias');
     }

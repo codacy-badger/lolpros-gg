@@ -1,5 +1,5 @@
 auth.login_check:
-    path: /auth/login_check
+    path: /auth/login
 
 auth.token_refresh:
     path: /auth/token/refresh

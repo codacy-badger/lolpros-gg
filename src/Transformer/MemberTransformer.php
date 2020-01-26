@@ -33,7 +33,7 @@ class MemberTransformer extends DefaultTransformer
             'uuid' => $member->getUuidAsString(),
             'player' => $this->buildPlayer($member->getProfile()),
             'team' => $this->buildTeam($member->getTeam()),
-            'type' => $member->getRole(),
+            'role' => $member->getRole(),
             'join_date' => $member->getJoinDate()->format(DateTime::ISO8601),
             'join_timestamp' => $member->getJoinDate()->getTimestamp(),
             'leave_date' => $member->getLeaveDate() ? $member->getLeaveDate()->format(DateTime::ISO8601) : null,

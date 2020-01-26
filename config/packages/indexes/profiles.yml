@@ -21,63 +21,26 @@ fos_elastica:
             slug:
               type: keyword
             country:
-            position:
-            regions:
-              type: nested
+            league_player:
+              type: object
               properties:
-                uuid:
-                  type: keyword
-                name:
-                slug:
-                shorthand:
-                  type: keyword
-                logo:
-                  type: object
-                  properties:
-                    public_id:
-                    version:
-                    url:
-            score:
-              type: integer
-            accounts:
-              type: nested
-              properties:
-                uuid:
-                profile_icon_id:
-                riot_id:
-                smurf:
-                summoner_name:
-                  type: keyword
-                  normalizer: lower
-                summoner_names:
+                position:
+                accounts:
                   type: nested
                   properties:
-                    name:
-                    created_at:
-                rank:
-                  type: nested
-                  properties:
-                    tier:
+                    uuid:
+                    profile_icon_id:
+                    riot_id:
+                    smurf:
+                    summoner_name:
+                      type: keyword
+                      normalizer: lower
+                    summoner_names:
+                      type: nested
+                      properties:
+                        name:
+                        created_at:
                     rank:
-                    league_points:
-                    wins:
-                    losses:
-                    score:
-                    created_at:
-                peak:
-                  type: nested
-                  properties:
-                    tier:
-                    rank:
-                    league_points:
-                    wins:
-                    losses:
-                    score:
-                    created_at:
-                season9:
-                  type: nested
-                  properties:
-                    end:
                       type: nested
                       properties:
                         tier:
@@ -97,6 +60,50 @@ fos_elastica:
                         losses:
                         score:
                         created_at:
+                    season9:
+                      type: nested
+                      properties:
+                        end:
+                          type: nested
+                          properties:
+                            tier:
+                            rank:
+                            league_points:
+                            wins:
+                            losses:
+                            score:
+                            created_at:
+                        peak:
+                          type: nested
+                          properties:
+                            tier:
+                            rank:
+                            league_points:
+                            wins:
+                            losses:
+                            score:
+                            created_at:
+                score:
+                  type: integer
+            staff:
+              type: object
+              properties:
+                position:
+            regions:
+              type: nested
+              properties:
+                uuid:
+                  type: keyword
+                name:
+                slug:
+                shorthand:
+                  type: keyword
+                logo:
+                  type: object
+                  properties:
+                    public_id:
+                    version:
+                    url:
 
             social_media:
               type: object

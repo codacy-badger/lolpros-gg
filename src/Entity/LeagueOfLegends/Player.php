@@ -79,6 +79,11 @@ class Player
         $this->accounts = new ArrayCollection();
     }
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
     public function getProfile(): Profile
     {
         return $this->profile;

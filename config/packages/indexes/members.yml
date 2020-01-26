@@ -10,7 +10,7 @@ fos_elastica:
           dynamic: strict
           properties:
             uuid:
-            type:
+            role:
             join_date:
               type: date
             join_timestamp:

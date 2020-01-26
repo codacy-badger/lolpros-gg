@@ -47,6 +47,11 @@ class Staff
      */
     protected $profile;
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
     public function getPosition(): string
     {
         return $this->position;

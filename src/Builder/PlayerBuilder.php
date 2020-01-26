@@ -77,6 +77,7 @@ class PlayerBuilder extends AMemberBuilder implements BuilderInterface
                 'name' => $team['name'],
                 'slug' => $team['slug'],
                 'logo' => $team['logo'],
+                'role' => $member['role'],
                 'join_date' => $member['join_date'],
                 'leave_date' => $member['leave_date'],
                 'current_members' => $this->buildTeamMembers($this->memberFetcher->fetch(['team' => $team['uuid'], 'current' => true])),
@@ -105,6 +106,7 @@ class PlayerBuilder extends AMemberBuilder implements BuilderInterface
                 'logo' => $team['logo'],
                 'join_date' => $member['join_date'],
                 'leave_date' => $member['leave_date'],
+                'role' => $member['role'],
                 'members' => $this->buildTeamMembers($this->memberFetcher->fetch([
                     'team' => $team['uuid'],
                     'start' => $member['join_timestamp'],
@@ -120,11 +122,11 @@ class PlayerBuilder extends AMemberBuilder implements BuilderInterface
     {
         $rankings = [];
 
-        if ($player['score']) {
+        if ($player['league_player']) {
             $rankings['global'] = $this->playerRepository->getPlayersRankings($player['uuid']);
             $rankings['country'] = $this->playerRepository->getPlayersRankings($player['uuid'], null, $player['country']);
-            $rankings['position'] = $this->playerRepository->getPlayersRankings($player['uuid'], $player['position']);
-            $rankings['country_position'] = $this->playerRepository->getPlayersRankings($player['uuid'], $player['position'], $player['country']);
+            $rankings['position'] = $this->playerRepository->getPlayersRankings($player['uuid'], $player['league_player']['position']);
+            $rankings['country_position'] = $this->playerRepository->getPlayersRankings($player['uuid'], $player['league_player']['position'], $player['country']);
         }
 
         return $rankings;

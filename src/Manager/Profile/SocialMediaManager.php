@@ -13,19 +13,18 @@ use Exception;
 
 final class SocialMediaManager extends DefaultManager
 {
-    public function updateSocialMedia(Profile $profile, SocialMedia $socialMedia): SocialMedia
+    public function updateSocialMedia(Profile $profile, array $data): SocialMedia
     {
         try {
             $media = $profile->getSocialMedia();
 
-            $media->setFacebook($socialMedia->getFacebook());
-            $media->setTwitch($socialMedia->getTwitch());
-            $media->setDiscord($socialMedia->getDiscord());
-            $media->setTwitter($socialMedia->getTwitter());
-            $media->setLeaguepedia($socialMedia->getLeaguepedia());
+            $media->setFacebook($data['facebook']);
+            $media->setDiscord($data['discord']);
+            $media->setTwitch($data['twitch']);
+            $media->setTwitter($data['twitter']);
+            $media->setLeaguepedia($data['leaguepedia']);
 
-            $this->entityManager->flush($media);
-            $this->entityManager->flush($profile);
+            $this->entityManager->flush();
 
             switch (true) {
                 case $profile instanceof Player:
@@ -37,8 +36,8 @@ final class SocialMediaManager extends DefaultManager
 
             return $media;
         } catch (Exception $e) {
-            $this->logger->error('[SocialMediaManager] Could not update social medias for player {uuid} because of {reason}', ['uuid' => $profile->getUuidAsString(), 'reason' => $e->getMessage()]);
-            throw new EntityNotUpdatedException($socialMedia->getOwner() ? $socialMedia->getOwner()->getUuidAsString() : $socialMedia->getId(), $e->getMessage());
+            $this->logger->error('[SocialMediaManager] Could not update social medias for profile {uuid} because of {reason}', ['uuid' => $profile->getUuidAsString(), 'reason' => $e->getMessage()]);
+            throw new EntityNotUpdatedException($profile->getUuidAsString(), $e->getMessage());
         }
     }
 }

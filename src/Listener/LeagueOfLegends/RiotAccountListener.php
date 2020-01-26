@@ -78,7 +78,7 @@ class RiotAccountListener implements EventSubscriberInterface
             return;
         }
 
-        $this->updateLinkedPlayer($entity->getLeaguePlayer());
+        $this->updateLinkedPlayer($entity->getPlayer());
         $this->adminLogManager->createLog(RiotAccountEvent::CREATED, $entity->getUuidAsString(), $entity->getSummonerName());
     }
 
@@ -90,7 +90,7 @@ class RiotAccountListener implements EventSubscriberInterface
             return;
         }
 
-        $this->updateLinkedPlayer($entity->getLeaguePlayer());
+        $this->updateLinkedPlayer($entity->getPlayer());
     }
 
     public function onDelete(RiotAccountEvent $event)
@@ -101,7 +101,7 @@ class RiotAccountListener implements EventSubscriberInterface
             return;
         }
 
-        $this->updateLinkedPlayer($entity->getLeaguePlayer());
+        $this->updateLinkedPlayer($entity->getPlayer());
         $this->adminLogManager->createLog(RiotAccountEvent::DELETED, $entity->getUuidAsString());
     }
 }

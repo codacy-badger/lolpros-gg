@@ -124,7 +124,7 @@ class Profile
 
     /**
      * @var Staff
-     * @ORM\OneToOne(targetEntity="App\Entity\Profile\Staff", mappedBy="profile")
+     * @ORM\OneToOne(targetEntity="App\Entity\Profile\Staff", mappedBy="profile", cascade={"remove"})
      * @Serializer\Type("App\Entity\Profile\Staff")
      * @Serializer\Groups({
      *     "get_profiles",
@@ -137,7 +137,7 @@ class Profile
 
     /**
      * @var Player
-     * @ORM\OneToOne(targetEntity="App\Entity\LeagueOfLegends\Player", mappedBy="profile")
+     * @ORM\OneToOne(targetEntity="App\Entity\LeagueOfLegends\Player", mappedBy="profile", cascade={"remove"})
      * @Serializer\Type("App\Entity\LeagueOfLegends\Player")
      * @Serializer\Groups({
      *     "get_profiles",

@@ -18,7 +18,6 @@ class ProfileTransformer extends AProfileTransformer
     {
         $profile = $this->entityManager->getRepository(Profile::class)->findOneBy(['uuid' => $document['uuid']]);
 
-        /** @var Profile $profile */
         if (!$profile instanceof Profile) {
             return null;
         }
@@ -31,7 +30,6 @@ class ProfileTransformer extends AProfileTransformer
 
     public function transform($profile, array $fields): ?Document
     {
-        /** @var Profile $profile */
         if (!$profile instanceof Profile) {
             return null;
         }
@@ -43,16 +41,35 @@ class ProfileTransformer extends AProfileTransformer
             'country' => $profile->getCountry(),
             'regions' => $this->buildRegions($profile),
             'social_media' => $this->buildSocialMedia($profile),
+            'league_player' => $this->buildLeaguePlayer($profile),
+            'staff' => $this->buildStaff($profile),
         ];
-        if (($player = $profile->getLeaguePlayer())) {
-            $document = array_merge($document, [
-                'position' => $player->getPosition(),
-                'score' => $player->getScore(),
-                'accounts' => $this->buildAccounts($player),
-            ]);
-        }
 
         return new Document($profile->getUuidAsString(), $document, Indexer::INDEX_TYPE_PROFILE, Indexer::INDEX_PROFILES);
+    }
+
+    private function buildStaff(Profile $profile)
+    {
+        if (!($staff = $profile->getStaff())) {
+            return null;
+        }
+
+        return [
+            'position' => $staff->getPosition(),
+        ];
+    }
+
+    private function buildLeaguePlayer(Profile $profile)
+    {
+        if (!($player = $profile->getLeaguePlayer())) {
+            return null;
+        }
+
+        return [
+            'position' => $player->getPosition(),
+            'score' => $player->getScore(),
+            'accounts' => $this->buildAccounts($player),
+        ];
     }
 
     private function buildAccounts(Player $player): array

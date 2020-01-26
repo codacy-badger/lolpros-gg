@@ -12,9 +12,11 @@ class SearchFetcher extends Fetcher
         $query = new Query\BoolQuery();
 
         $nested = new Query\Nested();
-        $nested->setPath('accounts');
-        $nested->setQuery(new Query\Wildcard('accounts.summoner_name', '*'.$options['query'].'*'));
-        $query->addShould($nested);
+        $nested->setPath('league_player');
+        $nested2 = new Query\Nested();
+        $nested2->setPath('league_player.accounts');
+        $nested2->setQuery(new Query\Wildcard('league_player.accounts.summoner_name', '*'.$options['query'].'*'));
+        $query->addShould($nested2);
         $query->addShould(new Query\Wildcard('name', $options['query'].'*', 2));
         $query->addShould(new Query\Wildcard('name', '*'.$options['query'].'*'));
 
