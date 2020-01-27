@@ -7,6 +7,7 @@ services:
     App\Listener\Profile\ProfileListener:
         arguments:
             $playerIndexer: '@api.indexer.profiles'
+            $membersIndexer: '@api.indexer.members'
         tags:
             - { name: kernel.event_subscriber }
 

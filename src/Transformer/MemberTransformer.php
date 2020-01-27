@@ -2,7 +2,6 @@
 
 namespace App\Transformer;
 
-use App\Entity\Profile\Profile;
 use App\Entity\Team\Member;
 use App\Entity\Team\Team;
 use App\Indexer\Indexer;
@@ -29,9 +28,16 @@ class MemberTransformer extends DefaultTransformer
             return null;
         }
 
+        $profile = $member->getProfile();
         $document = [
             'uuid' => $member->getUuidAsString(),
-            'player' => $this->buildPlayer($member->getProfile()),
+            'profile' => [
+                'uuid' => $profile->getUuidAsString(),
+                'name' => $profile->getName(),
+                'slug' => $profile->getSlug(),
+                'country' => $profile->getCountry(),
+                'position' => Member::MEMBER_STAFF === $member->getRole() ? $profile->getStaff()->getPosition() : $profile->getLeaguePlayer()->getPosition(),
+            ],
             'team' => $this->buildTeam($member->getTeam()),
             'role' => $member->getRole(),
             'join_date' => $member->getJoinDate()->format(DateTime::ISO8601),
@@ -43,21 +49,6 @@ class MemberTransformer extends DefaultTransformer
         ];
 
         return new Document($member->getUuidAsString(), $document, Indexer::INDEX_TYPE_MEMBER, Indexer::INDEX_MEMBERS);
-    }
-
-    private function buildPlayer(Profile $profile)
-    {
-        $player = [
-            'uuid' => $profile->getUuidAsString(),
-            'name' => $profile->getName(),
-            'slug' => $profile->getSlug(),
-            'country' => $profile->getCountry(),
-        ];
-        if ($profile->getLeaguePlayer()) {
-            $player['position'] = $profile->getLeaguePlayer()->getPosition();
-        }
-
-        return $player;
     }
 
     private function buildTeam(Team $team)

@@ -64,11 +64,11 @@ class PlayerBuilder extends AMemberBuilder implements BuilderInterface
         return $resolver;
     }
 
-    private function buildTeams(string $playerUuid): array
+    private function buildTeams(string $profileUuid): array
     {
         $teams = [];
 
-        $memberships = $this->memberFetcher->fetch(['player' => $playerUuid, 'current' => true]);
+        $memberships = $this->memberFetcher->fetch(['profile' => $profileUuid, 'current' => true]);
         foreach ($memberships as $member) {
             $team = $member['team'];
             array_push($teams, [
@@ -81,19 +81,23 @@ class PlayerBuilder extends AMemberBuilder implements BuilderInterface
                 'join_date' => $member['join_date'],
                 'leave_date' => $member['leave_date'],
                 'current_members' => $this->buildTeamMembers($this->memberFetcher->fetch(['team' => $team['uuid'], 'current' => true])),
-                'previous_members' => $this->buildTeamMembers($this->memberFetcher->fetch(['team' => $team['uuid'], 'current' => false])),
+                'previous_members' => $this->buildTeamMembers($this->memberFetcher->fetch([
+                    'team' => $team['uuid'],
+                    'current' => false,
+                    'start' => $member['join_timestamp'],
+                ]), false),
             ]);
         }
 
         return $teams;
     }
 
-    private function buildPreviousTeams(string $playerUuid): array
+    private function buildPreviousTeams(string $profileUuid): array
     {
         $teams = [];
 
         $memberships = $this->memberFetcher->fetch([
-            'player' => $playerUuid,
+            'profile' => $profileUuid,
             'current' => false,
         ]);
         foreach ($memberships as $member) {

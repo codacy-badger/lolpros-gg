@@ -28,15 +28,16 @@ abstract class AMemberBuilder implements BuilderInterface
         $members = [];
 
         foreach ($memberships as $membership) {
-            $player = $membership['player'];
+            $profile = $membership['profile'];
 
             $member = [
-                'uuid' => $player['uuid'],
-                'name' => $player['name'],
-                'slug' => $player['slug'],
+                'uuid' => $profile['uuid'],
+                'name' => $profile['name'],
+                'slug' => $profile['slug'],
                 'current' => $membership['current'],
-                'country' => $player['country'],
-                'position' => $player['position'] ?? null,
+                'country' => $profile['country'],
+                'role' => $membership['role'],
+                'position' => $profile['position'] ?? null,
                 'join_date' => $membership['join_date'],
                 'join_timestamp' => $membership['join_timestamp'],
                 'leave_date' => $membership['leave_date'],
@@ -44,16 +45,17 @@ abstract class AMemberBuilder implements BuilderInterface
             ];
 
             if ($withRankings) {
-                $ladderPlayer = $this->ladderFetcher->fetchDocument($player['uuid']);
+                $ladderPlayer = $this->ladderFetcher->fetchDocument($profile['uuid']);
 
                 if ($ladderPlayer) {
                     $player = $ladderPlayer->getData();
+                    $account = $player['account'];
                     $member = array_merge($member, [
-                        'profile_icon_id' => $player['account']['profile_icon_id'],
-                        'summoner_name' => $player['account']['summoner_name'],
-                        'tier' => $player['account']['tier'],
-                        'rank' => $player['account']['rank'],
-                        'league_points' => $player['account']['league_points'],
+                        'profile_icon_id' => $account['profile_icon_id'],
+                        'summoner_name' => $account['summoner_name'],
+                        'tier' => $account['tier'],
+                        'rank' => $account['rank'],
+                        'league_points' => $account['league_points'],
                         'score' => $player['score'],
                     ]);
                 }

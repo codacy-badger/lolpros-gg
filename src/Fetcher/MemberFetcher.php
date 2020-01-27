@@ -2,6 +2,7 @@
 
 namespace App\Fetcher;
 
+use DateTime;
 use Elastica\Query;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,8 +18,8 @@ class MemberFetcher extends Fetcher
         if ($options['uuid']) {
             $query->addMust(new Query\MatchPhrase('uuid', $options['uuid']));
         }
-        if ($options['player']) {
-            $query->addMust(new Query\MatchPhrase('player.uuid', $options['player']));
+        if ($options['profile']) {
+            $query->addMust(new Query\MatchPhrase('profile.uuid', $options['profile']));
         }
         if ($options['team']) {
             $query->addMust(new Query\MatchPhrase('team.uuid', $options['team']));
@@ -64,10 +65,10 @@ class MemberFetcher extends Fetcher
             'order' => 'desc',
             'uuid' => null,
             'current' => null,
-            'player' => null,
+            'profile' => null,
             'team' => null,
             'start' => null,
-            'end' => null,
+            'end' => (new DateTime())->getTimestamp(),
         ]);
 
         $resolver->setAllowedTypes('per_page', 'integer');
@@ -76,10 +77,10 @@ class MemberFetcher extends Fetcher
         $resolver->setAllowedTypes('order', 'string');
         $resolver->setAllowedTypes('uuid', ['string', 'null']);
         $resolver->setAllowedTypes('current', ['boolean', 'null']);
-        $resolver->setAllowedTypes('player', ['string', 'null']);
+        $resolver->setAllowedTypes('profile', ['string', 'null']);
         $resolver->setAllowedTypes('team', ['string', 'null']);
         $resolver->setAllowedTypes('start', ['integer', 'null']);
-        $resolver->setAllowedTypes('end', ['integer', 'null']);
+        $resolver->setAllowedTypes('end', ['integer']);
 
         return $resolver;
     }

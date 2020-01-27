@@ -20,7 +20,7 @@ fos_elastica:
             current:
             timestamp:
               type: date
-            player:
+            profile:
               type: object
               properties:
                 uuid:
