@@ -21,7 +21,7 @@ class LadderController extends APIController
      * @IsGranted("IS_AUTHENTICATED_ANONYMOUSLY")
      * @QueryParam(name="page", default=1, nullable=true)
      * @QueryParam(name="per_page", default=50, nullable=true)
-     * @QueryParam(name="position", nullable=true)
+     * @QueryParam(name="positions", nullable=true, map=true)
      * @QueryParam(name="country", nullable=true)
      * @QueryParam(name="region", nullable=true)
      * @QueryParam(name="team", nullable=true)
@@ -31,7 +31,7 @@ class LadderController extends APIController
     public function getLadderAction(ParamFetcher $paramFetcher, LadderFetcher $ladderFetcher): JsonResponse
     {
         $options = [
-            'position' => $paramFetcher->get('position'),
+            'positions' => $paramFetcher->get('positions') ?? [],
             'country' => $paramFetcher->get('country'),
             'region' => $paramFetcher->get('region'),
             'team' => $paramFetcher->get('team'),

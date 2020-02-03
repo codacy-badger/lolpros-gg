@@ -19,9 +19,12 @@ class LadderFetcher extends Fetcher
     {
         $query = new Query\BoolQuery();
 
-        if (null !== $options['position']) {
-            $query->addMust(new Query\Match('position', $options['position']));
+        $positionQuery = new Query\BoolQuery();
+        foreach ($options['positions'] as $position) {
+            $positionQuery->addShould(new Query\Match('position', $position));
         }
+        $query->addMust($positionQuery);
+
         if (null !== $options['country']) {
             $query->addMust(new Query\Match('country', $options['country']));
         }
@@ -83,7 +86,7 @@ class LadderFetcher extends Fetcher
             'page' => 1,
             'sort' => null,
             'order' => 'desc',
-            'position' => null,
+            'positions' => [],
             'country' => null,
             'region' => null,
             'team' => null,
@@ -93,8 +96,7 @@ class LadderFetcher extends Fetcher
         $resolver->setAllowedTypes('page', 'integer');
         $resolver->setAllowedTypes('sort', ['string', 'null']);
         $resolver->setAllowedTypes('order', 'string');
-        $resolver->setAllowedTypes('position', ['string', 'null']);
-        $resolver->setAllowedValues('position', array_merge(Player::getAvailablePositions(), [null]));
+        $resolver->setAllowedTypes('positions', ['array']);
         $resolver->setAllowedTypes('country', ['string', 'null']);
         $resolver->setAllowedTypes('region', ['string', 'null']);
         $resolver->setAllowedTypes('team', ['bool', 'string', 'null']);
