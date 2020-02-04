@@ -6,6 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",
+        "beberlei/doctrineextensions": "^1.2",
         "cloudinary/cloudinary_php": "^1.16",
         "dolejska-daniel/riot-api": "^4.0",
         "friendsofsymfony/elastica-bundle": "^5.1",

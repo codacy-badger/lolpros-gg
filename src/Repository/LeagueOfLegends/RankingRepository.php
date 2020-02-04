@@ -40,7 +40,9 @@ class RankingRepository extends ServiceEntityRepository
     public function getForAccount(RiotAccount $account, int $months = null, string $season = null)
     {
         $queryBuilder = $this->createQueryBuilder('ranking')
+            ->addSelect('DATE(ranking.createdAt) as HIDDEN date')
             ->where('ranking.owner = :account')
+            ->groupBy('date')
             ->orderBy('ranking.createdAt', 'desc')
             ->setParameter('account', $account);
 
@@ -54,7 +56,11 @@ class RankingRepository extends ServiceEntityRepository
         }
 
         if ($season) {
-            $queryBuilder->andWhere('ranking.season = :season')->setParameter('season', $season);
+            if (Ranking::SEASON_9_V2 === $season || Ranking::SEASON_9 === $season) {
+                $queryBuilder->andWhere('ranking.season = \'season_9\' or ranking.season = \'season_9_v2\'');
+            } else {
+                $queryBuilder->andWhere('ranking.season = :season')->setParameter('season', $season);
+            }
         }
 
         return $queryBuilder->getQuery()->getResult();
