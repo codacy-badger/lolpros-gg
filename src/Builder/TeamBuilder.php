@@ -34,6 +34,7 @@ class TeamBuilder extends AMemberBuilder implements BuilderInterface
 
         $team['current_members'] = $this->buildTeamMembers($this->memberFetcher->fetch(['team' => $team['uuid'], 'current' => true]));
         $team['previous_members'] = $this->buildTeamMembers($this->memberFetcher->fetch(['team' => $team['uuid'], 'current' => false]), false);
+        $team['active'] = (bool) count($team['current_members']);
 
         return $team;
     }

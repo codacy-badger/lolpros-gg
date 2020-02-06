@@ -4,7 +4,6 @@ namespace App\Controller\Profile;
 
 use App\Controller\APIController;
 use App\Entity\Profile\Profile;
-use App\Entity\Profile\SocialMedia;
 use App\Exception\EntityNotUpdatedException;
 use App\Manager\Profile\SocialMediaManager;
 use FOS\RestBundle\Controller\Annotations\Get;
@@ -13,7 +12,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @Route("/profiles")

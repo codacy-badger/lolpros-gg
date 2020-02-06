@@ -47,7 +47,6 @@ class TeamTransformer extends DefaultTransformer
                 'logo' => $this->buildLogo($region->getLogo()),
             ],
             'logo' => $this->buildLogo($team->getLogo()),
-            'active' => (bool) $team->getCurrentMemberships()->count(),
             'creation_date' => $team->getCreationDate()->format(DateTime::ISO8601),
             'social_media' => [
                 'twitter' => $socialMedia->getTwitter(),

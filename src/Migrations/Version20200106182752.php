@@ -37,6 +37,7 @@ final class Version20200106182752 extends AbstractMigration
         $this->addSql('CREATE TABLE region__profile (profile_id INT NOT NULL, region_id INT NOT NULL, INDEX IDX_86D84F80CCFA12B8 (profile_id), INDEX IDX_86D84F8098260155 (region_id), PRIMARY KEY(profile_id, region_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE profile__social_media (id INT AUTO_INCREMENT NOT NULL, owner_id INT DEFAULT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, twitter VARCHAR(255) DEFAULT NULL, facebook VARCHAR(255) DEFAULT NULL, twitch VARCHAR(255) DEFAULT NULL, discord VARCHAR(255) DEFAULT NULL, leaguepedia VARCHAR(255) DEFAULT NULL, UNIQUE INDEX UNIQ_54E4D2F77E3C61F9 (owner_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE profile__staff (id INT AUTO_INCREMENT NOT NULL, profile_id INT DEFAULT NULL, position VARCHAR(255) DEFAULT NULL, UNIQUE INDEX UNIQ_A07C7869CCFA12B8 (profile_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('ALTER TABLE `team__members` CHANGE `player_id` `profile_id` INT(11) NULL DEFAULT NULL;');
 
         $this->addSql('INSERT INTO profile__profile (id, uuid, name, slug, country, updated_at, created_at) SELECT player.id, player.uuid, player.name, player.slug, player.country, player.updated_at, player.created_at FROM player__player as player');
         $this->addSql('INSERT INTO profile__social_media (id, owner_id, created_at, updated_at, twitter, facebook, twitch, discord, leaguepedia) SELECT id, owner_id, created_at, updated_at, twitter, facebook, twitch, discord, leaguepedia FROM player__social_media');
@@ -64,7 +65,6 @@ final class Version20200106182752 extends AbstractMigration
         $this->addSql('DROP TABLE player__social_media');
         $this->addSql('DROP TABLE player_region');
         $this->addSql('DROP INDEX IDX_89AAEFFC99E6F5DF ON team__members');
-        $this->addSql('ALTER TABLE team__members CHANGE player_id profile_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE team__members ADD CONSTRAINT FK_89AAEFFCCCFA12B8 FOREIGN KEY (profile_id) REFERENCES profile__profile (id)');
         $this->addSql('CREATE INDEX IDX_89AAEFFCCCFA12B8 ON team__members (profile_id)');
     }
