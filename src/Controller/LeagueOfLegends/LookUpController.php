@@ -2,13 +2,14 @@
 
 namespace App\Controller\LeagueOfLegends;
 
+use App\Builder\PlayerBuilder;
 use App\Controller\APIController;
 use App\Factory\LeagueOfLegends\LoLProsFactory;
 use App\Factory\LeagueOfLegends\RankingsFactory;
 use App\Manager\LeagueOfLegends\Riot\RiotLeagueManager;
 use App\Manager\LeagueOfLegends\Riot\RiotSpectatorManager;
 use App\Manager\LeagueOfLegends\Riot\RiotSummonerManager;
-use App\Manager\Profile\ProfileManager;
+use Elastica\Exception\NotFoundException;
 use Exception;
 use FOS\RestBundle\Controller\Annotations\Get;
 use RiotAPI\LeagueAPI\Exceptions\RequestException;
@@ -54,13 +55,8 @@ class LookUpController extends APIController
      * @Get(path="/game/{name}")
      * @IsGranted("IS_AUTHENTICATED_ANONYMOUSLY")
      */
-    public function getGameForSummonerNameAction(
-        string $name,
-        RiotSummonerManager $riotSummonerManager,
-        RiotSpectatorManager $riotSpectatorManager,
-        RiotLeagueManager $riotLeagueManager,
-        ProfileManager $playerManager
-    ): Response {
+    public function getGameForSummonerNameAction(string $name, RiotSummonerManager $riotSummonerManager, RiotSpectatorManager $riotSpectatorManager, RiotLeagueManager $riotLeagueManager, PlayerBuilder $playerBuilder): Response
+    {
         try {
             $summoner = $riotSummonerManager->findPlayer($name);
         } catch (RequestException $e) {
@@ -77,8 +73,12 @@ class LookUpController extends APIController
             $soloQ = $riotLeagueManager->getForId($participant->summonerId);
             $participant->ranking = $soloQ ? RankingsFactory::createArrayFromLeague($soloQ) : RankingsFactory::createEmptyArray();
 
-            $lolpros = $playerManager->findWithAccount($participant->summonerId);
-            $participant->lolpros = $lolpros ? LoLProsFactory::createArrayFromRiotAccount($lolpros) : null;
+            try {
+                $lolpros = $playerBuilder->build(['riot_id' => $participant->summonerId]);
+                $participant->lolpros = LoLProsFactory::createArrayFromRiotAccount($lolpros);
+            } catch (NotFoundException $exception) {
+                $participant->lolpros = null;
+            }
         }
 
         return new JsonResponse($game);

@@ -56,10 +56,12 @@ class PlayerBuilder extends AMemberBuilder implements BuilderInterface
         $resolver->setDefaults([
             'slug' => null,
             'uuid' => null,
+            'riot_id' => null,
         ]);
 
         $resolver->setAllowedTypes('slug', ['string', 'null']);
         $resolver->setAllowedTypes('uuid', ['string', 'null']);
+        $resolver->setAllowedTypes('riot_id', ['string', 'null']);
 
         return $resolver;
     }

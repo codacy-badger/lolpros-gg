@@ -84,6 +84,7 @@ class ProfileTransformer extends AProfileTransformer
                 'uuid' => $account->getUuidAsString(),
                 'profile_icon_id' => $account->getProfileIconId(),
                 'riot_id' => $account->getRiotId(),
+                'encrypted_riot_id' => $account->getEncryptedRiotId(),
                 'summoner_name' => $account->getSummonerName(),
                 'summoner_names' => $this->buildSummonerNames($account),
                 'rank' => $this->buildRanking($rankingRepository->getLatestForAccount($account, Ranking::SEASON_10)),

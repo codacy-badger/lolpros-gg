@@ -31,6 +31,7 @@ fos_elastica:
                     uuid:
                     profile_icon_id:
                     riot_id:
+                    encrypted_riot_id:
                     smurf:
                     summoner_name:
                       type: keyword

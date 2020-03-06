@@ -17,6 +17,14 @@ class ProfileFetcher extends Fetcher
         if ($options['uuid']) {
             $query->addMust(new Query\MatchPhrase('uuid', $options['uuid']));
         }
+        if ($options['riot_id']) {
+            $nested = new Query\Nested();
+            $nested->setPath('league_player');
+            $nested2 = new Query\Nested();
+            $nested2->setPath('league_player.accounts');
+            $nested2->setQuery(new Query\MatchPhrase('league_player.accounts.encrypted_riot_id', $options['riot_id']));
+            $query->addMust($nested2);
+        }
 
         $query = new Query($query);
 
@@ -30,10 +38,12 @@ class ProfileFetcher extends Fetcher
         $resolver->setDefaults([
             'slug' => null,
             'uuid' => null,
+            'riot_id' => null,
         ]);
 
         $resolver->setAllowedTypes('slug', ['string', 'null']);
         $resolver->setAllowedTypes('uuid', ['string', 'null']);
+        $resolver->setAllowedTypes('riot_id', ['string', 'null']);
 
         return $resolver;
     }
