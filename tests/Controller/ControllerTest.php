@@ -3,14 +3,15 @@
 namespace App\Tests\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 abstract class ControllerTest extends WebTestCase
 {
-    const DEFAULT_USERNAME = 'chypriote';
-    const DEFAULT_PASSWORD = 'kroxigor555';
+    const DEFAULT_USERNAME = 'user';
+    const DEFAULT_PASSWORD = 'password';
 
     /**
      * @var KernelBrowser
@@ -37,6 +38,11 @@ abstract class ControllerTest extends WebTestCase
             'username' => $username,
             'password' => $password,
         ]));
+
+        if (!isset($data['token'])) {
+            dump($this->getJsonResponse());
+            die('Unable to login');
+        }
 
         $data = json_decode($this->client->getResponse()->getContent(), true);
         $this->client->setServerParameter('HTTP_Authorization', sprintf('Bearer %s', $data['token']));
