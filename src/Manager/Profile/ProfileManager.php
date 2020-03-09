@@ -14,6 +14,7 @@ use App\Exception\EntityNotUpdatedException;
 use App\Manager\DefaultManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
+use TypeError;
 
 final class ProfileManager extends DefaultManager
 {
@@ -28,7 +29,7 @@ final class ProfileManager extends DefaultManager
             $this->setProfileRegions($profile, $data['regions']);
             $this->entityManager->persist($profile);
 
-            if ($data['leaguePlayer']) {
+            if (isset($data['leaguePlayer']) && $data['leaguePlayer']) {
                 $leaguePlayer = new Player();
                 $leaguePlayer->setPosition($data['leaguePlayer']['position']);
                 $leaguePlayer->setProfile($profile);
@@ -36,7 +37,7 @@ final class ProfileManager extends DefaultManager
                 $this->entityManager->persist($leaguePlayer);
             }
 
-            if ($data['staff']) {
+            if (isset($data['staff']) && $data['staff']) {
                 $staff = new Staff();
                 $staff->setPosition($data['staff']['position']);
                 $staff->setProfile($profile);
@@ -49,7 +50,7 @@ final class ProfileManager extends DefaultManager
             $this->eventDispatcher->dispatch(new ProfileEvent($profile), ProfileEvent::CREATED);
 
             return $profile;
-        } catch (Exception $e) {
+        } catch (Exception | TypeError $e) {
             $this->entityManager->rollback();
             $this->logger->error('[ProfileManager::create] Could not create player because of {reason}', ['reason' => $e->getMessage()]);
 

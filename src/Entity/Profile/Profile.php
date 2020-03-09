@@ -204,7 +204,7 @@ class Profile
         return $this->country;
     }
 
-    public function setCountry($country): self
+    public function setCountry(string $country): self
     {
         $this->country = $country;
 

@@ -9,8 +9,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 abstract class ControllerTest extends WebTestCase
 {
-    const DEFAULT_USERNAME = 'username';
-    const DEFAULT_PASSWORD = 'password';
+    const DEFAULT_USERNAME = 'chypriote';
+    const DEFAULT_PASSWORD = 'kroxigor555';
 
     /**
      * @var KernelBrowser
@@ -49,16 +49,16 @@ abstract class ControllerTest extends WebTestCase
         return $this->client->getResponse();
     }
 
-    protected function post($uri, array $parameters = [], $data = []): Response
+    protected function post($uri, array $data = []): Response
     {
-        $this->client->request('POST', $uri, $parameters, [], [], json_encode($data));
+        $this->client->request('POST', $uri, [], [], [], json_encode($data));
 
         return $this->client->getResponse();
     }
 
-    protected function put($uri, array $parameters = [], $data = []): Response
+    protected function put($uri, array $data = []): Response
     {
-        $this->client->request('PUT', $uri, $parameters, [], [], json_encode($data));
+        $this->client->request('PUT', $uri, [], [], [], json_encode($data));
 
         return $this->client->getResponse();
     }
