@@ -23,7 +23,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @Route("/profiles")
@@ -58,9 +57,9 @@ class ProfilesController extends APIController
      * @Get(path="/{uuid}", requirements={"uuid"="[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"})
      * @IsGranted("ROLE_ADMIN")
      */
-    public function getProfileAction(string $uuid): Response
+    public function getProfileAction(Profile $profile): Response
     {
-        return $this->serialize($this->find(Profile::class, $uuid), 'get_profile');
+        return $this->serialize($profile, 'get_profile');
     }
 
     /**
@@ -82,7 +81,7 @@ class ProfilesController extends APIController
      * @Put(path="/{uuid}", requirements={"uuid"="[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"})
      * @IsGranted("ROLE_ADMIN")
      */
-    public function putProfilesAction(Profile $profile, ProfileManager $profileManager, ValidatorInterface $validator): Response
+    public function putProfilesAction(Profile $profile, ProfileManager $profileManager): Response
     {
         try {
             $profile = $profileManager->update($profile, $this->getPostedData());

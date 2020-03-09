@@ -2,10 +2,6 @@
 
 namespace App\Factory\LeagueOfLegends;
 
-use App\Entity\LeagueOfLegends\Ranking;
-use App\Entity\LeagueOfLegends\RiotAccount;
-use DateTime;
-
 class LoLProsFactory
 {
     public static function createArrayFromRiotAccount($profile): array
