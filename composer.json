@@ -1,4 +1,6 @@
 {
+    "name": "spire-gg/lolpros-gg",
+    "description": "API for the LOLPros.GG services",
     "type": "project",
     "license": "proprietary",
     "require": {

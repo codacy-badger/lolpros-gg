@@ -14,6 +14,7 @@ class LoadFixtures extends Fixture
         $objectSet = $loader->loadFiles([
             __DIR__.'/User/User.yaml',
             __DIR__.'/Profile/Profile.yaml',
+            __DIR__.'/Region/Region.yaml',
         ])->getObjects();
         foreach ($objectSet as $object) {
             $manager->persist($object);
