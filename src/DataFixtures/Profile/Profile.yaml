@@ -1,0 +1,5 @@
+App\Entity\Profile\Profile:
+    don_arts:
+        uuid: 93c73771-7a03-437e-b4e1-cb3dd109aeab
+        name: Don Arts
+        country: DE

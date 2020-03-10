@@ -146,6 +146,16 @@ class User implements UserInterface
         return $this;
     }
 
+    public function removeRole($role): self
+    {
+        $role = strtoupper($role);
+        $this->roles = array_filter($this->roles, function ($item) use ($role) {
+            return $role === $item;
+        });
+
+        return $this;
+    }
+
     public function serialize()
     {
         return serialize([

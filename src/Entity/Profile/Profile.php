@@ -182,6 +182,13 @@ class Profile
         return $this->uuid;
     }
 
+    public function setUuid(string $uuid): self
+    {
+        $this->uuid = Uuid::fromString($uuid);
+
+        return $this;
+    }
+
     public function getName(): ?string
     {
         return $this->name;

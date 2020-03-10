@@ -1,0 +1,7 @@
+App\Entity\User\User:
+    admin:
+        username: username
+        password: password
+        email: user@mail.fr
+        roles:
+            - ROLE_ADMIN
