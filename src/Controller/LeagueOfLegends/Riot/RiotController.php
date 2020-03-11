@@ -34,7 +34,7 @@ class RiotController extends APIController
                 throw new AccountAlreadyExistsException();
             }
 
-            $summoner->leagues = $riotLeagueManager->getForId($summoner->id);
+            $summoner->leagues = $riotLeagueManager->getSoloQForId($summoner->id);
         } catch (Exception $e) {
             return new JsonResponse($e->getMessage(), $e->getCode());
         }

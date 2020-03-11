@@ -69,12 +69,13 @@ class LookUpController extends APIController
 
         try {
             $game = $riotSpectatorManager->findGame($summoner->id);
+            $summoners = $riotLeagueManager->getMultipleId($game->participants);
         } catch (RequestException $e) {
             return new JsonResponse($e->getMessage(), 406);
         }
 
         foreach ($game->participants as $participant) {
-            $soloQ = $riotLeagueManager->getForId($participant->summonerId);
+            $soloQ = $summoners[$participant->summonerId];
             $participant->ranking = $soloQ ? RankingsFactory::createArrayFromLeague($soloQ) : RankingsFactory::createEmptyArray();
 
             $lolpros = $playerManager->findWithAccount($participant->summonerId);

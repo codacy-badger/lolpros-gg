@@ -48,7 +48,7 @@ final class RankingManager extends DefaultManager
 
     public function updateRanking(RiotAccount $riotAccount)
     {
-        $soloQ = $this->riotLeagueManager->getForId($riotAccount->getEncryptedRiotId());
+        $soloQ = $this->riotLeagueManager->getSoloQForId($riotAccount->getEncryptedRiotId());
         $ranking = $soloQ ? RankingsFactory::createFromLeague($soloQ) : RankingsFactory::createEmptyRanking();
         $ranking->setOwner($riotAccount);
         $ranking->setSeason(Ranking::SEASON_10);
@@ -71,7 +71,7 @@ final class RankingManager extends DefaultManager
     public function getForRiotAccount(RiotAccount $riotAccount): ?Ranking
     {
         try {
-            $soloQ = $this->riotLeagueManager->getForId($riotAccount->getEncryptedRiotId());
+            $soloQ = $this->riotLeagueManager->getSoloQForId($riotAccount->getEncryptedRiotId());
             $ranking = $soloQ ? RankingsFactory::createFromLeague($soloQ) : RankingsFactory::createEmptyRanking();
             $ranking->setBest(true);
 

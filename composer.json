@@ -7,7 +7,7 @@
         "ext-iconv": "*",
         "ext-json": "*",
         "cloudinary/cloudinary_php": "^1.16",
-        "dolejska-daniel/riot-api": "^4.0",
+        "dolejska-daniel/riot-api": "^4.1",
         "friendsofsymfony/elastica-bundle": "^5.1",
         "friendsofsymfony/rest-bundle": "^2.5",
         "gesdinet/jwt-refresh-token-bundle": "^0.9",
